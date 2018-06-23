@@ -1,3 +1,18 @@
+
+# Fork from original repo to inclide a GUI to map signals and perform calibations on signals. 
+The main goal of this fork is to provide a GUI to configure a PHCC system with falcon BMS. 
+
+
+Several Viperpits members contacted me in the past to "finnish" my previous attempt to provide a GUI for PHCC system/Falcon BMS. 
+I decided to fork original fork, and to make the code available on github so that it can possibly be merged on the mainproject (if changes make sense to the original author) and to make the code available at any point to the comunity. 
+
+Instead of working on the previous code i wrote, i decided to start "fresh", as the original code was a kind of spargetti confusion. (my skills back then were limited). 
+
+Please feel free to comment/contribute/fork/whatever!
+
+
+#original description:
+
 # Lightning's Tools
 
 ***
