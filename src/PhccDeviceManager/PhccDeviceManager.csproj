@@ -85,6 +85,7 @@
     <Compile Include="Config\DoaAirCore.cs" />
     <Compile Include="Config\DoaAnOut1.cs" />
     <Compile Include="Config\DoaStepper.cs" />
+    <Compile Include="Config\OutputConfig.cs" />
     <Compile Include="Config\PhccConfigElement.cs" />
     <Compile Include="Config\ConfigurationManager.cs" />
     <Compile Include="Config\Motherboard.cs" />
@@ -181,6 +182,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{ABA9CC75-B778-4E46-A6F6-AFEC27F2EB59}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\MacroProgramming\Common.MacroProgramming.csproj">
+      <Project>{320431c6-2454-4d95-8d3c-d27c8e2288e9}</Project>
+      <Name>Common.MacroProgramming</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\UI\Common.UI.csproj">
       <Project>{3fc238ba-7fc2-47ae-ae45-7cf199edbe08}</Project>

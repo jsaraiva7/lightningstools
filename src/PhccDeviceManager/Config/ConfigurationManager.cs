@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using Common.Serialization;
 
@@ -24,7 +25,16 @@ namespace Phcc.DeviceManager.Config
 
         public void Save(string fileName)
         {
-            Util.SerializeToXmlFile(this, fileName);
+            try
+            {
+                Util.SerializeToXmlFile(this, fileName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+           
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Remoting;
 using Common.HardwareSupport;
 using Common.MacroProgramming;
@@ -256,6 +257,8 @@ namespace SimLinkup.HardwareSupport.Phcc
                             MinValue = -90,
                             MaxValue = 90
                         };
+                        thisSignal.CalibrationData = typedPeripheral.OutputConfigs
+                            .FirstOrDefault(x => x.SignalId.Equals(thisSignal.Id))?.CalibrationData;
                         thisSignal.SignalChanged += DOA8ServoOutputSignalChanged;
                         analogSignalsToReturn.Add(thisSignal);
                     }
@@ -283,6 +286,8 @@ namespace SimLinkup.HardwareSupport.Phcc
                             State = 0
                         };
                         thisSignal.SignalChanged += DOAAircoreOutputSignalChanged;
+                        thisSignal.CalibrationData = typedPeripheral.OutputConfigs
+                            .FirstOrDefault(x => x.SignalId.Equals(thisSignal.Id))?.CalibrationData;
                         thisSignal.MinValue = 0;
                         thisSignal.MaxValue = 360;
                         thisSignal.IsAngle = true;
@@ -316,6 +321,8 @@ namespace SimLinkup.HardwareSupport.Phcc
                             State = 0
                         };
                         thisSignal.SignalChanged += DOAAnOut1SignalChanged;
+                        thisSignal.CalibrationData = typedPeripheral.OutputConfigs
+                            .FirstOrDefault(x => x.SignalId.Equals(thisSignal.Id))?.CalibrationData;
                         analogSignalsToReturn.Add(thisSignal);
                     }
                     peripheralFloatStates[baseAddress] = new double[16];
@@ -344,6 +351,8 @@ namespace SimLinkup.HardwareSupport.Phcc
                             State = 0
                         };
                         thisSignal.SignalChanged += DOAStepperSignalChanged;
+                        thisSignal.CalibrationData = typedPeripheral.OutputConfigs
+                            .FirstOrDefault(x => x.SignalId.Equals(thisSignal.Id))?.CalibrationData;
                         analogSignalsToReturn.Add(thisSignal);
                     }
                     peripheralFloatStates[baseAddress] = new double[4];
@@ -475,7 +484,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
 
         private void DOA8ServoOutputSignalChanged(object sender, AnalogSignalChangedEventArgs args)
         {
-            var source = sender as AnalogSignal;
+            var source = sender as CalibratedAnalogSignal;
             if (source?.Index == null) return;
             var servoNumZeroBase = source.Index.Value;
             var baseAddress = source.SubSourceAddress;
@@ -499,7 +508,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
 
         private void DOAAircoreOutputSignalChanged(object sender, AnalogSignalChangedEventArgs args)
         {
-            var source = sender as AnalogSignal;
+            var source = sender as CalibratedAnalogSignal;
             if (source?.Index == null) return;
             var motorNumZeroBase = source.Index.Value;
             var baseAddress = source.SubSourceAddress;
@@ -521,7 +530,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
 
         private void DOAAnOut1SignalChanged(object sender, AnalogSignalChangedEventArgs args)
         {
-            var source = sender as AnalogSignal;
+            var source = sender as CalibratedAnalogSignal;
             if (source?.Index == null) return;
             var channelNumZeroBase = source.Index.Value;
             var baseAddress = source.SubSourceAddress;
@@ -544,7 +553,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
 
         private void DOAStepperSignalChanged(object sender, AnalogSignalChangedEventArgs args)
         {
-            var source = sender as AnalogSignal;
+            var source = sender as CalibratedAnalogSignal;
             if (source?.Index == null) return;
             var motorNumZeroBase = source.Index.Value;
             var baseAddress = source.SubSourceAddress;
