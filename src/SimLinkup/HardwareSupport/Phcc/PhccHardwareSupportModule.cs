@@ -15,7 +15,7 @@ namespace SimLinkup.HardwareSupport.Phcc
         private static readonly ILog _log = LogManager.GetLogger(typeof(PhccHardwareSupportModule));
 
         private readonly AnalogSignal[] _analogInputSignals;
-        private readonly AnalogSignal[] _analogOutputSignals;
+        private readonly CalibratedAnalogSignal[] _analogOutputSignals;
         private readonly DigitalSignal[] _digitalInputSignals;
         private readonly DigitalSignal[] _digitalOutputSignals;
         private readonly Dictionary<string, byte[]> _peripheralByteStates = new Dictionary<string, byte[]>();
@@ -163,14 +163,14 @@ namespace SimLinkup.HardwareSupport.Phcc
         }
 
         private void CreateOutputSignals(p.Device device, Motherboard motherboard, out DigitalSignal[] digitalSignals,
-            out AnalogSignal[] analogSignals,
+            out CalibratedAnalogSignal[] analogSignals,
             out Dictionary<string, byte[]> peripheralByteStates,
             out Dictionary<string, double[]> peripheralFloatStates)
         {
             if (motherboard == null) throw new ArgumentNullException(nameof(motherboard));
             var portName = motherboard.ComPort;
             var digitalSignalsToReturn = new List<DigitalSignal>();
-            var analogSignalsToReturn = new List<AnalogSignal>();
+            var analogSignalsToReturn = new List<CalibratedAnalogSignal>();
             var attachedPeripherals = motherboard.Peripherals;
             peripheralByteStates = new Dictionary<string, byte[]>();
             peripheralFloatStates = new Dictionary<string, double[]>();
@@ -237,7 +237,7 @@ namespace SimLinkup.HardwareSupport.Phcc
                     var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
                     for (var i = 0; i < 8; i++)
                     {
-                        var thisSignal = new AnalogSignal
+                        var thisSignal = new CalibratedAnalogSignal
                         {
                             Category = "Outputs",
                             CollectionName = "Motor Outputs",
@@ -267,7 +267,7 @@ namespace SimLinkup.HardwareSupport.Phcc
                     var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
                     for (var i = 0; i < 4; i++)
                     {
-                        var thisSignal = new AnalogSignal
+                        var thisSignal = new CalibratedAnalogSignal
                         {
                             Category = "Outputs",
                             CollectionName = "Motor Outputs",
@@ -296,7 +296,7 @@ namespace SimLinkup.HardwareSupport.Phcc
                     var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
                     for (var i = 0; i < 16; i++)
                     {
-                        var thisSignal = new AnalogSignal
+                        var thisSignal = new CalibratedAnalogSignal
                         {
                             Category = "Outputs",
                             CollectionName = "Analog Outputs",
@@ -326,7 +326,7 @@ namespace SimLinkup.HardwareSupport.Phcc
                     var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
                     for (var i = 0; i < 4; i++)
                     {
-                        var thisSignal = new AnalogSignal
+                        var thisSignal = new CalibratedAnalogSignal
                         {
                             Category = "Outputs",
                             CollectionName = "Motor Outputs",
@@ -479,7 +479,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
             if (source?.Index == null) return;
             var servoNumZeroBase = source.Index.Value;
             var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = byte.Parse(baseAddress);
+            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
             var device = source.Source as p.Device;
             if (device == null) return;
             var servoNum = servoNumZeroBase + 1;
@@ -503,7 +503,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
             if (source?.Index == null) return;
             var motorNumZeroBase = source.Index.Value;
             var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = byte.Parse(baseAddress);
+            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
             var device = source.Source as p.Device;
             if (device == null) return;
             var motorNum = motorNumZeroBase + 1;
@@ -525,7 +525,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
             if (source?.Index == null) return;
             var channelNumZeroBase = source.Index.Value;
             var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = byte.Parse(baseAddress);
+            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
             var device = source.Source as p.Device;
             if (device == null) return;
             var channelNum = channelNumZeroBase + 1;
@@ -548,7 +548,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
             if (source?.Index == null) return;
             var motorNumZeroBase = source.Index.Value;
             var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = byte.Parse(baseAddress);
+            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
             var device = source.Source as p.Device;
             if (device == null) return;
             var motorNum = motorNumZeroBase + 1;
