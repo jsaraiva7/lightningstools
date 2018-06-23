@@ -47,6 +47,7 @@
     <Compile Include="Config\DoaAirCore.cs" />
     <Compile Include="Config\DoaAnOut1.cs" />
     <Compile Include="Config\DoaStepper.cs" />
+    <Compile Include="Config\HomingSignalConfig.cs" />
     <Compile Include="Config\Motherboard.cs" />
     <Compile Include="Config\OutputConfig.cs" />
     <Compile Include="Config\Peripheral.cs" />

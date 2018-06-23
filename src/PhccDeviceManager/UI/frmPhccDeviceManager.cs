@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Common.MacroProgramming;
 using log4net;
 using PhccConfiguration.Config;
 using PhccConfiguration.Config;
@@ -542,12 +543,18 @@ namespace Phcc.DeviceManager.UI
                 if (selectedNodeData != null)
                 {
                     var dev = selectedNodeData as Peripheral;
-                    var test = _hsm.AnalogOutputs.Where(x =>
-                        Convert.ToByte(x.SubSourceAddress.ToString().Replace("0x", "")) ==
-                        Convert.ToByte(dev.Address.ToString().Replace("0x", ""))).ToList();
 
-                    CalibrationSelect p = new CalibrationSelect(test);
-                    p.ShowDialog();
+                    var test = _hsm.AnalogOutputs.Where(x =>
+                         Convert.ToByte(x.SubSourceAddress.Replace("0x", ""),16) == dev.Address)
+                        .ToList();
+
+                    List<Signal> lst = new List<Signal>();
+                    foreach (var analogSignal in test)
+                    {
+                        lst.Add(analogSignal);
+                    }
+                    CalibrationSelect p = new CalibrationSelect(lst, _hsm.DigitalInputs.ToList(), dev);
+                 
 
                     if (selectedNodeData is DoaAirCore )
                     {
@@ -570,6 +577,7 @@ namespace Phcc.DeviceManager.UI
                         var board = selectedNodeData as DoaStepper;
                         board.OutputConfigs = p.OutputConfigs;
                     }
+                    p.ShowDialog();
                 }
             }
         }

@@ -14,23 +14,48 @@ namespace Phcc.DeviceManager.UI
 {
     public partial class CalibrationSelect : Form
     {
-        private List<AnalogSignal> _signals;
+        private List<Signal> _signals;
+        private List<DigitalSignal> _digitalInputs;
+        private Peripheral _peripheral;
 
-        private AnalogSignal SignalSelected;
+        public Signal SignalSelected { get; set; }
         
         public List<OutputConfig> OutputConfigs { get; set; }= new List<OutputConfig>();
 
 
-        public CalibrationSelect(List<AnalogSignal> signals)
+        public CalibrationSelect(List<Signal> signals, List<DigitalSignal> digitalIns, Peripheral peripheral)
         {
             InitializeComponent();
             _signals = signals;
+            _digitalInputs = digitalIns;
+            _peripheral = peripheral;
             dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         private void CalibrationSelect_Load(object sender, EventArgs e)
         {
+            if (_peripheral is DoaStepper)
+            {
+                var r = _peripheral as DoaStepper;
+                OutputConfigs = r.OutputConfigs;
+                
+            }
+            else if (_peripheral is Doa8Servo)
+            {
+                var r = _peripheral as Doa8Servo;
+                OutputConfigs = r.OutputConfigs;
+            }
+            else if (_peripheral is DoaAirCore)
+            {
+                var r = _peripheral as DoaAirCore;
+                OutputConfigs = r.OutputConfigs;
+            }
+            else if (_peripheral is DoaAnOut1)
+            {
+                var r = _peripheral as DoaAnOut1;
+                OutputConfigs = r.OutputConfigs;
+            }
             Update();
         }
 
@@ -75,7 +100,7 @@ namespace Phcc.DeviceManager.UI
 
 
               
-                CalibrationList l = new CalibrationList(SignalSelected, cfg);
+                CalibrationList l = new CalibrationList(SignalSelected, cfg, _digitalInputs, _peripheral);
                 l.ShowDialog();
                 OutputConfigs.Add(cfg);
                 l.Dispose();
@@ -88,7 +113,7 @@ namespace Phcc.DeviceManager.UI
 
             if (SignalSelected != null)
             {
-                
+                OutputConfigs = new List<OutputConfig>();
             }
         }
 

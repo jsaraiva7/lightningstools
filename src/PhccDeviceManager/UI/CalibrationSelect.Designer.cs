@@ -106,9 +106,9 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnCalibrate;
-        private System.Windows.Forms.Button button4;
+        public System.Windows.Forms.Button btnOk;
+        public System.Windows.Forms.Button btnCancel;
+        public System.Windows.Forms.Button btnCalibrate;
+        public System.Windows.Forms.Button button4;
     }
 }

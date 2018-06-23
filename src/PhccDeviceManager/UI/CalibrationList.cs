@@ -16,12 +16,28 @@ namespace Phcc.DeviceManager.UI
     {
         private AnalogSignal SignalSelected;
         private OutputConfig config;
+        private List<DigitalSignal> _digitalInputs;
+        private Peripheral _peripheral;
 
         private CalibrationPoint CalibrationSelected;
-        public CalibrationList(AnalogSignal signal, OutputConfig config)
+        public CalibrationList(Signal signal, OutputConfig config, List<DigitalSignal> digitalIns, Peripheral peripheral)
         {
+
             InitializeComponent();
-            SignalSelected = signal;
+            _peripheral = peripheral;
+            if (_peripheral is DoaStepper)
+            {
+                btnHomingSignal.Visible = true;
+                button1.Visible = true;
+            }
+            else
+            {
+                btnHomingSignal.Visible = false;
+                button1.Visible = false;
+            }
+
+            SignalSelected = signal as AnalogSignal;
+            _digitalInputs = digitalIns;
             this.config = config;
             RefreshGrid();
         }
@@ -82,6 +98,43 @@ namespace Phcc.DeviceManager.UI
             }
             RefreshGrid();
             s.Dispose();
+        }
+
+        private void btnHomingSignal_Click(object sender, EventArgs e)
+        {
+            var digitals = _digitalInputs.Select(x => x as Signal).ToList();
+
+            CalibrationSelect p = new CalibrationSelect(digitals, null, null);
+            p.btnCalibrate.Visible = false;
+            p.button4.Visible = false;
+            p.ShowDialog();
+            var r = p.SignalSelected;
+
+
+            var stepper = _peripheral as DoaStepper;
+            stepper.HomingSignals.Add(new HomingSignalConfig(){MotorSignalId = this.SignalSelected.Id, ControlSignalId = r.Id, State = true});
+
+            p.Dispose();
+            MessageBox.Show("Home In Signal Configured");
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var stepper = _peripheral as DoaStepper;
+
+
+                var signal = stepper.HomingSignals.FirstOrDefault(x => x.MotorSignalId == this.SignalSelected.Id);
+                stepper.HomingSignals.Remove(signal);
+                MessageBox.Show("Home In Signal removed");
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+            
         }
     }
 }

@@ -35,12 +35,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.btnHomingSignal = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(72, 409);
+            this.btnOk.Location = new System.Drawing.Point(12, 409);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 0;
@@ -50,7 +52,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(164, 409);
+            this.btnCancel.Location = new System.Drawing.Point(93, 409);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
@@ -70,11 +72,11 @@
             // 
             // btnAddCalibrationPoint
             // 
-            this.btnAddCalibrationPoint.Location = new System.Drawing.Point(532, 409);
+            this.btnAddCalibrationPoint.Location = new System.Drawing.Point(542, 409);
             this.btnAddCalibrationPoint.Name = "btnAddCalibrationPoint";
             this.btnAddCalibrationPoint.Size = new System.Drawing.Size(112, 23);
             this.btnAddCalibrationPoint.TabIndex = 2;
-            this.btnAddCalibrationPoint.Text = "Add Point";
+            this.btnAddCalibrationPoint.Text = "Add calibration Point";
             this.btnAddCalibrationPoint.UseVisualStyleBackColor = true;
             this.btnAddCalibrationPoint.Click += new System.EventHandler(this.btnAddCalibrationPoint_Click);
             // 
@@ -105,11 +107,33 @@
             this.dataGridView1.TabIndex = 6;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
+            // btnHomingSignal
+            // 
+            this.btnHomingSignal.Location = new System.Drawing.Point(266, 409);
+            this.btnHomingSignal.Name = "btnHomingSignal";
+            this.btnHomingSignal.Size = new System.Drawing.Size(127, 23);
+            this.btnHomingSignal.TabIndex = 7;
+            this.btnHomingSignal.Text = "Select Home_In Signal";
+            this.btnHomingSignal.UseVisualStyleBackColor = true;
+            this.btnHomingSignal.Click += new System.EventHandler(this.btnHomingSignal_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(399, 409);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(127, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Delete Home_In Signal";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // CalibrationList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnHomingSignal);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -134,5 +158,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button btnHomingSignal;
+        private System.Windows.Forms.Button button1;
     }
 }

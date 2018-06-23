@@ -6,7 +6,7 @@ namespace PhccConfiguration.Config
 {
     /// <summary>
     /// Class to store the calibration data for this signal. 
-    /// SignalId is the Id of the signal as SimLinkup sees it, Calibration data is the list of calibration points. 
+    /// MotorSignalId is the Id of the signal as SimLinkup sees it, Calibration data is the list of calibration points. 
     /// </summary>
     public class OutputConfig
     {
