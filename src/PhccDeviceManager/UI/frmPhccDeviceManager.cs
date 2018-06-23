@@ -4,7 +4,8 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using log4net;
-using Phcc.DeviceManager.Config;
+using PhccConfiguration.Config;
+using PhccConfiguration.Config;
 
 namespace Phcc.DeviceManager.UI
 {
@@ -42,6 +43,7 @@ namespace Phcc.DeviceManager.UI
                 var currentNodeData = currentNode.Tag;
                 if (currentNodeData is Motherboard)
                 {
+                    
                     return (Motherboard) currentNodeData;
                 }
                 else

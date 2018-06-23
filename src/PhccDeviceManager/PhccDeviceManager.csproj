@@ -79,18 +79,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\Doa40Do.cs" />
-    <Compile Include="Config\Doa7Seg.cs" />
-    <Compile Include="Config\Doa8Servo.cs" />
-    <Compile Include="Config\DoaAirCore.cs" />
-    <Compile Include="Config\DoaAnOut1.cs" />
-    <Compile Include="Config\DoaStepper.cs" />
-    <Compile Include="Config\OutputConfig.cs" />
-    <Compile Include="Config\PhccConfigElement.cs" />
-    <Compile Include="Config\ConfigurationManager.cs" />
-    <Compile Include="Config\Motherboard.cs" />
-    <Compile Include="Config\Peripheral.cs" />
-    <Compile Include="Config\ServoCalibration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -194,6 +182,10 @@
     <ProjectReference Include="..\PHCC\PHCC.csproj">
       <Project>{75FA2030-C9CA-4B2D-8534-8F48EEA13CA3}</Project>
       <Name>PHCC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimLinkup\PhccConfiguration\PhccConfiguration.csproj">
+      <Project>{8430a972-e6db-4782-aeb2-4fcef8f52ce0}</Project>
+      <Name>PhccConfiguration</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

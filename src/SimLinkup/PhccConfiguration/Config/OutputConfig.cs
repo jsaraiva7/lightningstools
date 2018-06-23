@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using Common.MacroProgramming;
 
-namespace Phcc.DeviceManager.Config
+namespace PhccConfiguration.Config
 {
     /// <summary>
     /// Class to store the calibration data for this signal. 

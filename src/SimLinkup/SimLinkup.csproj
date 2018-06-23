@@ -72,8 +72,8 @@
     <StartupObject>SimLinkup.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Costura, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)\packages\Costura.Fody.2.0.0\lib\net452\Costura.dll</HintPath>
+    <Reference Include="Costura, Version=3.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>packages\Costura.Fody.3.0.0\lib\net46\Costura.dll</HintPath>
     </Reference>
     <Reference Include="LibUsb.Common, Version=2.2.10.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)\packages\LibUsb.Common.2.2.10-r112\lib\net45\LibUsb.Common.dll</HintPath>
@@ -138,8 +138,6 @@
     <Compile Include="HardwareSupport\Lilbern\Lilbern3239HardwareSupportModule.cs" />
     <Compile Include="HardwareSupport\Malwin\Malwin19581HardwareSupportModule.cs" />
     <Compile Include="HardwareSupport\Malwin\Malwin246102HardwareSupportModule.cs" />
-    <Compile Include="HardwareSupport\Phcc\PhccHardwareSupportModule.cs" />
-    <Compile Include="HardwareSupport\Phcc\PhccHardwareSupportModuleConfig.cs" />
     <Compile Include="HardwareSupport\Powell\DrawBlipsCommand.cs" />
     <Compile Include="HardwareSupport\Powell\FalconRWRSymbol.cs" />
     <Compile Include="HardwareSupport\Powell\FalconRWRSymbolTranslator.cs" />
@@ -740,9 +738,13 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\packages\Fody.3.0.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Fody.3.0.1\build\Fody.targets'))" />
     <Error Condition="!Exists('$(SolutionDir)\packages\Costura.Fody.2.0.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Costura.Fody.2.0.0\build\Costura.Fody.targets'))" />
+    <Error Condition="!Exists('packages\Fody.3.0.4\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.3.0.4\build\Fody.targets'))" />
+    <Error Condition="!Exists('packages\Costura.Fody.3.0.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.3.0.0\build\Costura.Fody.targets'))" />
   </Target>
   <Import Project="$(SolutionDir)\packages\Fody.3.0.1\build\Fody.targets" Condition="Exists('$(SolutionDir)\packages\Fody.3.0.1\build\Fody.targets')" />
   <Import Project="$(SolutionDir)\packages\Costura.Fody.2.0.0\build\Costura.Fody.targets" Condition="Exists('$(SolutionDir)\packages\Costura.Fody.2.0.0\build\Costura.Fody.targets')" />
+  <Import Project="packages\Fody.3.0.4\build\Fody.targets" Condition="Exists('packages\Fody.3.0.4\build\Fody.targets')" />
+  <Import Project="packages\Costura.Fody.3.0.0\build\Costura.Fody.targets" Condition="Exists('packages\Costura.Fody.3.0.0\build\Costura.Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
