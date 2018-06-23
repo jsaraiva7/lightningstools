@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using log4net;
@@ -14,7 +15,7 @@ namespace Phcc.DeviceManager.UI
         #region Class variables
 
         private static readonly ILog _log = LogManager.GetLogger(typeof (frmPhccDeviceManager));
-
+        private PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule _hsm;
         #endregion
 
         #region Instance variables
@@ -43,7 +44,20 @@ namespace Phcc.DeviceManager.UI
                 var currentNodeData = currentNode.Tag;
                 if (currentNodeData is Motherboard)
                 {
-                    
+                    if (_hsm == null)
+                    {
+                        _hsm =
+                            PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule.GetModuleForCalibration(
+                                (Motherboard)currentNodeData);
+                    }
+                    else
+                    {
+                        _hsm.Dispose();
+                        _hsm = PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule.GetModuleForCalibration(
+                            (Motherboard)currentNodeData);
+                    }
+                   
+
                     return (Motherboard) currentNodeData;
                 }
                 else
@@ -298,6 +312,10 @@ namespace Phcc.DeviceManager.UI
         private void EnableDisableUIElements()
         {
             mnuContextCalibrate.Enabled = false;
+            calibrateServosToolStripMenuItem1.Enabled = false;
+            calibrateAnalogToolStripMenuItem1.Enabled = false;
+            calibrateServosToolStripMenuItem.Enabled = false;
+            calibrateAnalogToolStripMenuItem.Enabled = false;
             mnuDevicesCalibrate.Enabled = false;
             mnuDevicesSetComPort.Enabled = false;
             mnuContextSetCOMPort.Enabled = false;
@@ -314,12 +332,40 @@ namespace Phcc.DeviceManager.UI
                     {
                         mnuDevicesCalibrate.Enabled = true;
                         mnuContextCalibrate.Enabled = true;
+                        calibrateServosToolStripMenuItem1.Enabled = true;
+                        calibrateServosToolStripMenuItem.Enabled = true;
+
                     }
                     else if (selectedNodeData is Motherboard)
                     {
                         mnuDevicesSetComPort.Enabled = true;
                         mnuContextSetCOMPort.Enabled = true;
                     }
+                    if (selectedNodeData is DoaAirCore)
+                    {
+                        mnuDevicesCalibrate.Enabled = true;
+                        mnuContextCalibrate.Enabled = true;
+                        calibrateAnalogToolStripMenuItem1.Enabled = true;
+                        calibrateAnalogToolStripMenuItem.Enabled = true;
+
+                    }
+                    if (selectedNodeData is DoaStepper)
+                    {
+                        mnuDevicesCalibrate.Enabled = true;
+                        mnuContextCalibrate.Enabled = true;
+                        calibrateAnalogToolStripMenuItem1.Enabled = true;
+                        calibrateAnalogToolStripMenuItem.Enabled = true;
+
+                    }
+                    if (selectedNodeData is DoaAnOut1)
+                    {
+                        mnuDevicesCalibrate.Enabled = true;
+                        mnuContextCalibrate.Enabled = true;
+                        calibrateAnalogToolStripMenuItem1.Enabled = true;
+                        calibrateAnalogToolStripMenuItem.Enabled = true;
+
+                    }
+
                 }
                 if (selectedMotherboard != null)
                 {
@@ -487,6 +533,47 @@ namespace Phcc.DeviceManager.UI
             }
         }
 
+        private void CalibrateAnalog()
+        {
+            var selectedNode = tvDevicesAndPeripherals.SelectedNode;
+            if (selectedNode != null)
+            {
+                var selectedNodeData = selectedNode.Tag;
+                if (selectedNodeData != null)
+                {
+                    var dev = selectedNodeData as Peripheral;
+                    var test = _hsm.AnalogOutputs.Where(x =>
+                        Convert.ToByte(x.SubSourceAddress.ToString().Replace("0x", "")) ==
+                        Convert.ToByte(dev.Address.ToString().Replace("0x", ""))).ToList();
+
+                    CalibrationSelect p = new CalibrationSelect(test);
+                    p.ShowDialog();
+
+                    if (selectedNodeData is DoaAirCore )
+                    {
+                        var board = selectedNodeData as DoaAirCore;
+                        board.OutputConfigs = p.OutputConfigs;
+
+                    }
+                    else if (selectedNodeData is Doa8Servo)
+                    {
+                        var board = selectedNodeData as Doa8Servo;
+                        board.OutputConfigs = p.OutputConfigs;
+                    }
+                    else if (selectedNodeData is DoaAnOut1)
+                    {
+                        var board = selectedNodeData as DoaAnOut1;
+                        board.OutputConfigs = p.OutputConfigs;
+                    }
+                    else if (selectedNodeData is DoaStepper)
+                    {
+                        var board = selectedNodeData as DoaStepper;
+                        board.OutputConfigs = p.OutputConfigs;
+                    }
+                }
+            }
+        }
+
         private void mnuContextAddMotherboard_Click(object sender, EventArgs e)
         {
             AddMotherboard();
@@ -594,7 +681,7 @@ namespace Phcc.DeviceManager.UI
 
         private void mnuContextCalibrate_Click(object sender, EventArgs e)
         {
-            Calibrate();
+           
         }
 
         #endregion
@@ -643,7 +730,7 @@ namespace Phcc.DeviceManager.UI
 
         private void mnuDevicesCalibrate_Click(object sender, EventArgs e)
         {
-            Calibrate();
+            
         }
 
         private void mnuDevicesRemove_Click(object sender, EventArgs e)
@@ -705,5 +792,25 @@ namespace Phcc.DeviceManager.UI
         }
 
         #endregion
+
+        private void calibrateServosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Calibrate();
+        }
+
+        private void calibrateServosToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Calibrate();
+        }
+
+        private void calibrateAnalogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CalibrateAnalog();
+        }
+
+        private void calibrateAnalogToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            CalibrateAnalog();
+        }
     }
 }

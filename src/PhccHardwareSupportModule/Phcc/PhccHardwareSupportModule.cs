@@ -48,7 +48,7 @@ namespace PhccHardwareSupportModule.Phcc
             return hsm;
         }
 
-
+        
         private PhccHardwareSupportModule(Motherboard motherboard) : this()
         {
             if (motherboard == null) throw new ArgumentNullException(nameof(motherboard));
@@ -371,6 +371,15 @@ namespace PhccHardwareSupportModule.Phcc
                         thisSignal.SignalChanged += DOAStepperSignalChanged;
                         thisSignal.CalibrationData = typedPeripheral.OutputConfigs
                             .FirstOrDefault(x => x.SignalId.Equals(thisSignal.Id))?.CalibrationData;
+                        if (thisSignal.CalibrationData != null && thisSignal.CalibrationData.Any())
+                        {
+                            var max = thisSignal.CalibrationData.OrderByDescending(x => x.Output)
+                                .FirstOrDefault();
+                            if (max != null)
+                            {
+                                thisSignal.MaxValue = max.Output;
+                            }
+                        }
                         analogSignalsToReturn.Add(thisSignal);
                     }
                     peripheralFloatStates[baseAddress] = new double[4];

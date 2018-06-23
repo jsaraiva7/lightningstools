@@ -631,7 +631,13 @@ namespace Phcc
             }
             if (numSteps < 0 || numSteps > 127)
             {
-                throw new ArgumentOutOfRangeException(nameof(numSteps), "must be between 0 and 127");
+                while (numSteps > 127)
+                {
+                    DoaSendRaw(deviceAddr, (byte)(motorNum - 1), ((byte)((byte)direction | 127)));
+                    var rem = (int) numSteps - 127;
+                    numSteps = (byte) rem;
+                }
+               
             }
             if (stepType == MotorStepTypes.HalfStep)
             {

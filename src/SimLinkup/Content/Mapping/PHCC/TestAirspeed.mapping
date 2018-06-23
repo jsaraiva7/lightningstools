@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<MappingProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SignalMappings>
+    <SignalMapping>
+      <Destination xsi:type="AnalogSignal">
+        <Id>DOA_STEPPER[COM4][0x0002][1]</Id>
+      </Destination>
+      <Source xsi:type="AnalogSignal">
+        <Id>F4_AIRSPEED_MACH_INDICATOR__INDICATED_AIRSPEED_KNOTS</Id>
+      </Source>
+    </SignalMapping>
+  </SignalMappings>
+</MappingProfile>
