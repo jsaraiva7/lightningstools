@@ -325,22 +325,29 @@ namespace Phcc
         {
             lock (_rs232lock)
             {
-                ClosePort();
-                _serialPort = new SerialPort();
-                _serialPort.PortName = _portName;
-                _serialPort.BaudRate = 115200;
-                _serialPort.DataBits = 8;
-                _serialPort.Parity = Parity.None;
-                _serialPort.StopBits = StopBits.One;
-                _serialPort.Handshake = Handshake.None;
-                _serialPort.ReceivedBytesThreshold = 1;
-                _serialPort.RtsEnable = true;
-                _serialPort.ReadTimeout = 500;
-                _serialPort.WriteTimeout = 500;
-                _serialPort.DataReceived += _serialPort_DataReceived;
-                _serialPort.ErrorReceived += _serialPort_ErrorReceived;
-                _serialPort.Open();
-                GC.SuppressFinalize(_serialPort.BaseStream);
+                try
+                {
+                    ClosePort();
+                    _serialPort = new SerialPort();
+                    _serialPort.PortName = _portName;
+                    _serialPort.BaudRate = 115200;
+                    _serialPort.DataBits = 8;
+                    _serialPort.Parity = Parity.None;
+                    _serialPort.StopBits = StopBits.One;
+                    _serialPort.Handshake = Handshake.None;
+                    _serialPort.ReceivedBytesThreshold = 1;
+                    _serialPort.RtsEnable = true;
+                    _serialPort.ReadTimeout = 500;
+                    _serialPort.WriteTimeout = 500;
+                    _serialPort.DataReceived += _serialPort_DataReceived;
+                    _serialPort.ErrorReceived += _serialPort_ErrorReceived;
+                    _serialPort.Open();
+                    GC.SuppressFinalize(_serialPort.BaseStream);
+                }
+                catch
+                {
+                    // ignored
+                }
             }
         }
 
@@ -1004,7 +1011,14 @@ namespace Phcc
             EnsurePortIsReady();
             lock (_rs232lock)
             {
-                _serialPort.Write(buffer, index, count);
+                try
+                {
+                    _serialPort.Write(buffer, index, count);
+                }
+                catch
+                {
+                    // ignored
+                }
             }
         }
 

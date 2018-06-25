@@ -4,11 +4,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Common.MacroProgramming;
 using log4net;
 using Mapper.Models.Mapping;
+using Phcc.DeviceManager.UI;
 using SimLinkup.Runtime;
 using SimLinkup.Signals;
 using SignalMapping = Mapper.Models.Mapping.SignalMapping;
@@ -18,8 +21,10 @@ namespace Mapper
     public partial class Mapper : Form
     {
         private readonly ILog _log = LogManager.GetLogger(typeof(Form));
-        private global::Mapper.Models.Mapping.MappingProfile _profile { get; set; }
+        private Models.Mapping.MappingProfile _profile { get; set; }
+        private SignalMapping _selectedMapping;
       
+        
         public static SimLinkup.Runtime.Runtime SharedRuntime { get; set; }
 
         public Mapper()
@@ -103,11 +108,41 @@ namespace Mapper
 
         private void mappingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            addMappingForm f = new addMappingForm(SharedRuntime);
+            addMappingForm f = new addMappingForm(SharedRuntime, _selectedMapping);
             f.ShowDialog();
             _profile.SignalMappings.Add(f.Mapping);
             f.Dispose();
             RefreshMappings();
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SignalExporter.Export(SharedRuntime.ScriptingContext.AllSignals);
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void _mappingDisplay_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var row = (_mappingDisplay.SelectedRows[0].DataBoundItem as MappingModel);
+                if (row != null)
+                {
+                    _selectedMapping = _profile.SignalMappings.FirstOrDefault(x =>
+                        x.Source.Id == row.FriendlySourceName && x.Destination.Id == row.FriendlyDestinationName);
+
+                }
+
+            }
+            catch (Exception exception)
+            {
+                _selectedMapping = null;
+            }
+
         }
     }
 }

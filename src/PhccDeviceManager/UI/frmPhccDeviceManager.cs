@@ -145,9 +145,13 @@ namespace Phcc.DeviceManager.UI
                             {
                                 tn.Text = "DOA_40DO - Digital Output card @ " + deviceAddress;
                             }
-                            else if (p is Doa7Seg)
+                            else if (p is Doa7SegBitMode)
                             {
-                                tn.Text = "DOA_7Seg - 7-segment display driver card @ " + deviceAddress;
+                                tn.Text = "DOA_7Seg - 7-segment display driver card (BIT MODE) @ " + deviceAddress;
+                            }
+                            else if (p is Doa7SegDisplayMode)
+                            {
+                                tn.Text = "DOA_7Seg - 7-segment display driver card (Display Mode)@ " + deviceAddress;
                             }
                             else if (p is Doa8Servo)
                             {
@@ -674,7 +678,11 @@ namespace Phcc.DeviceManager.UI
 
         private void mnuContextAddPeripheralDoa7Seg_Click(object sender, EventArgs e)
         {
-            AddNewPeripheral<Doa7Seg>();
+            AddNewPeripheral<Doa7SegBitMode>();
+        }
+        private void dOA7SegDisplayModeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AddNewPeripheral<Doa7SegDisplayMode>();
         }
 
         private void mnuContextAddPeripheralDoa8Servo_Click(object sender, EventArgs e)
@@ -708,9 +716,12 @@ namespace Phcc.DeviceManager.UI
 
         private void mnuDevicesAddPeripheralDoa7Seg_Click(object sender, EventArgs e)
         {
-            AddNewPeripheral<Doa7Seg>();
+            AddNewPeripheral<Doa7SegBitMode>();
         }
-
+        private void dOA7SegDisplayModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddNewPeripheral<Doa7SegDisplayMode>();
+        }
         private void mnuDevicesAddPeripheralDoa8Servo_Click(object sender, EventArgs e)
         {
             AddNewPeripheral<Doa8Servo>();
@@ -820,5 +831,7 @@ namespace Phcc.DeviceManager.UI
         {
             CalibrateAnalog();
         }
+
+       
     }
 }

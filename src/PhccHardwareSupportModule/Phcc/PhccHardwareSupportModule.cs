@@ -20,6 +20,7 @@ namespace PhccHardwareSupportModule.Phcc
 
         private readonly AnalogSignal[] _analogInputSignals;
         private readonly CalibratedAnalogSignal[] _analogOutputSignals;
+        private readonly TextSignal[] _textOutputSignals;
         private readonly DigitalSignal[] _digitalInputSignals;
         private readonly DigitalSignal[] _digitalOutputSignals;
         private readonly Dictionary<string, byte[]> _peripheralByteStates = new Dictionary<string, byte[]>();
@@ -51,32 +52,43 @@ namespace PhccHardwareSupportModule.Phcc
             return hsm;
         }
 
-        
+
         private PhccHardwareSupportModule(Motherboard motherboard) : this()
         {
             if (motherboard == null) throw new ArgumentNullException(nameof(motherboard));
             _device = CreateDevice(motherboard.ComPort);
             _analogInputSignals = CreateAnalogInputSignals(_device, motherboard.ComPort);
             _digitalInputSignals = CreateDigitalInputSignals(_device, motherboard.ComPort);
-            CreateOutputSignals(_device, motherboard, out _digitalOutputSignals, out _analogOutputSignals,
+            CreateOutputSignals(_device, motherboard, out _digitalOutputSignals, out _textOutputSignals, out _analogOutputSignals,
                 out _peripheralByteStates, out _peripheralFloatStates);
 
             CreateInputEventHandlers();
             RegisterForInputEvents(_device, _analogInputChangedEventHandler, _digitalInputChangedEventHandler,
                 _i2cDataReceivedEventHandler);
-            try { SendCalibrations(_device, motherboard); }
-            catch (Exception e) { _log.Error(e.Message, e); }
+            try
+            {
+                SendCalibrations(_device, motherboard);
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message, e);
+            }
 
-            try { StartTalking(_device); }
-            catch (Exception e) { _log.Error(e.Message, e); }
+            try
+            {
+                StartTalking(_device);
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message, e);
+            }
             try
             {
                 HomeInSteppers(motherboard);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-              
+                _log.Error(e.Message, e);
             }
         }
 
@@ -87,6 +99,7 @@ namespace PhccHardwareSupportModule.Phcc
         public override DigitalSignal[] DigitalInputs => _digitalInputSignals;
 
         public override DigitalSignal[] DigitalOutputs => _digitalOutputSignals;
+        public override TextSignal[] TextOutputs => _textOutputSignals;
 
         public override string FriendlyName => "PHCC";
 
@@ -110,7 +123,9 @@ namespace PhccHardwareSupportModule.Phcc
                     "PhccHardwareSupportModule.config");
                 var hsmConfig = PhccHardwareSupportModuleConfig.Load(hsmConfigFilePath);
                 var phccDeviceManagerConfigFilePath = hsmConfig.PhccDeviceManagerConfigFilePath;
-                var phccConfigManager = LoadConfiguration(phccDeviceManagerConfigFilePath) ?? LoadConfiguration(Path.Combine(Util.CurrentMappingProfileDirectory, phccDeviceManagerConfigFilePath));
+                var phccConfigManager = LoadConfiguration(phccDeviceManagerConfigFilePath) ??
+                                        LoadConfiguration(Path.Combine(Util.CurrentMappingProfileDirectory,
+                                            phccDeviceManagerConfigFilePath));
 
                 foreach (var m in phccConfigManager.Motherboards)
                 {
@@ -193,7 +208,7 @@ namespace PhccHardwareSupportModule.Phcc
             _i2cDataReceivedEventHandler = device_I2CDataReceived;
         }
 
-        private void CreateOutputSignals(p.Device device, Motherboard motherboard, out DigitalSignal[] digitalSignals,
+        private void CreateOutputSignals(p.Device device, Motherboard motherboard, out DigitalSignal[] digitalSignals, out TextSignal[] textSignals,
             out CalibratedAnalogSignal[] analogSignals,
             out Dictionary<string, byte[]> peripheralByteStates,
             out Dictionary<string, double[]> peripheralFloatStates)
@@ -202,6 +217,8 @@ namespace PhccHardwareSupportModule.Phcc
             var portName = motherboard.ComPort;
             var digitalSignalsToReturn = new List<DigitalSignal>();
             var analogSignalsToReturn = new List<CalibratedAnalogSignal>();
+            var textSignalsToReturn = new List<TextSignal>();
+
             var attachedPeripherals = motherboard.Peripherals;
             peripheralByteStates = new Dictionary<string, byte[]>();
             peripheralFloatStates = new Dictionary<string, double[]>();
@@ -233,9 +250,9 @@ namespace PhccHardwareSupportModule.Phcc
                     }
                     peripheralByteStates[baseAddress] = new byte[5];
                 }
-                else if (peripheral is Doa7Seg)
+                else if (peripheral is Doa7SegBitMode)
                 {
-                    var typedPeripheral = peripheral as Doa7Seg;
+                    var typedPeripheral = peripheral as Doa7SegBitMode;
                     var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
                     for (var i = 0; i < 32; i++)
                     for (var j = 0; j < 8; j++)
@@ -243,7 +260,7 @@ namespace PhccHardwareSupportModule.Phcc
                         var thisSignal = new DigitalSignal
                         {
                             Category = "Outputs",
-                            CollectionName = "Digital Outputs",
+                            CollectionName = "Digital Outputs -Bit Mode",
                             FriendlyName =
                                 $"Display {string.Format($"{j + 1:0}", j + 1)}, Output Line {string.Format($"{i + 1:0}", i + 1)}",
                             Id = $"DOA_7SEG[{portName}][{baseAddress}][{j}][{i}]",
@@ -257,8 +274,38 @@ namespace PhccHardwareSupportModule.Phcc
                             SubSourceAddress = baseAddress,
                             State = false
                         };
-                        thisSignal.SignalChanged += DOA7SegOutputSignalChanged;
+                        thisSignal.SignalChanged += DOA7SegBitOutputSignalChanged;
                         digitalSignalsToReturn.Add(thisSignal);
+                    }
+                    peripheralByteStates[baseAddress] = new byte[32];
+                }
+                // DOA7Seb Display Mode. Requires separate cards. 
+                else if (peripheral is Doa7SegDisplayMode)
+                {
+                    var typedPeripheral = peripheral as Doa7SegDisplayMode;
+                    var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
+                    for (var i = 0; i < 32; i++)
+
+                    {
+                        var thisSignal = new TextSignal()
+                        {
+                            Category = "Outputs",
+                            CollectionName = "Digital Outputs - Display Mode",
+                            FriendlyName =
+                                $"Display {string.Format($"{i + 1:0}", i + 1)}",
+                            Id = $"DOA_7SEG_DISPLAY[{portName}][{baseAddress}][{i}]",
+                            Index = i,
+                            PublisherObject = this,
+                            Source = device,
+                            SourceFriendlyName = $"PHCC Device on {portName}",
+                            SourceAddress = portName,
+                            SubSource = $"DOA_7SEG_DISPLAY @ {baseAddress}",
+                            SubSourceFriendlyName = $"DOA_7SEG_DISPLAY @ {baseAddress}",
+                            SubSourceAddress = baseAddress,
+                            State = "",
+                        };
+                        thisSignal.SignalChanged += DOA7SegDisplayOutputSignalChanged;
+                        textSignalsToReturn.Add(thisSignal);
                     }
                     peripheralByteStates[baseAddress] = new byte[32];
                 }
@@ -398,6 +445,7 @@ namespace PhccHardwareSupportModule.Phcc
                 }
             analogSignals = analogSignalsToReturn.ToArray();
             digitalSignals = digitalSignalsToReturn.ToArray();
+            textSignals = textSignalsToReturn.ToArray();
         }
 
         private void device_AnalogInputChanged(object sender, p.AnalogInputChangedEventArgs e)
@@ -435,7 +483,8 @@ namespace PhccHardwareSupportModule.Phcc
                     }
                     try
                     {
-                        UnregisterForInputEvents(_device, _analogInputChangedEventHandler, _digitalInputChangedEventHandler, _i2cDataReceivedEventHandler);
+                        UnregisterForInputEvents(_device, _analogInputChangedEventHandler,
+                            _digitalInputChangedEventHandler, _i2cDataReceivedEventHandler);
                     }
                     catch (Exception e)
                     {
@@ -483,7 +532,7 @@ namespace PhccHardwareSupportModule.Phcc
             var newBits = Common.Util.SetBit(currentBitsThisConnector, thisBitIndex, newBitVal);
             try
             {
-                device.DoaSend40DO(baseAddressByte, (byte)connectorNum, newBits);
+                device.DoaSend40DO(baseAddressByte, (byte) connectorNum, newBits);
                 peripheralState[connectorNumZeroBase] = newBits;
             }
             catch (Exception e)
@@ -491,9 +540,9 @@ namespace PhccHardwareSupportModule.Phcc
                 _log.Error(e.Message, e);
             }
 
-}
+        }
 
-private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEventArgs args)
+        private void DOA7SegBitOutputSignalChanged(object sender, DigitalSignalChangedEventArgs args)
         {
             var source = sender as DigitalSignal;
             if (source?.Index == null) return;
@@ -512,8 +561,36 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
 
             try
             {
-                device.DoaSend7Seg(baseAddressByte, (byte)displayNum, newBits);
+                device.DoaSend7Seg(baseAddressByte, (byte) displayNum, newBits);
                 peripheralState[displayNumZeroBase] = newBits;
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message, e);
+            }
+        }
+
+        private void DOA7SegDisplayOutputSignalChanged(object sender, TextSignalChangedEventArgs args)
+        {
+            var source = sender as TextSignal;
+            if (source?.Index == null) return;
+            //var outputLineNum = source.Index.Value;
+            //var baseAddress = source.SubSourceAddress;
+            //var baseAddressByte = byte.Parse(baseAddress);
+            //var device = source.Source as p.Device;
+            //if (device == null) return;
+            //var newBitVal = args.CurrentState;
+            //var peripheralState = _peripheralByteStates[baseAddress];
+            //var displayNumZeroBase = outputLineNum / 8;
+            //var thisBitIndex = outputLineNum % 8;
+            //var displayNum = displayNumZeroBase + 1;
+            //var currentBitsThisDisplay = peripheralState[displayNumZeroBase];
+            //var newBits = Common.Util.SetBit(currentBitsThisDisplay, thisBitIndex, newBitVal);
+
+            try
+            {
+                //device.DoaSend7Seg(baseAddressByte, (byte)displayNum, newBits);
+                //peripheralState[displayNumZeroBase] = newBits;
             }
             catch (Exception e)
             {
@@ -535,7 +612,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
 
             try
             {
-                device.DoaSend8ServoPosition(baseAddressByte, (byte)servoNum, newPosition);
+                device.DoaSend8ServoPosition(baseAddressByte, (byte) servoNum, newPosition);
                 _peripheralFloatStates[baseAddress][servoNum] = newPosition;
             }
             catch (Exception e)
@@ -558,7 +635,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
             var newPosition = (int) (Math.Abs(args.CurrentState) / 360.00 * 1023);
             try
             {
-                device.DoaSendAirCoreMotor(baseAddressByte, (byte)motorNum, newPosition);
+                device.DoaSendAirCoreMotor(baseAddressByte, (byte) motorNum, newPosition);
                 _peripheralFloatStates[baseAddress][motorNum] = newPosition;
             }
             catch (Exception e)
@@ -580,7 +657,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
             var newVal = (byte) (Math.Abs(args.CurrentState) / 5.00 * 255);
             try
             {
-                device.DoaSendAnOut1(baseAddressByte, (byte)channelNum, newVal);
+                device.DoaSendAnOut1(baseAddressByte, (byte) channelNum, newVal);
                 _peripheralFloatStates[baseAddress][channelNum] = newVal;
             }
             catch (Exception e)
@@ -610,7 +687,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
             }
             try
             {
-                device.DoaSendStepperMotor(baseAddressByte, (byte)motorNum, direction, (byte)numSteps,
+                device.DoaSendStepperMotor(baseAddressByte, (byte) motorNum, direction, (byte) numSteps,
                     p.MotorStepTypes.FullStep);
                 _peripheralFloatStates[baseAddress][motorNumZeroBase] = newPosition;
             }
@@ -824,7 +901,7 @@ private void DOA7SegOutputSignalChanged(object sender, DigitalSignalChangedEvent
 #endif
                 }
             });
-           
+
 
         }
 

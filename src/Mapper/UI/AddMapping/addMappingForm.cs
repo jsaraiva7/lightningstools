@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Common.MacroProgramming;
 using Mapper.Models.Mapping;
 using Mapper.UI.AddMapping;
-using SimLinkup.UI;
-using SimLinkup.UI.UserControls;
+using Phcc.DeviceManager.UI;
 
 namespace Mapper
 {
@@ -21,12 +14,28 @@ namespace Mapper
         private Signal Input { get; set; }
         private Signal Output { get; set; }
         public SignalMapping Mapping { get; set; }
-        public addMappingForm(SimLinkup.Runtime.Runtime runtime)
+
+
+        public addMappingForm(SimLinkup.Runtime.Runtime runtime, SignalMapping mapping)
         {
             InitializeComponent();
             SharedRuntime = runtime;
+            if (mapping != null)
+            {
+                Mapping = mapping;
+                PopulateMapping(mapping);
+            }
+            
         }
 
+        private void PopulateMapping(SignalMapping mapping)
+        {
+            lblIn.Text = SharedRuntime.ScriptingContext.AllSignals.FirstOrDefault(x => x.Id.Equals(mapping.Source.Id))
+                ?.Id;
+            lblOut.Text = SharedRuntime.ScriptingContext.AllSignals.FirstOrDefault(x => x.Id.Equals(mapping.Destination.Id))
+                ?.Id;
+        }
+       
         private void btnInput_Click(object sender, EventArgs e)
         {
             SignalSelect s = new SignalSelect(SharedRuntime);

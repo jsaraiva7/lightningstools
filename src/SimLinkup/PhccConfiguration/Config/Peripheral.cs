@@ -5,7 +5,8 @@ namespace PhccConfiguration.Config
 {
     [Serializable]
     [XmlInclude(typeof (Doa40Do))]
-    [XmlInclude(typeof (Doa7Seg))]
+    [XmlInclude(typeof (Doa7SegBitMode))]
+    [XmlInclude(typeof(Doa7SegDisplayMode))]
     [XmlInclude(typeof (Doa8Servo))]
     [XmlInclude(typeof (DoaAirCore))]
     [XmlInclude(typeof (DoaAnOut1))]
