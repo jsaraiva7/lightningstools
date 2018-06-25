@@ -19,14 +19,17 @@ namespace Mapper.Models.Mapping
 
             foreach (var map in profile.SignalMappings)
             {
-                toReturn.Add(new MappingModel()
+                if(map != null)
+                if (map.Source != null && map.Destination != null)
                 {
-                    FriendlySourceType = map.Source.SignalType,
-                    FriendlySourceName = map.Source.Id,
-                    FriendlyDestinationName = map.Destination.Id,
-                    FriendlyDestinationType = map.Destination.SignalType
-                });
-
+                    toReturn.Add(new MappingModel()
+                    {
+                        FriendlySourceType = map.Source.SignalType,
+                        FriendlySourceName = map.Source.Id,
+                        FriendlyDestinationName = map.Destination.Id,
+                        FriendlyDestinationType = map.Destination.SignalType
+                    });
+                }
             }
             return toReturn;
         }
