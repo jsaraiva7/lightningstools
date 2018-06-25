@@ -1,12 +1,12 @@
 
-# Fork from original repo to inclide a GUI to map signals and perform calibations on signals. 
-The main goal of this fork is to provide a GUI to configure a PHCC system with falcon BMS. 
+# Fork from original repo to include a GUI to map signals and perform calibrations on signals.
+The main goal of this fork is to provide a GUI to configure a PHCC system with Falcon BMS.
 
 
-Several Viperpits members contacted me in the past to "finnish" my previous attempt to provide a GUI for PHCC system/Falcon BMS. 
-I decided to fork original fork, and to make the code available on github so that it can possibly be merged on the mainproject (if changes make sense to the original author) and to make the code available at any point to the comunity. 
+Several Viperpits members contacted me in the past to "finish" my previous attempt to provide a GUI for PHCC system/Falcon BMS. 
+I decided to fork the original work, and to make the code available on github so that it can possibly be merged into the main project (if changes make sense to the original author) and to make the code available at any point in time to the community.
 
-Instead of working on the previous code i wrote, i decided to start "fresh", as the original code was a kind of spargetti confusion. (my skills back then were limited). 
+Instead of working on the previous code that I wrote, I decided to start "fresh", because the original code was a kind of "spaghetti confusion" - my skills were limited back then.
 
 Please feel free to comment/contribute/fork/whatever!
 
