@@ -92,6 +92,12 @@
     <EmbeddedResource Include="UI\CalibrationSelect.resx">
       <DependentUpon>CalibrationSelect.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Doa7SegConfig\Doa7SegConfigList.resx">
+      <DependentUpon>Doa7SegConfigList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Doa7SegConfig\Doa7SegmentModeSelector.resx">
+      <DependentUpon>Doa7SegmentModeSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\frmCalibrateSignal .resx">
       <DependentUpon>frmCalibrateSignal .cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -146,6 +152,18 @@
     </Compile>
     <Compile Include="UI\CalibrationSelect.Designer.cs">
       <DependentUpon>CalibrationSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Doa7SegConfig\Doa7SegConfigList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Doa7SegConfig\Doa7SegConfigList.Designer.cs">
+      <DependentUpon>Doa7SegConfigList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Doa7SegConfig\Doa7SegmentModeSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Doa7SegConfig\Doa7SegmentModeSelector.Designer.cs">
+      <DependentUpon>Doa7SegmentModeSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\frmCalibrateSignal .cs">
       <SubType>Form</SubType>

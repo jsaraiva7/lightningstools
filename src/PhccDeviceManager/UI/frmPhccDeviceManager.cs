@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using Common.MacroProgramming;
 using log4net;
+using Phcc.DeviceManager.UI.Doa7SegConfig;
 using PhccConfiguration.Config;
 
 namespace Phcc.DeviceManager.UI
@@ -330,6 +331,8 @@ namespace Phcc.DeviceManager.UI
             calibrateAnalogToolStripMenuItem1.Enabled = false;
             calibrateServosToolStripMenuItem.Enabled = false;
             calibrateAnalogToolStripMenuItem.Enabled = false;
+            configure7SegmentDisplayToolStripMenuItem1.Enabled = false;
+            configure7SegmentDisplayToolStripMenuItem.Enabled = false;
             mnuDevicesCalibrate.Enabled = false;
             mnuDevicesSetComPort.Enabled = false;
             mnuContextSetCOMPort.Enabled = false;
@@ -377,6 +380,14 @@ namespace Phcc.DeviceManager.UI
                         mnuContextCalibrate.Enabled = true;
                         calibrateAnalogToolStripMenuItem1.Enabled = true;
                         calibrateAnalogToolStripMenuItem.Enabled = true;
+
+                    }
+                    if (selectedNodeData is Doa7Seg)
+                    {
+                        mnuDevicesCalibrate.Enabled = true;
+                        mnuContextCalibrate.Enabled = true;
+                        configure7SegmentDisplayToolStripMenuItem1.Enabled = true;
+                        configure7SegmentDisplayToolStripMenuItem.Enabled = true;
 
                     }
 
@@ -833,6 +844,37 @@ namespace Phcc.DeviceManager.UI
             CalibrateAnalog();
         }
 
-       
+        private void configure7SegmentDisplayToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Config7Segment();
+        }
+
+        private void configure7SegmentDisplayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Config7Segment();
+        }
+
+        private void Config7Segment()
+        {
+            var selectedNode = tvDevicesAndPeripherals.SelectedNode;
+            if (selectedNode != null)
+            {
+                var selectedNodeData = selectedNode.Tag;
+                if (selectedNodeData != null)
+                {
+                    if (selectedNodeData is Doa7Seg)
+                    {
+                        var board = selectedNodeData as Doa7Seg;                       
+                        Doa7SegConfigList p = new Doa7SegConfigList(board.Configuration);
+                        p.ShowDialog();
+                        board.Configuration = p.Configuration;
+                        p.Dispose();
+                    }
+                    
+                    
+                }
+            }
+        }
+
     }
 }
