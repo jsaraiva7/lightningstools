@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Common.MacroProgramming;
 using PhccConfiguration.Config;
+using PhccConfiguration.Config.ConfigClasses;
 
 namespace Phcc.DeviceManager.UI
 {

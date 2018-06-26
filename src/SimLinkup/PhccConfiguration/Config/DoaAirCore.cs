@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using PhccConfiguration.Config.ConfigClasses;
 
 namespace PhccConfiguration.Config
 {

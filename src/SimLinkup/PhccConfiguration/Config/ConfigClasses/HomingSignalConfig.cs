@@ -1,4 +1,4 @@
-﻿namespace PhccConfiguration.Config
+namespace PhccConfiguration.Config.ConfigClasses
 {
     public class HomingSignalConfig
     {

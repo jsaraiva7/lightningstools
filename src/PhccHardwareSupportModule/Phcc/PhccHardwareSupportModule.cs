@@ -10,6 +10,7 @@ using Common.HardwareSupport.MotorControl;
 using Common.MacroProgramming;
 using log4net;
 using PhccConfiguration.Config;
+using PhccConfiguration.Config.ConfigClasses;
 using p = Phcc;
 
 namespace PhccHardwareSupportModule.Phcc

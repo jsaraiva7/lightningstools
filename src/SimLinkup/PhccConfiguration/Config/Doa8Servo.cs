@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using PhccConfiguration.Config.ConfigClasses;
 
 namespace PhccConfiguration.Config
 {

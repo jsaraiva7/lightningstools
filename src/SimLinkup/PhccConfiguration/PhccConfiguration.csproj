@@ -47,9 +47,9 @@
     <Compile Include="Config\DoaAirCore.cs" />
     <Compile Include="Config\DoaAnOut1.cs" />
     <Compile Include="Config\DoaStepper.cs" />
-    <Compile Include="Config\HomingSignalConfig.cs" />
+    <Compile Include="Config\ConfigClasses\HomingSignalConfig.cs" />
     <Compile Include="Config\Motherboard.cs" />
-    <Compile Include="Config\OutputConfig.cs" />
+    <Compile Include="Config\ConfigClasses\OutputConfig.cs" />
     <Compile Include="Config\Peripheral.cs" />
     <Compile Include="Config\PhccConfigElement.cs" />
     <Compile Include="Config\ServoCalibration.cs" />
