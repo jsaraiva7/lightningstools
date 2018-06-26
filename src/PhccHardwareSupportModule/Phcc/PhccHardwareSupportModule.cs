@@ -20,7 +20,6 @@ namespace PhccHardwareSupportModule.Phcc
 
         private readonly AnalogSignal[] _analogInputSignals;
         private readonly CalibratedAnalogSignal[] _analogOutputSignals;
-        private readonly TextSignal[] _textOutputSignals;
         private readonly DigitalSignal[] _digitalInputSignals;
         private readonly DigitalSignal[] _digitalOutputSignals;
         private readonly Dictionary<string, byte[]> _peripheralByteStates = new Dictionary<string, byte[]>();
@@ -59,7 +58,7 @@ namespace PhccHardwareSupportModule.Phcc
             _device = CreateDevice(motherboard.ComPort);
             _analogInputSignals = CreateAnalogInputSignals(_device, motherboard.ComPort);
             _digitalInputSignals = CreateDigitalInputSignals(_device, motherboard.ComPort);
-            CreateOutputSignals(_device, motherboard, out _digitalOutputSignals, out _textOutputSignals, out _analogOutputSignals,
+            CreateOutputSignals(_device, motherboard, out _digitalOutputSignals, out _analogOutputSignals,
                 out _peripheralByteStates, out _peripheralFloatStates);
 
             CreateInputEventHandlers();
@@ -99,7 +98,7 @@ namespace PhccHardwareSupportModule.Phcc
         public override DigitalSignal[] DigitalInputs => _digitalInputSignals;
 
         public override DigitalSignal[] DigitalOutputs => _digitalOutputSignals;
-        public override TextSignal[] TextOutputs => _textOutputSignals;
+     
 
         public override string FriendlyName => "PHCC";
 
@@ -208,7 +207,7 @@ namespace PhccHardwareSupportModule.Phcc
             _i2cDataReceivedEventHandler = device_I2CDataReceived;
         }
 
-        private void CreateOutputSignals(p.Device device, Motherboard motherboard, out DigitalSignal[] digitalSignals, out TextSignal[] textSignals,
+        private void CreateOutputSignals(p.Device device, Motherboard motherboard, out DigitalSignal[] digitalSignals, 
             out CalibratedAnalogSignal[] analogSignals,
             out Dictionary<string, byte[]> peripheralByteStates,
             out Dictionary<string, double[]> peripheralFloatStates)
@@ -217,7 +216,7 @@ namespace PhccHardwareSupportModule.Phcc
             var portName = motherboard.ComPort;
             var digitalSignalsToReturn = new List<DigitalSignal>();
             var analogSignalsToReturn = new List<CalibratedAnalogSignal>();
-            var textSignalsToReturn = new List<TextSignal>();
+           
 
             var attachedPeripherals = motherboard.Peripherals;
             peripheralByteStates = new Dictionary<string, byte[]>();
@@ -250,9 +249,9 @@ namespace PhccHardwareSupportModule.Phcc
                     }
                     peripheralByteStates[baseAddress] = new byte[5];
                 }
-                else if (peripheral is Doa7SegBitMode)
+                else if (peripheral is Doa7Seg)
                 {
-                    var typedPeripheral = peripheral as Doa7SegBitMode;
+                    var typedPeripheral = peripheral as Doa7Seg;
                     var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
                     for (var i = 0; i < 32; i++)
                     for (var j = 0; j < 8; j++)
@@ -260,7 +259,7 @@ namespace PhccHardwareSupportModule.Phcc
                         var thisSignal = new DigitalSignal
                         {
                             Category = "Outputs",
-                            CollectionName = "Digital Outputs -Bit Mode",
+                            CollectionName = "Digital Outputs",
                             FriendlyName =
                                 $"Display {string.Format($"{j + 1:0}", j + 1)}, Output Line {string.Format($"{i + 1:0}", i + 1)}",
                             Id = $"DOA_7SEG[{portName}][{baseAddress}][{j}][{i}]",
@@ -280,35 +279,7 @@ namespace PhccHardwareSupportModule.Phcc
                     peripheralByteStates[baseAddress] = new byte[32];
                 }
                 // DOA7Seb Display Mode. Requires separate cards. 
-                else if (peripheral is Doa7SegDisplayMode)
-                {
-                    var typedPeripheral = peripheral as Doa7SegDisplayMode;
-                    var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
-                    for (var i = 0; i < 32; i++)
-
-                    {
-                        var thisSignal = new TextSignal()
-                        {
-                            Category = "Outputs",
-                            CollectionName = "Digital Outputs - Display Mode",
-                            FriendlyName =
-                                $"Display {string.Format($"{i + 1:0}", i + 1)}",
-                            Id = $"DOA_7SEG_DISPLAY[{portName}][{baseAddress}][{i}]",
-                            Index = i,
-                            PublisherObject = this,
-                            Source = device,
-                            SourceFriendlyName = $"PHCC Device on {portName}",
-                            SourceAddress = portName,
-                            SubSource = $"DOA_7SEG_DISPLAY @ {baseAddress}",
-                            SubSourceFriendlyName = $"DOA_7SEG_DISPLAY @ {baseAddress}",
-                            SubSourceAddress = baseAddress,
-                            State = "",
-                        };
-                        thisSignal.SignalChanged += DOA7SegDisplayOutputSignalChanged;
-                        textSignalsToReturn.Add(thisSignal);
-                    }
-                    peripheralByteStates[baseAddress] = new byte[32];
-                }
+                
                 else if (peripheral is Doa8Servo)
                 {
                     var typedPeripheral = peripheral as Doa8Servo;
@@ -445,7 +416,7 @@ namespace PhccHardwareSupportModule.Phcc
                 }
             analogSignals = analogSignalsToReturn.ToArray();
             digitalSignals = digitalSignalsToReturn.ToArray();
-            textSignals = textSignalsToReturn.ToArray();
+      
         }
 
         private void device_AnalogInputChanged(object sender, p.AnalogInputChangedEventArgs e)

@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using Common.MacroProgramming;
 using log4net;
 using PhccConfiguration.Config;
-using PhccConfiguration.Config;
 
 namespace Phcc.DeviceManager.UI
 {
@@ -16,7 +15,7 @@ namespace Phcc.DeviceManager.UI
         #region Class variables
 
         private static readonly ILog _log = LogManager.GetLogger(typeof (frmPhccDeviceManager));
-        private PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule _hsm;
+        private List<PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule> _hsm;
         #endregion
 
         #region Instance variables
@@ -44,21 +43,7 @@ namespace Phcc.DeviceManager.UI
             {
                 var currentNodeData = currentNode.Tag;
                 if (currentNodeData is Motherboard)
-                {
-                    if (_hsm == null)
-                    {
-                        _hsm =
-                            PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule.GetModuleForCalibration(
-                                (Motherboard)currentNodeData);
-                    }
-                    else
-                    {
-                        _hsm.Dispose();
-                        _hsm = PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule.GetModuleForCalibration(
-                            (Motherboard)currentNodeData);
-                    }
-                   
-
+                {                 
                     return (Motherboard) currentNodeData;
                 }
                 else
@@ -117,6 +102,33 @@ namespace Phcc.DeviceManager.UI
             return basicHexRep;
         }
 
+        private void RefreshPhccHsm()
+        {
+            if (_hsm == null)
+            {
+                _hsm = new List<PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule>();
+                foreach (var mb in _configMgr.Motherboards)
+                {
+                    _hsm.Add(PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule.GetModuleForCalibration(mb));
+                }
+                
+            }
+            else
+            {
+                foreach (var hsm in _hsm)
+                {
+                    hsm.Dispose();
+                }
+                _hsm = new List<PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule>();
+                foreach (var mb in _configMgr.Motherboards)
+                {
+                    _hsm.Add(PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule.GetModuleForCalibration(mb));
+                }
+            }
+
+
+        }
+
         private void RenderCurrentConfiguration()
         {
             SetTitleText();
@@ -145,14 +157,10 @@ namespace Phcc.DeviceManager.UI
                             {
                                 tn.Text = "DOA_40DO - Digital Output card @ " + deviceAddress;
                             }
-                            else if (p is Doa7SegBitMode)
+                            else if (p is Doa7Seg)
                             {
                                 tn.Text = "DOA_7Seg - 7-segment display driver card (BIT MODE) @ " + deviceAddress;
-                            }
-                            else if (p is Doa7SegDisplayMode)
-                            {
-                                tn.Text = "DOA_7Seg - 7-segment display driver card (Display Mode)@ " + deviceAddress;
-                            }
+                            }                          
                             else if (p is Doa8Servo)
                             {
                                 tn.Text = "DOA_8Servo - Servo motor driver card @ " + deviceAddress;
@@ -175,6 +183,7 @@ namespace Phcc.DeviceManager.UI
                                 motherboardNode.Nodes.Add(tn);
                             }
                         }
+                        RefreshPhccHsm();
                     }
                 }
             }
@@ -548,7 +557,7 @@ namespace Phcc.DeviceManager.UI
                 {
                     var dev = selectedNodeData as Peripheral;
 
-                    var test = _hsm.AnalogOutputs.Where(x =>
+                    var test = _hsm.SelectMany(x=> x.AnalogOutputs).Where(x =>
                          Convert.ToByte(x.SubSourceAddress.Replace("0x", ""),16) == dev.Address)
                         .ToList();
 
@@ -557,7 +566,7 @@ namespace Phcc.DeviceManager.UI
                     {
                         lst.Add(analogSignal);
                     }
-                    CalibrationSelect p = new CalibrationSelect(lst, _hsm.DigitalInputs.ToList(), dev);
+                    CalibrationSelect p = new CalibrationSelect(lst, _hsm.SelectMany(x=> x.DigitalInputs).ToList(), dev);
                  
 
                     if (selectedNodeData is DoaAirCore )
@@ -678,11 +687,7 @@ namespace Phcc.DeviceManager.UI
 
         private void mnuContextAddPeripheralDoa7Seg_Click(object sender, EventArgs e)
         {
-            AddNewPeripheral<Doa7SegBitMode>();
-        }
-        private void dOA7SegDisplayModeToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            AddNewPeripheral<Doa7SegDisplayMode>();
+            AddNewPeripheral<Doa7Seg>();
         }
 
         private void mnuContextAddPeripheralDoa8Servo_Click(object sender, EventArgs e)
@@ -716,11 +721,7 @@ namespace Phcc.DeviceManager.UI
 
         private void mnuDevicesAddPeripheralDoa7Seg_Click(object sender, EventArgs e)
         {
-            AddNewPeripheral<Doa7SegBitMode>();
-        }
-        private void dOA7SegDisplayModeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddNewPeripheral<Doa7SegDisplayMode>();
+            AddNewPeripheral<Doa7Seg>();
         }
         private void mnuDevicesAddPeripheralDoa8Servo_Click(object sender, EventArgs e)
         {

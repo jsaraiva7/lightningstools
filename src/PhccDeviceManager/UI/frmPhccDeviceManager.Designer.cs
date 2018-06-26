@@ -77,8 +77,6 @@
             this.calibrateAnalogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuContextRemove = new System.Windows.Forms.ToolStripMenuItem();
-            this.dOA7SegDisplayModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dOA7SegDisplayModeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.ctxContext.SuspendLayout();
             this.SuspendLayout();
@@ -219,7 +217,6 @@
             this.mnuDevicesAddPeripheral.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuDevicesAddPeripheralDoa40Do,
             this.mnuDevicesAddPeripheralDoa7Seg,
-            this.dOA7SegDisplayModeToolStripMenuItem,
             this.mnuDevicesAddPeripheralDoa8Servo,
             this.mnuDevicesAddPeripheralDoaAircore,
             this.mnuDevicesAddPeripheralDoaAnOut1,
@@ -231,42 +228,42 @@
             // mnuDevicesAddPeripheralDoa40Do
             // 
             this.mnuDevicesAddPeripheralDoa40Do.Name = "mnuDevicesAddPeripheralDoa40Do";
-            this.mnuDevicesAddPeripheralDoa40Do.Size = new System.Drawing.Size(213, 22);
+            this.mnuDevicesAddPeripheralDoa40Do.Size = new System.Drawing.Size(180, 22);
             this.mnuDevicesAddPeripheralDoa40Do.Text = "DOA_40DO...";
             this.mnuDevicesAddPeripheralDoa40Do.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoa40Do_Click);
             // 
             // mnuDevicesAddPeripheralDoa7Seg
             // 
             this.mnuDevicesAddPeripheralDoa7Seg.Name = "mnuDevicesAddPeripheralDoa7Seg";
-            this.mnuDevicesAddPeripheralDoa7Seg.Size = new System.Drawing.Size(213, 22);
-            this.mnuDevicesAddPeripheralDoa7Seg.Text = "DOA_7Seg Bit Mode...";
+            this.mnuDevicesAddPeripheralDoa7Seg.Size = new System.Drawing.Size(180, 22);
+            this.mnuDevicesAddPeripheralDoa7Seg.Text = "DOA_7Seg";
             this.mnuDevicesAddPeripheralDoa7Seg.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoa7Seg_Click);
             // 
             // mnuDevicesAddPeripheralDoa8Servo
             // 
             this.mnuDevicesAddPeripheralDoa8Servo.Name = "mnuDevicesAddPeripheralDoa8Servo";
-            this.mnuDevicesAddPeripheralDoa8Servo.Size = new System.Drawing.Size(213, 22);
+            this.mnuDevicesAddPeripheralDoa8Servo.Size = new System.Drawing.Size(180, 22);
             this.mnuDevicesAddPeripheralDoa8Servo.Text = "DOA_8Servo...";
             this.mnuDevicesAddPeripheralDoa8Servo.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoa8Servo_Click);
             // 
             // mnuDevicesAddPeripheralDoaAircore
             // 
             this.mnuDevicesAddPeripheralDoaAircore.Name = "mnuDevicesAddPeripheralDoaAircore";
-            this.mnuDevicesAddPeripheralDoaAircore.Size = new System.Drawing.Size(213, 22);
+            this.mnuDevicesAddPeripheralDoaAircore.Size = new System.Drawing.Size(180, 22);
             this.mnuDevicesAddPeripheralDoaAircore.Text = "DOA_Aircore...";
             this.mnuDevicesAddPeripheralDoaAircore.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoaAircore_Click);
             // 
             // mnuDevicesAddPeripheralDoaAnOut1
             // 
             this.mnuDevicesAddPeripheralDoaAnOut1.Name = "mnuDevicesAddPeripheralDoaAnOut1";
-            this.mnuDevicesAddPeripheralDoaAnOut1.Size = new System.Drawing.Size(213, 22);
+            this.mnuDevicesAddPeripheralDoaAnOut1.Size = new System.Drawing.Size(180, 22);
             this.mnuDevicesAddPeripheralDoaAnOut1.Text = "DOA_AnOut1...";
             this.mnuDevicesAddPeripheralDoaAnOut1.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoaAnOut1_Click);
             // 
             // mnuDevicesAddPeripheralDoaStepper
             // 
             this.mnuDevicesAddPeripheralDoaStepper.Name = "mnuDevicesAddPeripheralDoaStepper";
-            this.mnuDevicesAddPeripheralDoaStepper.Size = new System.Drawing.Size(213, 22);
+            this.mnuDevicesAddPeripheralDoaStepper.Size = new System.Drawing.Size(180, 22);
             this.mnuDevicesAddPeripheralDoaStepper.Text = "DOA_Stepper...";
             this.mnuDevicesAddPeripheralDoaStepper.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoaStepper_Click);
             // 
@@ -370,7 +367,6 @@
             this.mnuContextAddPeripheralDoaStepper,
             this.mnuContextAddPeripheralDoaAnOut1,
             this.mnuContextAddPeripheralDoa7Seg,
-            this.dOA7SegDisplayModeToolStripMenuItem1,
             this.mnuContextAddPeripheralDoa8Servo});
             this.mnuContextAddPeripheral.Name = "mnuContextAddPeripheral";
             this.mnuContextAddPeripheral.Size = new System.Drawing.Size(178, 22);
@@ -379,42 +375,42 @@
             // mnuContextAddPeripheralDoa40do
             // 
             this.mnuContextAddPeripheralDoa40do.Name = "mnuContextAddPeripheralDoa40do";
-            this.mnuContextAddPeripheralDoa40do.Size = new System.Drawing.Size(213, 22);
+            this.mnuContextAddPeripheralDoa40do.Size = new System.Drawing.Size(180, 22);
             this.mnuContextAddPeripheralDoa40do.Text = "DOA_40DO...";
             this.mnuContextAddPeripheralDoa40do.Click += new System.EventHandler(this.mnuContextAddPeripheralDoa40Do_Click);
             // 
             // mnuContextAddPeripheralDoaAircore
             // 
             this.mnuContextAddPeripheralDoaAircore.Name = "mnuContextAddPeripheralDoaAircore";
-            this.mnuContextAddPeripheralDoaAircore.Size = new System.Drawing.Size(213, 22);
+            this.mnuContextAddPeripheralDoaAircore.Size = new System.Drawing.Size(180, 22);
             this.mnuContextAddPeripheralDoaAircore.Text = "DOA_Aircore...";
             this.mnuContextAddPeripheralDoaAircore.Click += new System.EventHandler(this.mnuContextAddPeripheralDoaAircore_Click);
             // 
             // mnuContextAddPeripheralDoaStepper
             // 
             this.mnuContextAddPeripheralDoaStepper.Name = "mnuContextAddPeripheralDoaStepper";
-            this.mnuContextAddPeripheralDoaStepper.Size = new System.Drawing.Size(213, 22);
+            this.mnuContextAddPeripheralDoaStepper.Size = new System.Drawing.Size(180, 22);
             this.mnuContextAddPeripheralDoaStepper.Text = "DOA_Stepper...";
             this.mnuContextAddPeripheralDoaStepper.Click += new System.EventHandler(this.mnuContextAddPeripheralDoaStepper_Click);
             // 
             // mnuContextAddPeripheralDoaAnOut1
             // 
             this.mnuContextAddPeripheralDoaAnOut1.Name = "mnuContextAddPeripheralDoaAnOut1";
-            this.mnuContextAddPeripheralDoaAnOut1.Size = new System.Drawing.Size(213, 22);
+            this.mnuContextAddPeripheralDoaAnOut1.Size = new System.Drawing.Size(180, 22);
             this.mnuContextAddPeripheralDoaAnOut1.Text = "DOA_AnOut1...";
             this.mnuContextAddPeripheralDoaAnOut1.Click += new System.EventHandler(this.mnuContextAddPeripheralDoaAnOut1_Click);
             // 
             // mnuContextAddPeripheralDoa7Seg
             // 
             this.mnuContextAddPeripheralDoa7Seg.Name = "mnuContextAddPeripheralDoa7Seg";
-            this.mnuContextAddPeripheralDoa7Seg.Size = new System.Drawing.Size(213, 22);
-            this.mnuContextAddPeripheralDoa7Seg.Text = "DOA_7Seg Bit Mode...";
+            this.mnuContextAddPeripheralDoa7Seg.Size = new System.Drawing.Size(180, 22);
+            this.mnuContextAddPeripheralDoa7Seg.Text = "DOA_7Seg";
             this.mnuContextAddPeripheralDoa7Seg.Click += new System.EventHandler(this.mnuContextAddPeripheralDoa7Seg_Click);
             // 
             // mnuContextAddPeripheralDoa8Servo
             // 
             this.mnuContextAddPeripheralDoa8Servo.Name = "mnuContextAddPeripheralDoa8Servo";
-            this.mnuContextAddPeripheralDoa8Servo.Size = new System.Drawing.Size(213, 22);
+            this.mnuContextAddPeripheralDoa8Servo.Size = new System.Drawing.Size(180, 22);
             this.mnuContextAddPeripheralDoa8Servo.Text = "DOA_8Servo...";
             this.mnuContextAddPeripheralDoa8Servo.Click += new System.EventHandler(this.mnuContextAddPeripheralDoa8Servo_Click);
             // 
@@ -461,20 +457,6 @@
             this.mnuContextRemove.Size = new System.Drawing.Size(178, 22);
             this.mnuContextRemove.Text = "Remove...";
             this.mnuContextRemove.Click += new System.EventHandler(this.mnuContextRemove_Click);
-            // 
-            // dOA7SegDisplayModeToolStripMenuItem
-            // 
-            this.dOA7SegDisplayModeToolStripMenuItem.Name = "dOA7SegDisplayModeToolStripMenuItem";
-            this.dOA7SegDisplayModeToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
-            this.dOA7SegDisplayModeToolStripMenuItem.Text = "DOA_7Seg Display Mode...";
-            this.dOA7SegDisplayModeToolStripMenuItem.Click += new System.EventHandler(this.dOA7SegDisplayModeToolStripMenuItem_Click);
-            // 
-            // dOA7SegDisplayModeToolStripMenuItem1
-            // 
-            this.dOA7SegDisplayModeToolStripMenuItem1.Name = "dOA7SegDisplayModeToolStripMenuItem1";
-            this.dOA7SegDisplayModeToolStripMenuItem1.Size = new System.Drawing.Size(213, 22);
-            this.dOA7SegDisplayModeToolStripMenuItem1.Text = "DOA_7Seg Display Mode...";
-            this.dOA7SegDisplayModeToolStripMenuItem1.Click += new System.EventHandler(this.dOA7SegDisplayModeToolStripMenuItem1_Click);
             // 
             // frmPhccDeviceManager
             // 
@@ -549,7 +531,5 @@
         private System.Windows.Forms.ToolStripMenuItem calibrateAnalogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem calibrateServosToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem calibrateAnalogToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem dOA7SegDisplayModeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dOA7SegDisplayModeToolStripMenuItem1;
     }
 }

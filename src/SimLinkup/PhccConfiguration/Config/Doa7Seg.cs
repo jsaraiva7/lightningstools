@@ -3,7 +3,7 @@
 namespace PhccConfiguration.Config
 {
     [Serializable]
-    public class Doa7SegBitMode : Peripheral
+    public class Doa7Seg : Peripheral
     {
     }
 }

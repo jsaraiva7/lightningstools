@@ -42,8 +42,7 @@
   <ItemGroup>
     <Compile Include="Config\ConfigurationManager.cs" />
     <Compile Include="Config\Doa40Do.cs" />
-    <Compile Include="Config\Doa7SegDisplayMode.cs" />
-    <Compile Include="Config\Doa7SegBitMode.cs" />
+    <Compile Include="Config\Doa7Seg.cs" />
     <Compile Include="Config\Doa8Servo.cs" />
     <Compile Include="Config\DoaAirCore.cs" />
     <Compile Include="Config\DoaAnOut1.cs" />
