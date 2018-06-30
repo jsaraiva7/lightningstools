@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -67,6 +70,13 @@
       <Project>{320431c6-2454-4d95-8d3c-d27c8e2288e9}</Project>
       <Name>Common.MacroProgramming</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\PHCC\PHCC.csproj">
+      <Project>{75fa2030-c9ca-4b2d-8534-8f48eea13ca3}</Project>
+      <Name>PHCC</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Config\ConfigClasses\Enums\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
