@@ -87,16 +87,7 @@ namespace PhccHardwareSupportModule.Phcc
 
         public override string FriendlyName => "PHCC";
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~PhccHardwareSupportModule()
-        {
-            Dispose();
-        }
+     
 
         public static IHardwareSupportModule[] GetInstances()
         {
@@ -124,12 +115,9 @@ namespace PhccHardwareSupportModule.Phcc
             return toReturn.ToArray();
         }
 
-        private void AbandonInputEventHandlers()
-        {
-            _analogInputChangedEventHandler = null;
-            _digitalInputChangedEventHandler = null;
-            _i2cDataReceivedEventHandler = null;
-        }
+        
+
+        #region Create Input Signals
 
         private AnalogSignal[] CreateAnalogInputSignals(p.Device device, string portName)
         {
@@ -156,11 +144,11 @@ namespace PhccHardwareSupportModule.Phcc
             return toReturn.ToArray();
         }
 
-        private static p.Device CreateDevice(string comPort)
-        {
-            var device = new p.Device(comPort, false);
-            return device;
-        }
+
+
+        #endregion
+
+        #region Create Output Signals
 
         private DigitalSignal[] CreateDigitalInputSignals(p.Device device, string portName)
         {
@@ -185,23 +173,17 @@ namespace PhccHardwareSupportModule.Phcc
             return toReturn.ToArray();
         }
 
-        private void CreateInputEventHandlers()
-        {
-            _analogInputChangedEventHandler = device_AnalogInputChanged;
-            _digitalInputChangedEventHandler = device_DigitalInputChanged;
-            _i2cDataReceivedEventHandler = device_I2CDataReceived;
-        }
 
-        private void CreateOutputSignals(p.Device device, Motherboard motherboard, out DigitalSignal[] digitalSignals, 
-            out CalibratedAnalogSignal[] analogSignals,
-            out Dictionary<string, byte[]> peripheralByteStates,
-            out Dictionary<string, double[]> peripheralFloatStates)
+        private void CreateOutputSignals(p.Device device, Motherboard motherboard, out DigitalSignal[] digitalSignals,
+           out CalibratedAnalogSignal[] analogSignals,
+           out Dictionary<string, byte[]> peripheralByteStates,
+           out Dictionary<string, double[]> peripheralFloatStates)
         {
             if (motherboard == null) throw new ArgumentNullException(nameof(motherboard));
             var portName = motherboard.ComPort;
             var digitalSignalsToReturn = new List<DigitalSignal>();
             var analogSignalsToReturn = new List<CalibratedAnalogSignal>();
-           
+
 
             var attachedPeripherals = motherboard.Peripherals;
             peripheralByteStates = new Dictionary<string, byte[]>();
@@ -239,32 +221,32 @@ namespace PhccHardwareSupportModule.Phcc
                     var typedPeripheral = peripheral as Doa7Seg;
                     var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
                     for (var i = 0; i < 32; i++)
-                    for (var j = 0; j < 8; j++)
-                    {
-                        var thisSignal = new DigitalSignal
+                        for (var j = 0; j < 8; j++)
                         {
-                            Category = "Outputs",
-                            CollectionName = "Digital Outputs",
-                            FriendlyName =
-                                $"Display {string.Format($"{j + 1:0}", j + 1)}, Output Line {string.Format($"{i + 1:0}", i + 1)}",
-                            Id = $"DOA_7SEG[{portName}][{baseAddress}][{j}][{i}]",
-                            Index = i * 8 + j,
-                            PublisherObject = this,
-                            Source = device,
-                            SourceFriendlyName = $"PHCC Device on {portName}",
-                            SourceAddress = portName,
-                            SubSource = $"DOA_7SEG @ {baseAddress}",
-                            SubSourceFriendlyName = $"DOA_7SEG @ {baseAddress}",
-                            SubSourceAddress = baseAddress,
-                            State = false
-                        };
-                        thisSignal.SignalChanged += DOA7SegBitOutputSignalChanged;
-                        digitalSignalsToReturn.Add(thisSignal);
-                    }
+                            var thisSignal = new DigitalSignal
+                            {
+                                Category = "Outputs",
+                                CollectionName = "Digital Outputs",
+                                FriendlyName =
+                                    $"Display {string.Format($"{j + 1:0}", j + 1)}, Output Line {string.Format($"{i + 1:0}", i + 1)}",
+                                Id = $"DOA_7SEG[{portName}][{baseAddress}][{j}][{i}]",
+                                Index = i * 8 + j,
+                                PublisherObject = this,
+                                Source = device,
+                                SourceFriendlyName = $"PHCC Device on {portName}",
+                                SourceAddress = portName,
+                                SubSource = $"DOA_7SEG @ {baseAddress}",
+                                SubSourceFriendlyName = $"DOA_7SEG @ {baseAddress}",
+                                SubSourceAddress = baseAddress,
+                                State = false
+                            };
+                            thisSignal.SignalChanged += DOA7SegBitOutputSignalChanged;
+                            digitalSignalsToReturn.Add(thisSignal);
+                        }
                     peripheralByteStates[baseAddress] = new byte[32];
                 }
                 // DOA7Seb Display Mode. Requires separate cards. 
-                
+
                 else if (peripheral is Doa8Servo)
                 {
                     var typedPeripheral = peripheral as Doa8Servo;
@@ -401,7 +383,236 @@ namespace PhccHardwareSupportModule.Phcc
                 }
             analogSignals = analogSignalsToReturn.ToArray();
             digitalSignals = digitalSignalsToReturn.ToArray();
-      
+
+        }
+
+        #endregion
+
+        #region Event Handlers
+
+        private void CreateInputEventHandlers()
+        {
+            _analogInputChangedEventHandler = device_AnalogInputChanged;
+            _digitalInputChangedEventHandler = device_DigitalInputChanged;
+            _i2cDataReceivedEventHandler = device_I2CDataReceived;
+        }
+
+        private void AbandonInputEventHandlers()
+        {
+            _analogInputChangedEventHandler = null;
+            _digitalInputChangedEventHandler = null;
+            _i2cDataReceivedEventHandler = null;
+        }
+
+        private void DOA40DOOutputSignalChanged(object sender, DigitalSignalChangedEventArgs args)
+        {
+            var source = sender as DigitalSignal;
+            if (source?.Index == null) return;
+            var outputNum = source.Index.Value;
+            var baseAddress = source.SubSourceAddress;
+            var baseAddressByte = byte.Parse(baseAddress);
+            var device = source.Source as p.Device;
+            if (device == null) return;
+            var newBitVal = args.CurrentState;
+            var peripheralState = _peripheralByteStates[baseAddress];
+            var connectorNumZeroBase = outputNum / 8;
+            var thisBitIndex = outputNum % 8;
+            var connectorNum = connectorNumZeroBase + 3;
+            var currentBitsThisConnector = peripheralState[connectorNumZeroBase];
+            var newBits = Common.Util.SetBit(currentBitsThisConnector, thisBitIndex, newBitVal);
+            try
+            {
+                device.DoaSend40DO(baseAddressByte, (byte)connectorNum, newBits);
+                peripheralState[connectorNumZeroBase] = newBits;
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message, e);
+            }
+
+        }
+
+        private void DOA7SegBitOutputSignalChanged(object sender, DigitalSignalChangedEventArgs args)
+        {
+            var source = sender as DigitalSignal;
+            if (source?.Index == null) return;
+            var outputLineNum = source.Index.Value;
+            var baseAddress = source.SubSourceAddress;
+            var baseAddressByte = byte.Parse(baseAddress);
+            var device = source.Source as p.Device;
+            if (device == null) return;
+            var newBitVal = args.CurrentState;
+            var peripheralState = _peripheralByteStates[baseAddress];
+            var displayNumZeroBase = outputLineNum / 8;
+            var thisBitIndex = outputLineNum % 8;
+            var displayNum = displayNumZeroBase + 1;
+            var currentBitsThisDisplay = peripheralState[displayNumZeroBase];
+            var newBits = Common.Util.SetBit(currentBitsThisDisplay, thisBitIndex, newBitVal);
+
+            try
+            {
+                device.DoaSend7Seg(baseAddressByte, (byte)displayNum, newBits);
+                peripheralState[displayNumZeroBase] = newBits;
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message, e);
+            }
+        }
+
+        private void DOA7SegDisplayOutputSignalChanged(object sender, TextSignalChangedEventArgs args)
+        {
+            var source = sender as TextSignal;
+            if (source?.Index == null) return;
+            //var outputLineNum = source.Index.Value;
+            //var baseAddress = source.SubSourceAddress;
+            //var baseAddressByte = byte.Parse(baseAddress);
+            //var device = source.Source as p.Device;
+            //if (device == null) return;
+            //var newBitVal = args.CurrentState;
+            //var peripheralState = _peripheralByteStates[baseAddress];
+            //var displayNumZeroBase = outputLineNum / 8;
+            //var thisBitIndex = outputLineNum % 8;
+            //var displayNum = displayNumZeroBase + 1;
+            //var currentBitsThisDisplay = peripheralState[displayNumZeroBase];
+            //var newBits = Common.Util.SetBit(currentBitsThisDisplay, thisBitIndex, newBitVal);
+
+            try
+            {
+                //device.DoaSend7Seg(baseAddressByte, (byte)displayNum, newBits);
+                //peripheralState[displayNumZeroBase] = newBits;
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message, e);
+            }
+        }
+
+        private void DOA8ServoOutputSignalChanged(object sender, AnalogSignalChangedEventArgs args)
+        {
+            var source = sender as CalibratedAnalogSignal;
+            if (source?.Index == null) return;
+            var servoNumZeroBase = source.Index.Value;
+            var baseAddress = source.SubSourceAddress;
+            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
+            var device = source.Source as p.Device;
+            if (device == null) return;
+            var servoNum = servoNumZeroBase + 1;
+            var newPosition = (byte)(Math.Abs(args.CurrentState + 90.00) / 180.00 * 255);
+
+            try
+            {
+                device.DoaSend8ServoPosition(baseAddressByte, (byte)servoNum, newPosition);
+                _peripheralFloatStates[baseAddress][servoNum] = newPosition;
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message, e);
+            }
+
+        }
+
+        private void DOAAircoreOutputSignalChanged(object sender, AnalogSignalChangedEventArgs args)
+        {
+            var source = sender as CalibratedAnalogSignal;
+            if (source?.Index == null) return;
+            var motorNumZeroBase = source.Index.Value;
+            var baseAddress = source.SubSourceAddress;
+            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
+            var device = source.Source as p.Device;
+            if (device == null) return;
+            var motorNum = motorNumZeroBase + 1;
+            var newPosition = (int)(Math.Abs(args.CurrentState) / 360.00 * 1023);
+            try
+            {
+                device.DoaSendAirCoreMotor(baseAddressByte, (byte)motorNum, newPosition);
+                _peripheralFloatStates[baseAddress][motorNum] = newPosition;
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message, e);
+            }
+        }
+
+        private void DOAAnOut1SignalChanged(object sender, AnalogSignalChangedEventArgs args)
+        {
+            var source = sender as CalibratedAnalogSignal;
+            if (source?.Index == null) return;
+            var channelNumZeroBase = source.Index.Value;
+            var baseAddress = source.SubSourceAddress;
+            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
+            var device = source.Source as p.Device;
+            if (device == null) return;
+            var channelNum = channelNumZeroBase + 1;
+            var newVal = (byte)(Math.Abs(args.CurrentState) / 5.00 * 255);
+            try
+            {
+                device.DoaSendAnOut1(baseAddressByte, (byte)channelNum, newVal);
+                _peripheralFloatStates[baseAddress][channelNum] = newVal;
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message, e);
+            }
+
+        }
+
+        private void DOAStepperSignalChanged(object sender, AnalogSignalChangedEventArgs args)
+        {
+            var source = sender as CalibratedAnalogSignal;
+            if (source?.Index == null) return;
+            var motorNumZeroBase = source.Index.Value;
+            var baseAddress = source.SubSourceAddress;
+            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
+            var device = source.Source as p.Device;
+            if (device == null) return;
+            var motorNum = motorNumZeroBase + 1;
+            var newPosition = args.CurrentState;
+            var oldPosition = _peripheralFloatStates[baseAddress][motorNumZeroBase];
+            var numSteps = (int)Math.Abs(newPosition - oldPosition);
+            var direction = p.MotorDirections.Clockwise;
+            if (oldPosition < newPosition)
+            {
+                direction = p.MotorDirections.Counterclockwise;
+            }
+            try
+            {
+                device.DoaSendStepperMotor(baseAddressByte, (byte)motorNum, direction, (byte)numSteps,
+                    p.MotorStepTypes.FullStep);
+                _peripheralFloatStates[baseAddress][motorNumZeroBase] = newPosition;
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message, e);
+            }
+
+        }
+
+        private static ConfigurationManager LoadConfiguration(string phccConfigFile)
+        {
+            var toReturn = ConfigurationManager.Load(phccConfigFile);
+            return toReturn;
+        }
+
+        private static void RegisterForInputEvents(p.Device device,
+            p.AnalogInputChangedEventHandler analogInputChangedEventHandler,
+            p.DigitalInputChangedEventHandler digitalInputChangedEventHandler,
+            p.I2CDataReceivedEventHandler i2cDataReceivedEventHandler)
+        {
+            if (device == null) return;
+
+            if (analogInputChangedEventHandler != null)
+            {
+                device.AnalogInputChanged += analogInputChangedEventHandler;
+            }
+            if (digitalInputChangedEventHandler != null)
+            {
+                device.DigitalInputChanged += digitalInputChangedEventHandler;
+            }
+            if (i2cDataReceivedEventHandler != null)
+            {
+                device.I2CDataReceived += i2cDataReceivedEventHandler;
+            }
         }
 
         private void device_AnalogInputChanged(object sender, p.AnalogInputChangedEventArgs e)
@@ -423,6 +634,19 @@ namespace PhccHardwareSupportModule.Phcc
             //throw new NotImplementedException();
         }
 
+        #endregion
+
+        #region Disposing
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~PhccHardwareSupportModule()
+        {
+            Dispose();
+        }
         private void Dispose(bool disposing)
         {
             if (!_isDisposed)
@@ -470,244 +694,6 @@ namespace PhccHardwareSupportModule.Phcc
             _isDisposed = true;
         }
 
-        private void DOA40DOOutputSignalChanged(object sender, DigitalSignalChangedEventArgs args)
-        {
-            var source = sender as DigitalSignal;
-            if (source?.Index == null) return;
-            var outputNum = source.Index.Value;
-            var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = byte.Parse(baseAddress);
-            var device = source.Source as p.Device;
-            if (device == null) return;
-            var newBitVal = args.CurrentState;
-            var peripheralState = _peripheralByteStates[baseAddress];
-            var connectorNumZeroBase = outputNum / 8;
-            var thisBitIndex = outputNum % 8;
-            var connectorNum = connectorNumZeroBase + 3;
-            var currentBitsThisConnector = peripheralState[connectorNumZeroBase];
-            var newBits = Common.Util.SetBit(currentBitsThisConnector, thisBitIndex, newBitVal);
-            try
-            {
-                device.DoaSend40DO(baseAddressByte, (byte) connectorNum, newBits);
-                peripheralState[connectorNumZeroBase] = newBits;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-
-        }
-
-        private void DOA7SegBitOutputSignalChanged(object sender, DigitalSignalChangedEventArgs args)
-        {
-            var source = sender as DigitalSignal;
-            if (source?.Index == null) return;
-            var outputLineNum = source.Index.Value;
-            var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = byte.Parse(baseAddress);
-            var device = source.Source as p.Device;
-            if (device == null) return;
-            var newBitVal = args.CurrentState;
-            var peripheralState = _peripheralByteStates[baseAddress];
-            var displayNumZeroBase = outputLineNum / 8;
-            var thisBitIndex = outputLineNum % 8;
-            var displayNum = displayNumZeroBase + 1;
-            var currentBitsThisDisplay = peripheralState[displayNumZeroBase];
-            var newBits = Common.Util.SetBit(currentBitsThisDisplay, thisBitIndex, newBitVal);
-
-            try
-            {
-                device.DoaSend7Seg(baseAddressByte, (byte) displayNum, newBits);
-                peripheralState[displayNumZeroBase] = newBits;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-        }
-
-        private void DOA7SegDisplayOutputSignalChanged(object sender, TextSignalChangedEventArgs args)
-        {
-            var source = sender as TextSignal;
-            if (source?.Index == null) return;
-            //var outputLineNum = source.Index.Value;
-            //var baseAddress = source.SubSourceAddress;
-            //var baseAddressByte = byte.Parse(baseAddress);
-            //var device = source.Source as p.Device;
-            //if (device == null) return;
-            //var newBitVal = args.CurrentState;
-            //var peripheralState = _peripheralByteStates[baseAddress];
-            //var displayNumZeroBase = outputLineNum / 8;
-            //var thisBitIndex = outputLineNum % 8;
-            //var displayNum = displayNumZeroBase + 1;
-            //var currentBitsThisDisplay = peripheralState[displayNumZeroBase];
-            //var newBits = Common.Util.SetBit(currentBitsThisDisplay, thisBitIndex, newBitVal);
-
-            try
-            {
-                //device.DoaSend7Seg(baseAddressByte, (byte)displayNum, newBits);
-                //peripheralState[displayNumZeroBase] = newBits;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-        }
-
-        private void DOA8ServoOutputSignalChanged(object sender, AnalogSignalChangedEventArgs args)
-        {
-            var source = sender as CalibratedAnalogSignal;
-            if (source?.Index == null) return;
-            var servoNumZeroBase = source.Index.Value;
-            var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
-            var device = source.Source as p.Device;
-            if (device == null) return;
-            var servoNum = servoNumZeroBase + 1;
-            var newPosition = (byte) (Math.Abs(args.CurrentState + 90.00) / 180.00 * 255);
-
-            try
-            {
-                device.DoaSend8ServoPosition(baseAddressByte, (byte) servoNum, newPosition);
-                _peripheralFloatStates[baseAddress][servoNum] = newPosition;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-
-        }
-
-        private void DOAAircoreOutputSignalChanged(object sender, AnalogSignalChangedEventArgs args)
-        {
-            var source = sender as CalibratedAnalogSignal;
-            if (source?.Index == null) return;
-            var motorNumZeroBase = source.Index.Value;
-            var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
-            var device = source.Source as p.Device;
-            if (device == null) return;
-            var motorNum = motorNumZeroBase + 1;
-            var newPosition = (int) (Math.Abs(args.CurrentState) / 360.00 * 1023);
-            try
-            {
-                device.DoaSendAirCoreMotor(baseAddressByte, (byte) motorNum, newPosition);
-                _peripheralFloatStates[baseAddress][motorNum] = newPosition;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-        }
-
-        private void DOAAnOut1SignalChanged(object sender, AnalogSignalChangedEventArgs args)
-        {
-            var source = sender as CalibratedAnalogSignal;
-            if (source?.Index == null) return;
-            var channelNumZeroBase = source.Index.Value;
-            var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
-            var device = source.Source as p.Device;
-            if (device == null) return;
-            var channelNum = channelNumZeroBase + 1;
-            var newVal = (byte) (Math.Abs(args.CurrentState) / 5.00 * 255);
-            try
-            {
-                device.DoaSendAnOut1(baseAddressByte, (byte) channelNum, newVal);
-                _peripheralFloatStates[baseAddress][channelNum] = newVal;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-
-        }
-
-        private void DOAStepperSignalChanged(object sender, AnalogSignalChangedEventArgs args)
-        {
-            var source = sender as CalibratedAnalogSignal;
-            if (source?.Index == null) return;
-            var motorNumZeroBase = source.Index.Value;
-            var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
-            var device = source.Source as p.Device;
-            if (device == null) return;
-            var motorNum = motorNumZeroBase + 1;
-            var newPosition = args.CurrentState;
-            var oldPosition = _peripheralFloatStates[baseAddress][motorNumZeroBase];
-            var numSteps = (int) Math.Abs(newPosition - oldPosition);
-            var direction = p.MotorDirections.Clockwise;
-            if (oldPosition < newPosition)
-            {
-                direction = p.MotorDirections.Counterclockwise;
-            }
-            try
-            {
-                device.DoaSendStepperMotor(baseAddressByte, (byte) motorNum, direction, (byte) numSteps,
-                    p.MotorStepTypes.FullStep);
-                _peripheralFloatStates[baseAddress][motorNumZeroBase] = newPosition;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-
-        }
-
-        private static ConfigurationManager LoadConfiguration(string phccConfigFile)
-        {
-            var toReturn = ConfigurationManager.Load(phccConfigFile);
-            return toReturn;
-        }
-
-        private static void RegisterForInputEvents(p.Device device,
-            p.AnalogInputChangedEventHandler analogInputChangedEventHandler,
-            p.DigitalInputChangedEventHandler digitalInputChangedEventHandler,
-            p.I2CDataReceivedEventHandler i2cDataReceivedEventHandler)
-        {
-            if (device == null) return;
-
-            if (analogInputChangedEventHandler != null)
-            {
-                device.AnalogInputChanged += analogInputChangedEventHandler;
-            }
-            if (digitalInputChangedEventHandler != null)
-            {
-                device.DigitalInputChanged += digitalInputChangedEventHandler;
-            }
-            if (i2cDataReceivedEventHandler != null)
-            {
-                device.I2CDataReceived += i2cDataReceivedEventHandler;
-            }
-        }
-
-      
-
-        private static void StartTalking(p.Device device)
-        {
-            try
-            {
-                device.StartTalking();
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-        }
-
-        private static void StopTalking(p.Device device)
-        {
-            try
-            {
-                device.StopTalking();
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-
-        }
-
         private static void UnregisterForInputEvents(p.Device device,
             p.AnalogInputChangedEventHandler analogInputChangedEventHandler,
             p.DigitalInputChangedEventHandler digitalInputChangedEventHandler,
@@ -747,7 +733,45 @@ namespace PhccHardwareSupportModule.Phcc
             }
         }
 
-       
+        #endregion
+
+        #region Device
+
+
+        private static p.Device CreateDevice(string comPort)
+        {
+            var device = new p.Device(comPort, false);
+            return device;
+        }
+
+
+
+        private static void StartTalking(p.Device device)
+        {
+            try
+            {
+                device.StartTalking();
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message, e);
+            }
+        }
+
+        private static void StopTalking(p.Device device)
+        {
+            try
+            {
+                device.StopTalking();
+            }
+            catch (Exception e)
+            {
+                _log.Error(e.Message, e);
+            }
+
+        }
+
+        #endregion
 
     }
 }

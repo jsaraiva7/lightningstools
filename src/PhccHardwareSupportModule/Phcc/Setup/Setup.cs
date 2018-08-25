@@ -14,7 +14,6 @@ namespace PhccHardwareSupportModule.Phcc.Setup
     public static class Setup
     {
         private static readonly ILog _log = LogManager.GetLogger(typeof(PhccHardwareSupportModule));
-
         public static void SetupDevice(Motherboard motherboard, CalibratedAnalogSignal[] analogOutputs, DigitalSignal[] digitalInputs, p.Device device)
         {
             try
@@ -31,8 +30,7 @@ namespace PhccHardwareSupportModule.Phcc.Setup
                 _log.Error(e.Message, e);
             }
             
-        }
-
+        }      
         private static void SendCalibrations(p.Device device, Motherboard motherboard)
         {
             if (device == null) throw new ArgumentNullException(nameof(device));
@@ -80,8 +78,6 @@ namespace PhccHardwareSupportModule.Phcc.Setup
                 device.DoaSend8ServoGain(servoConfig.Address, (byte)calibration.ServoNum, calibration.Gain);
             }
         }
-
-
         private static void SendAnOut1Calibrations(p.Device device, DoaAnOut1 anOut1Config)
         {
             if (device == null) throw new ArgumentNullException(nameof(device));
@@ -97,7 +93,6 @@ namespace PhccHardwareSupportModule.Phcc.Setup
             }
 
         }
-
         private static void HomeInSteppers(Motherboard motherboard, CalibratedAnalogSignal[] analogOutputs, DigitalSignal[] digitalInputs)
         {
             List<HomingSignalConfig> HomingSignals = new List<HomingSignalConfig>();
