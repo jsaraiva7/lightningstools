@@ -10,8 +10,8 @@ using Common.HardwareSupport.MotorControl;
 using Common.MacroProgramming;
 using log4net;
 using PhccConfiguration.Config;
-using PhccConfiguration.Config.ConfigClasses;
 using p = Phcc;
+ 
 
 namespace PhccHardwareSupportModule.Phcc
 {
@@ -66,25 +66,9 @@ namespace PhccHardwareSupportModule.Phcc
             RegisterForInputEvents(_device, _analogInputChangedEventHandler, _digitalInputChangedEventHandler,
                 _i2cDataReceivedEventHandler);
             try
-            {
-                SendCalibrations(_device, motherboard);
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-
-            try
-            {
+            {              
+                Setup.Setup.SetupDevice(motherboard, _analogOutputSignals, _digitalInputSignals, _device);
                 StartTalking(_device);
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-            try
-            {
-                Setup.Setup.SetupDevice(motherboard, _analogOutputSignals, _digitalInputSignals);
             }
             catch (Exception e)
             {
@@ -697,70 +681,7 @@ namespace PhccHardwareSupportModule.Phcc
             }
         }
 
-        private static void SendAnOut1Calibrations(p.Device device, DoaAnOut1 anOut1Config)
-        {
-            if (device == null) throw new ArgumentNullException(nameof(device));
-            if (anOut1Config == null) throw new ArgumentNullException(nameof(anOut1Config));
-
-            try
-            {
-                device.DoaSendAnOut1GainAllChannels(anOut1Config.Address, anOut1Config.GainAllChannels);
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-
-        }
-
-        private static void SendCalibrations(p.Device device, Motherboard motherboard)
-        {
-            if (device == null) throw new ArgumentNullException(nameof(device));
-            if (motherboard == null) throw new ArgumentNullException(nameof(motherboard));
-            foreach (var peripheral in motherboard.Peripherals)
-                if (peripheral is Doa8Servo)
-                {
-                    var servoConfig = peripheral as Doa8Servo;
-                    try
-                    {
-                        SendServoCalibrations(device, servoConfig);
-                    }
-                    catch (Exception e)
-                    {
-                        _log.Error(e.Message, e);
-                    }
-
-                }
-                else if (peripheral is DoaAnOut1)
-                {
-                    var anOut1Config = peripheral as DoaAnOut1;
-                    try
-                    {
-                        SendAnOut1Calibrations(device, anOut1Config);
-                    }
-                    catch (Exception e)
-                    {
-                        _log.Error(e.Message, e);
-                    }
-
-                }
-        }
-
-        private static void SendServoCalibrations(p.Device device, Doa8Servo servoConfig)
-        {
-            if (device == null) throw new ArgumentNullException(nameof(device));
-            if (servoConfig == null) throw new ArgumentNullException(nameof(servoConfig));
-            if (servoConfig.ServoCalibrations == null)
-            {
-                return;
-            }
-            foreach (var calibration in servoConfig.ServoCalibrations)
-            {
-                device.DoaSend8ServoCalibration(servoConfig.Address, (byte) calibration.ServoNum,
-                    calibration.CalibrationOffset);
-                device.DoaSend8ServoGain(servoConfig.Address, (byte) calibration.ServoNum, calibration.Gain);
-            }
-        }
+      
 
         private static void StartTalking(p.Device device)
         {
