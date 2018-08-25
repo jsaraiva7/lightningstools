@@ -16,7 +16,7 @@ namespace Mapper
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Mapper());
+            Application.Run(new UI.Mapper());
         }
     }
 }

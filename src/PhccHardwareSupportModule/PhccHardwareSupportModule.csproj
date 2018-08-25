@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Phcc\PhccHardwareSupportModule.cs" />
     <Compile Include="Phcc\PhccHardwareSupportModuleConfig.cs" />
+    <Compile Include="Phcc\Setup\Setup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>

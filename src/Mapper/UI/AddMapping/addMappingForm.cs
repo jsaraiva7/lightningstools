@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using Common.MacroProgramming;
 using Mapper.Models.Mapping;
-using Mapper.UI.AddMapping;
-using Phcc.DeviceManager.UI;
+using Signal = Common.MacroProgramming.Signal;
 
-namespace Mapper
+namespace Mapper.UI.AddMapping
 {
     public partial class addMappingForm : Form
     {
@@ -75,29 +73,29 @@ namespace Mapper
 
 
             SignalMapping m = new SignalMapping();
-            if (Input is AnalogSignal)
+            if (Input is Common.MacroProgramming.AnalogSignal)
             {
-                m.Source = new Models.AnalogSignal() {Id = Input.Id};
+                m.Source = new AnalogSignal() {Id = Input.Id};
             }
-            else if (Input is DigitalSignal)
+            else if (Input is Common.MacroProgramming.DigitalSignal)
             {
-                m.Source = new Models.DigitalSignal() { Id = Input.Id };
+                m.Source = new DigitalSignal() { Id = Input.Id };
             }
-            else if (Input is TextSignal)
+            else if (Input is Common.MacroProgramming.TextSignal)
             {
-                m.Source = new Models.TextSignal() { Id = Input.Id };
+                m.Source = new TextSignal() { Id = Input.Id };
             }
-            if (Output is AnalogSignal)
+            if (Output is Common.MacroProgramming.AnalogSignal)
             {
-                m.Destination = new Models.AnalogSignal() { Id = Output.Id };
+                m.Destination = new AnalogSignal() { Id = Output.Id };
             }
-            else if (Output is DigitalSignal)
+            else if (Output is Common.MacroProgramming.DigitalSignal)
             {
-                m.Destination = new Models.DigitalSignal() { Id = Output.Id };
+                m.Destination = new DigitalSignal() { Id = Output.Id };
             }
-            else if (Output is TextSignal)
+            else if (Output is Common.MacroProgramming.TextSignal)
             {
-                m.Destination = new Models.TextSignal() { Id = Output.Id };
+                m.Destination = new TextSignal() { Id = Output.Id };
             }
             Mapping = m;
             this.Close();

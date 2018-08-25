@@ -1,4 +1,4 @@
-﻿namespace Mapper
+﻿namespace Mapper.UI.AddMapping
 {
     partial class addMappingForm
     {

@@ -1,4 +1,4 @@
-﻿namespace Mapper
+﻿namespace Mapper.UI
 {
     partial class Mapper
     {

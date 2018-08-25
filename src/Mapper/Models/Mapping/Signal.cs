@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Mapper.Models
+namespace Mapper.Models.Mapping
 {
     /// <summary>
     /// Mockup classes to generate correct XML. please refer to MappingProfile class on this project. 

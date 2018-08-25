@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Common.MacroProgramming;
 using log4net;
 using Mapper.Models.Mapping;
-using Mapper.UI;
-using Phcc.DeviceManager.UI;
-using SimLinkup.Runtime;
-using SimLinkup.Signals;
+using Mapper.UI.AddMapping;
 using SignalMapping = Mapper.Models.Mapping.SignalMapping;
 
-namespace Mapper
+namespace Mapper.UI
 {
     public partial class Mapper : Form
     {
@@ -26,7 +17,7 @@ namespace Mapper
         private Models.Mapping.MappingProfile _profile { get; set; }
         private SignalMapping _selectedMapping;
       
-        
+        //f
         public static SimLinkup.Runtime.Runtime SharedRuntime { get; set; }
 
         public Mapper()
