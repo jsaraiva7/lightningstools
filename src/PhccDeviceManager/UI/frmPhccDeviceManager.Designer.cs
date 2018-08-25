@@ -33,11 +33,8 @@
             this.tvDevicesAndPeripherals = new System.Windows.Forms.TreeView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuFileNew = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuFileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuFileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuFileExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,8 +51,9 @@
             this.mnuDevicesAddPeripheralDoaStepper = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuDevicesCalibrate = new System.Windows.Forms.ToolStripMenuItem();
+            this.calibrateServosToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.calibrateAnalogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuDevicesRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxContext = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -71,8 +69,16 @@
             this.mnuContextAddPeripheralDoa8Servo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuContextCalibrate = new System.Windows.Forms.ToolStripMenuItem();
+            this.calibrateServosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.calibrateAnalogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuFileNew = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFileOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFileSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDevicesRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuContextRemove = new System.Windows.Forms.ToolStripMenuItem();
+            this.configure7SegmentDisplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configure7SegmentDisplayToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.ctxContext.SuspendLayout();
             this.SuspendLayout();
@@ -111,66 +117,36 @@
             this.toolStripMenuItem3,
             this.mnuFileExit});
             this.mnuFile.Name = "mnuFile";
-            this.mnuFile.Size = new System.Drawing.Size(35, 20);
+            this.mnuFile.Size = new System.Drawing.Size(37, 20);
             this.mnuFile.Text = "&File";
-            // 
-            // mnuFileNew
-            // 
-            this.mnuFileNew.Image = global::Phcc.DeviceManager.Properties.Resources.NewDocument;
-            this.mnuFileNew.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuFileNew.Name = "mnuFileNew";
-            this.mnuFileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.mnuFileNew.Size = new System.Drawing.Size(246, 22);
-            this.mnuFileNew.Text = "&New configuration file";
-            this.mnuFileNew.Click += new System.EventHandler(this.mnuFileNew_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(243, 6);
-            // 
-            // mnuFileOpen
-            // 
-            this.mnuFileOpen.Image = global::Phcc.DeviceManager.Properties.Resources.Open;
-            this.mnuFileOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuFileOpen.Name = "mnuFileOpen";
-            this.mnuFileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.mnuFileOpen.Size = new System.Drawing.Size(246, 22);
-            this.mnuFileOpen.Text = "&Open configuration file...";
-            this.mnuFileOpen.Click += new System.EventHandler(this.mnuFileOpen_Click);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(246, 6);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(243, 6);
-            // 
-            // mnuFileSave
-            // 
-            this.mnuFileSave.Image = global::Phcc.DeviceManager.Properties.Resources.Save;
-            this.mnuFileSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuFileSave.Name = "mnuFileSave";
-            this.mnuFileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.mnuFileSave.Size = new System.Drawing.Size(246, 22);
-            this.mnuFileSave.Text = "&Save";
-            this.mnuFileSave.Click += new System.EventHandler(this.mnuFileSave_Click);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(246, 6);
             // 
             // mnuFileSaveAs
             // 
             this.mnuFileSaveAs.Name = "mnuFileSaveAs";
-            this.mnuFileSaveAs.Size = new System.Drawing.Size(246, 22);
+            this.mnuFileSaveAs.Size = new System.Drawing.Size(249, 22);
             this.mnuFileSaveAs.Text = "Save &As...";
             this.mnuFileSaveAs.Click += new System.EventHandler(this.mnuFileSaveAs_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(243, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(246, 6);
             // 
             // mnuFileExit
             // 
             this.mnuFileExit.Name = "mnuFileExit";
             this.mnuFileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.mnuFileExit.Size = new System.Drawing.Size(246, 22);
+            this.mnuFileExit.Size = new System.Drawing.Size(249, 22);
             this.mnuFileExit.Text = "E&xit";
             this.mnuFileExit.Click += new System.EventHandler(this.mnuFileExit_Click);
             // 
@@ -186,25 +162,25 @@
             this.toolStripMenuItem7,
             this.mnuDevicesRemove});
             this.mnuDevices.Name = "mnuDevices";
-            this.mnuDevices.Size = new System.Drawing.Size(56, 20);
+            this.mnuDevices.Size = new System.Drawing.Size(59, 20);
             this.mnuDevices.Text = "&Devices";
             // 
             // mnuDevicesSetComPort
             // 
             this.mnuDevicesSetComPort.Name = "mnuDevicesSetComPort";
-            this.mnuDevicesSetComPort.Size = new System.Drawing.Size(181, 22);
+            this.mnuDevicesSetComPort.Size = new System.Drawing.Size(194, 22);
             this.mnuDevicesSetComPort.Text = "Set COM Port";
             this.mnuDevicesSetComPort.Click += new System.EventHandler(this.mnuDevicesSetComPort_Click);
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(178, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(191, 6);
             // 
             // mnuDevicesAddMotherboard
             // 
             this.mnuDevicesAddMotherboard.Name = "mnuDevicesAddMotherboard";
-            this.mnuDevicesAddMotherboard.Size = new System.Drawing.Size(181, 22);
+            this.mnuDevicesAddMotherboard.Size = new System.Drawing.Size(194, 22);
             this.mnuDevicesAddMotherboard.Text = "Add &motherboard...";
             this.mnuDevicesAddMotherboard.Click += new System.EventHandler(this.mnuDevicesAddMotherboard_Click);
             // 
@@ -218,90 +194,98 @@
             this.mnuDevicesAddPeripheralDoaAnOut1,
             this.mnuDevicesAddPeripheralDoaStepper});
             this.mnuDevicesAddPeripheral.Name = "mnuDevicesAddPeripheral";
-            this.mnuDevicesAddPeripheral.Size = new System.Drawing.Size(181, 22);
+            this.mnuDevicesAddPeripheral.Size = new System.Drawing.Size(194, 22);
             this.mnuDevicesAddPeripheral.Text = "Add &peripheral";
             // 
             // mnuDevicesAddPeripheralDoa40Do
             // 
             this.mnuDevicesAddPeripheralDoa40Do.Name = "mnuDevicesAddPeripheralDoa40Do";
-            this.mnuDevicesAddPeripheralDoa40Do.Size = new System.Drawing.Size(163, 22);
+            this.mnuDevicesAddPeripheralDoa40Do.Size = new System.Drawing.Size(180, 22);
             this.mnuDevicesAddPeripheralDoa40Do.Text = "DOA_40DO...";
             this.mnuDevicesAddPeripheralDoa40Do.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoa40Do_Click);
             // 
             // mnuDevicesAddPeripheralDoa7Seg
             // 
             this.mnuDevicesAddPeripheralDoa7Seg.Name = "mnuDevicesAddPeripheralDoa7Seg";
-            this.mnuDevicesAddPeripheralDoa7Seg.Size = new System.Drawing.Size(163, 22);
-            this.mnuDevicesAddPeripheralDoa7Seg.Text = "DOA_7Seg...";
+            this.mnuDevicesAddPeripheralDoa7Seg.Size = new System.Drawing.Size(180, 22);
+            this.mnuDevicesAddPeripheralDoa7Seg.Text = "DOA_7Seg";
             this.mnuDevicesAddPeripheralDoa7Seg.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoa7Seg_Click);
             // 
             // mnuDevicesAddPeripheralDoa8Servo
             // 
             this.mnuDevicesAddPeripheralDoa8Servo.Name = "mnuDevicesAddPeripheralDoa8Servo";
-            this.mnuDevicesAddPeripheralDoa8Servo.Size = new System.Drawing.Size(163, 22);
+            this.mnuDevicesAddPeripheralDoa8Servo.Size = new System.Drawing.Size(180, 22);
             this.mnuDevicesAddPeripheralDoa8Servo.Text = "DOA_8Servo...";
             this.mnuDevicesAddPeripheralDoa8Servo.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoa8Servo_Click);
             // 
             // mnuDevicesAddPeripheralDoaAircore
             // 
             this.mnuDevicesAddPeripheralDoaAircore.Name = "mnuDevicesAddPeripheralDoaAircore";
-            this.mnuDevicesAddPeripheralDoaAircore.Size = new System.Drawing.Size(163, 22);
+            this.mnuDevicesAddPeripheralDoaAircore.Size = new System.Drawing.Size(180, 22);
             this.mnuDevicesAddPeripheralDoaAircore.Text = "DOA_Aircore...";
             this.mnuDevicesAddPeripheralDoaAircore.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoaAircore_Click);
             // 
             // mnuDevicesAddPeripheralDoaAnOut1
             // 
             this.mnuDevicesAddPeripheralDoaAnOut1.Name = "mnuDevicesAddPeripheralDoaAnOut1";
-            this.mnuDevicesAddPeripheralDoaAnOut1.Size = new System.Drawing.Size(163, 22);
+            this.mnuDevicesAddPeripheralDoaAnOut1.Size = new System.Drawing.Size(180, 22);
             this.mnuDevicesAddPeripheralDoaAnOut1.Text = "DOA_AnOut1...";
             this.mnuDevicesAddPeripheralDoaAnOut1.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoaAnOut1_Click);
             // 
             // mnuDevicesAddPeripheralDoaStepper
             // 
             this.mnuDevicesAddPeripheralDoaStepper.Name = "mnuDevicesAddPeripheralDoaStepper";
-            this.mnuDevicesAddPeripheralDoaStepper.Size = new System.Drawing.Size(163, 22);
+            this.mnuDevicesAddPeripheralDoaStepper.Size = new System.Drawing.Size(180, 22);
             this.mnuDevicesAddPeripheralDoaStepper.Text = "DOA_Stepper...";
             this.mnuDevicesAddPeripheralDoaStepper.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoaStepper_Click);
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(178, 6);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(191, 6);
             // 
             // mnuDevicesCalibrate
             // 
+            this.mnuDevicesCalibrate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.calibrateServosToolStripMenuItem1,
+            this.calibrateAnalogToolStripMenuItem1,
+            this.configure7SegmentDisplayToolStripMenuItem});
             this.mnuDevicesCalibrate.Name = "mnuDevicesCalibrate";
-            this.mnuDevicesCalibrate.Size = new System.Drawing.Size(181, 22);
-            this.mnuDevicesCalibrate.Text = "&Calibrate...";
+            this.mnuDevicesCalibrate.Size = new System.Drawing.Size(194, 22);
+            this.mnuDevicesCalibrate.Text = "&Calibrate / Configure...";
             this.mnuDevicesCalibrate.Click += new System.EventHandler(this.mnuDevicesCalibrate_Click);
+            // 
+            // calibrateServosToolStripMenuItem1
+            // 
+            this.calibrateServosToolStripMenuItem1.Name = "calibrateServosToolStripMenuItem1";
+            this.calibrateServosToolStripMenuItem1.Size = new System.Drawing.Size(221, 22);
+            this.calibrateServosToolStripMenuItem1.Text = "Calibrate Servos";
+            this.calibrateServosToolStripMenuItem1.Click += new System.EventHandler(this.calibrateServosToolStripMenuItem1_Click);
+            // 
+            // calibrateAnalogToolStripMenuItem1
+            // 
+            this.calibrateAnalogToolStripMenuItem1.Name = "calibrateAnalogToolStripMenuItem1";
+            this.calibrateAnalogToolStripMenuItem1.Size = new System.Drawing.Size(221, 22);
+            this.calibrateAnalogToolStripMenuItem1.Text = "Calibrate Analog";
+            this.calibrateAnalogToolStripMenuItem1.Click += new System.EventHandler(this.calibrateAnalogToolStripMenuItem1_Click);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(178, 6);
-            // 
-            // mnuDevicesRemove
-            // 
-            this.mnuDevicesRemove.Image = global::Phcc.DeviceManager.Properties.Resources.Delete;
-            this.mnuDevicesRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuDevicesRemove.Name = "mnuDevicesRemove";
-            this.mnuDevicesRemove.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.mnuDevicesRemove.Size = new System.Drawing.Size(181, 22);
-            this.mnuDevicesRemove.Text = "&Remove...";
-            this.mnuDevicesRemove.Click += new System.EventHandler(this.mnuDevicesRemove_Click);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(191, 6);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.mnuHelpAbout_Click);
             // 
@@ -317,24 +301,24 @@
             this.toolStripMenuItem6,
             this.mnuContextRemove});
             this.ctxContext.Name = "ctxMotherboard";
-            this.ctxContext.Size = new System.Drawing.Size(182, 154);
+            this.ctxContext.Size = new System.Drawing.Size(195, 132);
             // 
             // mnuContextSetCOMPort
             // 
             this.mnuContextSetCOMPort.Name = "mnuContextSetCOMPort";
-            this.mnuContextSetCOMPort.Size = new System.Drawing.Size(181, 22);
+            this.mnuContextSetCOMPort.Size = new System.Drawing.Size(194, 22);
             this.mnuContextSetCOMPort.Text = "&Set COM Port...";
             this.mnuContextSetCOMPort.Click += new System.EventHandler(this.mnuContextSetComPort_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(178, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(191, 6);
             // 
             // mnuContextAddMotherboard
             // 
             this.mnuContextAddMotherboard.Name = "mnuContextAddMotherboard";
-            this.mnuContextAddMotherboard.Size = new System.Drawing.Size(181, 22);
+            this.mnuContextAddMotherboard.Size = new System.Drawing.Size(194, 22);
             this.mnuContextAddMotherboard.Text = "Add &Motherboard...";
             this.mnuContextAddMotherboard.Click += new System.EventHandler(this.mnuContextAddMotherboard_Click);
             // 
@@ -348,67 +332,125 @@
             this.mnuContextAddPeripheralDoa7Seg,
             this.mnuContextAddPeripheralDoa8Servo});
             this.mnuContextAddPeripheral.Name = "mnuContextAddPeripheral";
-            this.mnuContextAddPeripheral.Size = new System.Drawing.Size(181, 22);
+            this.mnuContextAddPeripheral.Size = new System.Drawing.Size(194, 22);
             this.mnuContextAddPeripheral.Text = "Add &Peripheral...";
             // 
             // mnuContextAddPeripheralDoa40do
             // 
             this.mnuContextAddPeripheralDoa40do.Name = "mnuContextAddPeripheralDoa40do";
-            this.mnuContextAddPeripheralDoa40do.Size = new System.Drawing.Size(163, 22);
+            this.mnuContextAddPeripheralDoa40do.Size = new System.Drawing.Size(154, 22);
             this.mnuContextAddPeripheralDoa40do.Text = "DOA_40DO...";
             this.mnuContextAddPeripheralDoa40do.Click += new System.EventHandler(this.mnuContextAddPeripheralDoa40Do_Click);
             // 
             // mnuContextAddPeripheralDoaAircore
             // 
             this.mnuContextAddPeripheralDoaAircore.Name = "mnuContextAddPeripheralDoaAircore";
-            this.mnuContextAddPeripheralDoaAircore.Size = new System.Drawing.Size(163, 22);
+            this.mnuContextAddPeripheralDoaAircore.Size = new System.Drawing.Size(154, 22);
             this.mnuContextAddPeripheralDoaAircore.Text = "DOA_Aircore...";
             this.mnuContextAddPeripheralDoaAircore.Click += new System.EventHandler(this.mnuContextAddPeripheralDoaAircore_Click);
             // 
             // mnuContextAddPeripheralDoaStepper
             // 
             this.mnuContextAddPeripheralDoaStepper.Name = "mnuContextAddPeripheralDoaStepper";
-            this.mnuContextAddPeripheralDoaStepper.Size = new System.Drawing.Size(163, 22);
+            this.mnuContextAddPeripheralDoaStepper.Size = new System.Drawing.Size(154, 22);
             this.mnuContextAddPeripheralDoaStepper.Text = "DOA_Stepper...";
             this.mnuContextAddPeripheralDoaStepper.Click += new System.EventHandler(this.mnuContextAddPeripheralDoaStepper_Click);
             // 
             // mnuContextAddPeripheralDoaAnOut1
             // 
             this.mnuContextAddPeripheralDoaAnOut1.Name = "mnuContextAddPeripheralDoaAnOut1";
-            this.mnuContextAddPeripheralDoaAnOut1.Size = new System.Drawing.Size(163, 22);
+            this.mnuContextAddPeripheralDoaAnOut1.Size = new System.Drawing.Size(154, 22);
             this.mnuContextAddPeripheralDoaAnOut1.Text = "DOA_AnOut1...";
             this.mnuContextAddPeripheralDoaAnOut1.Click += new System.EventHandler(this.mnuContextAddPeripheralDoaAnOut1_Click);
             // 
             // mnuContextAddPeripheralDoa7Seg
             // 
             this.mnuContextAddPeripheralDoa7Seg.Name = "mnuContextAddPeripheralDoa7Seg";
-            this.mnuContextAddPeripheralDoa7Seg.Size = new System.Drawing.Size(163, 22);
-            this.mnuContextAddPeripheralDoa7Seg.Text = "DOA_7Seg...";
+            this.mnuContextAddPeripheralDoa7Seg.Size = new System.Drawing.Size(154, 22);
+            this.mnuContextAddPeripheralDoa7Seg.Text = "DOA_7Seg";
             this.mnuContextAddPeripheralDoa7Seg.Click += new System.EventHandler(this.mnuContextAddPeripheralDoa7Seg_Click);
             // 
             // mnuContextAddPeripheralDoa8Servo
             // 
             this.mnuContextAddPeripheralDoa8Servo.Name = "mnuContextAddPeripheralDoa8Servo";
-            this.mnuContextAddPeripheralDoa8Servo.Size = new System.Drawing.Size(163, 22);
+            this.mnuContextAddPeripheralDoa8Servo.Size = new System.Drawing.Size(154, 22);
             this.mnuContextAddPeripheralDoa8Servo.Text = "DOA_8Servo...";
             this.mnuContextAddPeripheralDoa8Servo.Click += new System.EventHandler(this.mnuContextAddPeripheralDoa8Servo_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(178, 6);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(191, 6);
             // 
             // mnuContextCalibrate
             // 
+            this.mnuContextCalibrate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.calibrateServosToolStripMenuItem,
+            this.calibrateAnalogToolStripMenuItem,
+            this.configure7SegmentDisplayToolStripMenuItem1});
             this.mnuContextCalibrate.Name = "mnuContextCalibrate";
-            this.mnuContextCalibrate.Size = new System.Drawing.Size(181, 22);
-            this.mnuContextCalibrate.Text = "&Calibrate...";
+            this.mnuContextCalibrate.Size = new System.Drawing.Size(194, 22);
+            this.mnuContextCalibrate.Text = "&Calibrate / Configure...";
             this.mnuContextCalibrate.Click += new System.EventHandler(this.mnuContextCalibrate_Click);
+            // 
+            // calibrateServosToolStripMenuItem
+            // 
+            this.calibrateServosToolStripMenuItem.Name = "calibrateServosToolStripMenuItem";
+            this.calibrateServosToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.calibrateServosToolStripMenuItem.Text = "Calibrate Servos";
+            this.calibrateServosToolStripMenuItem.Click += new System.EventHandler(this.calibrateServosToolStripMenuItem_Click);
+            // 
+            // calibrateAnalogToolStripMenuItem
+            // 
+            this.calibrateAnalogToolStripMenuItem.Name = "calibrateAnalogToolStripMenuItem";
+            this.calibrateAnalogToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.calibrateAnalogToolStripMenuItem.Text = "Calibrate Analog";
+            this.calibrateAnalogToolStripMenuItem.Click += new System.EventHandler(this.calibrateAnalogToolStripMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(178, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(191, 6);
+            // 
+            // mnuFileNew
+            // 
+            this.mnuFileNew.Image = global::Phcc.DeviceManager.Properties.Resources.NewDocument;
+            this.mnuFileNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuFileNew.Name = "mnuFileNew";
+            this.mnuFileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.mnuFileNew.Size = new System.Drawing.Size(249, 22);
+            this.mnuFileNew.Text = "&New configuration file";
+            this.mnuFileNew.Click += new System.EventHandler(this.mnuFileNew_Click);
+            // 
+            // mnuFileOpen
+            // 
+            this.mnuFileOpen.Image = global::Phcc.DeviceManager.Properties.Resources.Open;
+            this.mnuFileOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuFileOpen.Name = "mnuFileOpen";
+            this.mnuFileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.mnuFileOpen.Size = new System.Drawing.Size(249, 22);
+            this.mnuFileOpen.Text = "&Open configuration file...";
+            this.mnuFileOpen.Click += new System.EventHandler(this.mnuFileOpen_Click);
+            // 
+            // mnuFileSave
+            // 
+            this.mnuFileSave.Image = global::Phcc.DeviceManager.Properties.Resources.Save;
+            this.mnuFileSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuFileSave.Name = "mnuFileSave";
+            this.mnuFileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.mnuFileSave.Size = new System.Drawing.Size(249, 22);
+            this.mnuFileSave.Text = "&Save";
+            this.mnuFileSave.Click += new System.EventHandler(this.mnuFileSave_Click);
+            // 
+            // mnuDevicesRemove
+            // 
+            this.mnuDevicesRemove.Image = global::Phcc.DeviceManager.Properties.Resources.Delete;
+            this.mnuDevicesRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuDevicesRemove.Name = "mnuDevicesRemove";
+            this.mnuDevicesRemove.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.mnuDevicesRemove.Size = new System.Drawing.Size(194, 22);
+            this.mnuDevicesRemove.Text = "&Remove...";
+            this.mnuDevicesRemove.Click += new System.EventHandler(this.mnuDevicesRemove_Click);
             // 
             // mnuContextRemove
             // 
@@ -416,9 +458,23 @@
             this.mnuContextRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuContextRemove.Name = "mnuContextRemove";
             this.mnuContextRemove.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.mnuContextRemove.Size = new System.Drawing.Size(181, 22);
+            this.mnuContextRemove.Size = new System.Drawing.Size(194, 22);
             this.mnuContextRemove.Text = "Remove...";
             this.mnuContextRemove.Click += new System.EventHandler(this.mnuContextRemove_Click);
+            // 
+            // configure7SegmentDisplayToolStripMenuItem
+            // 
+            this.configure7SegmentDisplayToolStripMenuItem.Name = "configure7SegmentDisplayToolStripMenuItem";
+            this.configure7SegmentDisplayToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.configure7SegmentDisplayToolStripMenuItem.Text = "Configure 7SegmentDisplay";
+            this.configure7SegmentDisplayToolStripMenuItem.Click += new System.EventHandler(this.configure7SegmentDisplayToolStripMenuItem_Click);
+            // 
+            // configure7SegmentDisplayToolStripMenuItem1
+            // 
+            this.configure7SegmentDisplayToolStripMenuItem1.Name = "configure7SegmentDisplayToolStripMenuItem1";
+            this.configure7SegmentDisplayToolStripMenuItem1.Size = new System.Drawing.Size(221, 22);
+            this.configure7SegmentDisplayToolStripMenuItem1.Text = "Configure 7SegmentDisplay";
+            this.configure7SegmentDisplayToolStripMenuItem1.Click += new System.EventHandler(this.configure7SegmentDisplayToolStripMenuItem1_Click);
             // 
             // frmPhccDeviceManager
             // 
@@ -489,6 +545,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
         private System.Windows.Forms.ToolStripMenuItem mnuDevicesCalibrate;
-
+        private System.Windows.Forms.ToolStripMenuItem calibrateServosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem calibrateAnalogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem calibrateServosToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem calibrateAnalogToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem configure7SegmentDisplayToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configure7SegmentDisplayToolStripMenuItem1;
     }
 }

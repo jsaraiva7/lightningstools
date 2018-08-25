@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhccDeviceManager", "PhccDeviceManager.csproj", "{52AB07AF-C7BB-4586-BC5E-34759831CB08}"
 EndProject
@@ -18,6 +18,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Win32", "..\Common\Win32\Common.Win32.csproj", "{188090E9-8B00-457B-85EB-F48BCDD94B0B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Drawing", "..\Common\Drawing\Common.Drawing.csproj", "{5649A340-1475-4116-B5A1-CD21A99387F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.HardwareSupport", "..\Common\HardwareSupport\Common.HardwareSupport.csproj", "{B8FCC824-2B39-4637-A447-64D60CF60811}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.MacroProgramming", "..\Common\MacroProgramming\Common.MacroProgramming.csproj", "{320431C6-2454-4D95-8D3C-D27C8E2288E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhccHardwareSupportModule", "..\PhccHardwareSupportModule\PhccHardwareSupportModule.csproj", "{C3DD6CB1-824C-4DDF-A44D-486A31BE432E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhccConfiguration", "..\SimLinkup\PhccConfiguration\PhccConfiguration.csproj", "{8430A972-E6DB-4782-AEB2-4FCEF8F52CE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +61,22 @@ Global
 		{5649A340-1475-4116-B5A1-CD21A99387F5}.Debug|x86.Build.0 = Debug|x86
 		{5649A340-1475-4116-B5A1-CD21A99387F5}.Release|x86.ActiveCfg = Release|x86
 		{5649A340-1475-4116-B5A1-CD21A99387F5}.Release|x86.Build.0 = Release|x86
+		{B8FCC824-2B39-4637-A447-64D60CF60811}.Debug|x86.ActiveCfg = Debug|x86
+		{B8FCC824-2B39-4637-A447-64D60CF60811}.Debug|x86.Build.0 = Debug|x86
+		{B8FCC824-2B39-4637-A447-64D60CF60811}.Release|x86.ActiveCfg = Release|x86
+		{B8FCC824-2B39-4637-A447-64D60CF60811}.Release|x86.Build.0 = Release|x86
+		{320431C6-2454-4D95-8D3C-D27C8E2288E9}.Debug|x86.ActiveCfg = Debug|x86
+		{320431C6-2454-4D95-8D3C-D27C8E2288E9}.Debug|x86.Build.0 = Debug|x86
+		{320431C6-2454-4D95-8D3C-D27C8E2288E9}.Release|x86.ActiveCfg = Release|x86
+		{320431C6-2454-4D95-8D3C-D27C8E2288E9}.Release|x86.Build.0 = Release|x86
+		{C3DD6CB1-824C-4DDF-A44D-486A31BE432E}.Debug|x86.ActiveCfg = Debug|x86
+		{C3DD6CB1-824C-4DDF-A44D-486A31BE432E}.Debug|x86.Build.0 = Debug|x86
+		{C3DD6CB1-824C-4DDF-A44D-486A31BE432E}.Release|x86.ActiveCfg = Release|x86
+		{C3DD6CB1-824C-4DDF-A44D-486A31BE432E}.Release|x86.Build.0 = Release|x86
+		{8430A972-E6DB-4782-AEB2-4FCEF8F52CE0}.Debug|x86.ActiveCfg = Debug|x86
+		{8430A972-E6DB-4782-AEB2-4FCEF8F52CE0}.Debug|x86.Build.0 = Debug|x86
+		{8430A972-E6DB-4782-AEB2-4FCEF8F52CE0}.Release|x86.ActiveCfg = Release|x86
+		{8430A972-E6DB-4782-AEB2-4FCEF8F52CE0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,5 +87,10 @@ Global
 		{3FC238BA-7FC2-47AE-AE45-7CF199EDBE08} = {6B86BCE6-25E2-4946-A5F6-310F3539A635}
 		{188090E9-8B00-457B-85EB-F48BCDD94B0B} = {6B86BCE6-25E2-4946-A5F6-310F3539A635}
 		{5649A340-1475-4116-B5A1-CD21A99387F5} = {6B86BCE6-25E2-4946-A5F6-310F3539A635}
+		{B8FCC824-2B39-4637-A447-64D60CF60811} = {6B86BCE6-25E2-4946-A5F6-310F3539A635}
+		{320431C6-2454-4D95-8D3C-D27C8E2288E9} = {6B86BCE6-25E2-4946-A5F6-310F3539A635}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F090A30-E6AF-4C03-8DEE-E58609A576DD}
 	EndGlobalSection
 EndGlobal

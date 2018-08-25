@@ -45,7 +45,7 @@ namespace SimLinkup.UI.UserControls
             ? lvSignals.SelectedItems[0]
             : null;
 
-        private Signal SelectedSignal => SignalFor(SelectedListViewItem);
+        public Signal SelectedSignal => SignalFor(SelectedListViewItem);
 
         public void UpdateContents()
         {

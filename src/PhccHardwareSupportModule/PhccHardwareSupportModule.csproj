@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C3DD6CB1-824C-4DDF-A44D-486A31BE432E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PhccHardwareSupportModule</RootNamespace>
+    <AssemblyName>PhccHardwareSupportModule</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <Optimize>false</Optimize>
+    <OutputPath>..\SimLinkup\bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <Optimize>true</Optimize>
+    <OutputPath>..\SimLinkup\bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Phcc\PhccHardwareSupportModule.cs" />
+    <Compile Include="Phcc\PhccHardwareSupportModuleConfig.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{aba9cc75-b778-4e46-a6f6-afec27f2eb59}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\HardwareSupport\Common.HardwareSupport.csproj">
+      <Project>{b8fcc824-2b39-4637-a447-64d60cf60811}</Project>
+      <Name>Common.HardwareSupport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\MacroProgramming\Common.MacroProgramming.csproj">
+      <Project>{320431c6-2454-4d95-8d3c-d27c8e2288e9}</Project>
+      <Name>Common.MacroProgramming</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PHCC\PHCC.csproj">
+      <Project>{75fa2030-c9ca-4b2d-8534-8f48eea13ca3}</Project>
+      <Name>PHCC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimLinkup\PhccConfiguration\PhccConfiguration.csproj">
+      <Project>{8430a972-e6db-4782-aeb2-4fcef8f52ce0}</Project>
+      <Name>PhccConfiguration</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FodyWeavers.xml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este projeto faz referência a pacotes do NuGet que não estão presentes neste computador. Use a Restauração de Pacotes do NuGet para baixá-los.  Para obter mais informações, consulte http://go.microsoft.com/fwlink/?LinkID=322105. O arquivo ausente é {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets'))" />
+  </Target>
+  <Import Project="$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets" Condition="Exists('$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets')" />
+  <Import Project="$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets" Condition="Exists('$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets')" />
+</Project>

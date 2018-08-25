@@ -138,8 +138,6 @@
     <Compile Include="HardwareSupport\Lilbern\Lilbern3239HardwareSupportModule.cs" />
     <Compile Include="HardwareSupport\Malwin\Malwin19581HardwareSupportModule.cs" />
     <Compile Include="HardwareSupport\Malwin\Malwin246102HardwareSupportModule.cs" />
-    <Compile Include="HardwareSupport\Phcc\PhccHardwareSupportModule.cs" />
-    <Compile Include="HardwareSupport\Phcc\PhccHardwareSupportModuleConfig.cs" />
     <Compile Include="HardwareSupport\Powell\DrawBlipsCommand.cs" />
     <Compile Include="HardwareSupport\Powell\FalconRWRSymbol.cs" />
     <Compile Include="HardwareSupport\Powell\FalconRWRSymbolTranslator.cs" />
@@ -426,7 +424,6 @@
     </Content>
     <Content Include="Content\Mapping\PHCC\phcc.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
     <Content Include="Content\Mapping\Nigel\AMI900158001horizontalsituationindicator.mapping">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

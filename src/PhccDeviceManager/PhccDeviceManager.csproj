@@ -71,29 +71,38 @@
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+	<Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\Doa40Do.cs" />
-    <Compile Include="Config\Doa7Seg.cs" />
-    <Compile Include="Config\Doa8Servo.cs" />
-    <Compile Include="Config\DoaAirCore.cs" />
-    <Compile Include="Config\DoaAnOut1.cs" />
-    <Compile Include="Config\DoaStepper.cs" />
-    <Compile Include="Config\PhccConfigElement.cs" />
-    <Compile Include="Config\ConfigurationManager.cs" />
-    <Compile Include="Config\Motherboard.cs" />
-    <Compile Include="Config\Peripheral.cs" />
-    <Compile Include="Config\ServoCalibration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CalibrationList.resx">
+      <DependentUpon>CalibrationList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CalibrationSelect.resx">
+      <DependentUpon>CalibrationSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Doa7SegConfig\Doa7SegConfigList.resx">
+      <DependentUpon>Doa7SegConfigList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Doa7SegConfig\Doa7SegmentModeSelector.resx">
+      <DependentUpon>Doa7SegmentModeSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\frmCalibrateSignal .resx">
+      <DependentUpon>frmCalibrateSignal .cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\frmCalibrateServo.resx">
@@ -134,6 +143,36 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UI\CalibrationList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\CalibrationList.Designer.cs">
+      <DependentUpon>CalibrationList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\CalibrationSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\CalibrationSelect.Designer.cs">
+      <DependentUpon>CalibrationSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Doa7SegConfig\Doa7SegConfigList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Doa7SegConfig\Doa7SegConfigList.Designer.cs">
+      <DependentUpon>Doa7SegConfigList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Doa7SegConfig\Doa7SegmentModeSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Doa7SegConfig\Doa7SegmentModeSelector.Designer.cs">
+      <DependentUpon>Doa7SegmentModeSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\frmCalibrateSignal .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\frmCalibrateSignal .Designer.cs">
+      <DependentUpon>frmCalibrateSignal .cs</DependentUpon>
     </Compile>
     <Compile Include="UI\frmCalibrateServo.cs">
       <SubType>Form</SubType>
@@ -181,13 +220,29 @@
       <Project>{ABA9CC75-B778-4E46-A6F6-AFEC27F2EB59}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Common\HardwareSupport\Common.HardwareSupport.csproj">
+      <Project>{b8fcc824-2b39-4637-a447-64d60cf60811}</Project>
+      <Name>Common.HardwareSupport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\MacroProgramming\Common.MacroProgramming.csproj">
+      <Project>{320431c6-2454-4d95-8d3c-d27c8e2288e9}</Project>
+      <Name>Common.MacroProgramming</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\UI\Common.UI.csproj">
       <Project>{3fc238ba-7fc2-47ae-ae45-7cf199edbe08}</Project>
       <Name>Common.UI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PhccHardwareSupportModule\PhccHardwareSupportModule.csproj">
+      <Project>{c3dd6cb1-824c-4ddf-a44d-486a31be432e}</Project>
+      <Name>PhccHardwareSupportModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PHCC\PHCC.csproj">
       <Project>{75FA2030-C9CA-4B2D-8534-8F48EEA13CA3}</Project>
       <Name>PHCC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimLinkup\PhccConfiguration\PhccConfiguration.csproj">
+      <Project>{8430a972-e6db-4782-aeb2-4fcef8f52ce0}</Project>
+      <Name>PhccConfiguration</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Common.MacroProgramming;
 using log4net;
-using Phcc.DeviceManager.Config;
+using Phcc.DeviceManager.UI.Doa7SegConfig;
+using PhccConfiguration.Config;
 
 namespace Phcc.DeviceManager.UI
 {
@@ -13,7 +16,7 @@ namespace Phcc.DeviceManager.UI
         #region Class variables
 
         private static readonly ILog _log = LogManager.GetLogger(typeof (frmPhccDeviceManager));
-
+        private List<PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule> _hsm;
         #endregion
 
         #region Instance variables
@@ -41,7 +44,7 @@ namespace Phcc.DeviceManager.UI
             {
                 var currentNodeData = currentNode.Tag;
                 if (currentNodeData is Motherboard)
-                {
+                {                 
                     return (Motherboard) currentNodeData;
                 }
                 else
@@ -100,6 +103,33 @@ namespace Phcc.DeviceManager.UI
             return basicHexRep;
         }
 
+        private void RefreshPhccHsm()
+        {
+            if (_hsm == null)
+            {
+                _hsm = new List<PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule>();
+                foreach (var mb in _configMgr.Motherboards)
+                {
+                    _hsm.Add(PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule.GetModuleForCalibration(mb));
+                }
+                
+            }
+            else
+            {
+                foreach (var hsm in _hsm)
+                {
+                    hsm.Dispose();
+                }
+                _hsm = new List<PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule>();
+                foreach (var mb in _configMgr.Motherboards)
+                {
+                    _hsm.Add(PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule.GetModuleForCalibration(mb));
+                }
+            }
+
+
+        }
+
         private void RenderCurrentConfiguration()
         {
             SetTitleText();
@@ -130,8 +160,8 @@ namespace Phcc.DeviceManager.UI
                             }
                             else if (p is Doa7Seg)
                             {
-                                tn.Text = "DOA_7Seg - 7-segment display driver card @ " + deviceAddress;
-                            }
+                                tn.Text = "DOA_7Seg - 7-segment display driver card (BIT MODE) @ " + deviceAddress;
+                            }                          
                             else if (p is Doa8Servo)
                             {
                                 tn.Text = "DOA_8Servo - Servo motor driver card @ " + deviceAddress;
@@ -154,6 +184,7 @@ namespace Phcc.DeviceManager.UI
                                 motherboardNode.Nodes.Add(tn);
                             }
                         }
+                        RefreshPhccHsm();
                     }
                 }
             }
@@ -296,6 +327,12 @@ namespace Phcc.DeviceManager.UI
         private void EnableDisableUIElements()
         {
             mnuContextCalibrate.Enabled = false;
+            calibrateServosToolStripMenuItem1.Enabled = false;
+            calibrateAnalogToolStripMenuItem1.Enabled = false;
+            calibrateServosToolStripMenuItem.Enabled = false;
+            calibrateAnalogToolStripMenuItem.Enabled = false;
+            configure7SegmentDisplayToolStripMenuItem1.Enabled = false;
+            configure7SegmentDisplayToolStripMenuItem.Enabled = false;
             mnuDevicesCalibrate.Enabled = false;
             mnuDevicesSetComPort.Enabled = false;
             mnuContextSetCOMPort.Enabled = false;
@@ -312,12 +349,48 @@ namespace Phcc.DeviceManager.UI
                     {
                         mnuDevicesCalibrate.Enabled = true;
                         mnuContextCalibrate.Enabled = true;
+                        calibrateServosToolStripMenuItem1.Enabled = true;
+                        calibrateServosToolStripMenuItem.Enabled = true;
+
                     }
                     else if (selectedNodeData is Motherboard)
                     {
                         mnuDevicesSetComPort.Enabled = true;
                         mnuContextSetCOMPort.Enabled = true;
                     }
+                    if (selectedNodeData is DoaAirCore)
+                    {
+                        mnuDevicesCalibrate.Enabled = true;
+                        mnuContextCalibrate.Enabled = true;
+                        calibrateAnalogToolStripMenuItem1.Enabled = true;
+                        calibrateAnalogToolStripMenuItem.Enabled = true;
+
+                    }
+                    if (selectedNodeData is DoaStepper)
+                    {
+                        mnuDevicesCalibrate.Enabled = true;
+                        mnuContextCalibrate.Enabled = true;
+                        calibrateAnalogToolStripMenuItem1.Enabled = true;
+                        calibrateAnalogToolStripMenuItem.Enabled = true;
+
+                    }
+                    if (selectedNodeData is DoaAnOut1)
+                    {
+                        mnuDevicesCalibrate.Enabled = true;
+                        mnuContextCalibrate.Enabled = true;
+                        calibrateAnalogToolStripMenuItem1.Enabled = true;
+                        calibrateAnalogToolStripMenuItem.Enabled = true;
+
+                    }
+                    if (selectedNodeData is Doa7Seg)
+                    {
+                        mnuDevicesCalibrate.Enabled = true;
+                        mnuContextCalibrate.Enabled = true;
+                        configure7SegmentDisplayToolStripMenuItem1.Enabled = true;
+                        configure7SegmentDisplayToolStripMenuItem.Enabled = true;
+
+                    }
+
                 }
                 if (selectedMotherboard != null)
                 {
@@ -485,6 +558,54 @@ namespace Phcc.DeviceManager.UI
             }
         }
 
+        private void CalibrateAnalog()
+        {
+            var selectedNode = tvDevicesAndPeripherals.SelectedNode;
+            if (selectedNode != null)
+            {
+                var selectedNodeData = selectedNode.Tag;
+                if (selectedNodeData != null)
+                {
+                    var dev = selectedNodeData as Peripheral;
+
+                    var test = _hsm.SelectMany(x=> x.AnalogOutputs).Where(x =>
+                         Convert.ToByte(x.SubSourceAddress.Replace("0x", ""),16) == dev.Address)
+                        .ToList();
+
+                    List<Signal> lst = new List<Signal>();
+                    foreach (var analogSignal in test)
+                    {
+                        lst.Add(analogSignal);
+                    }
+                    CalibrationSelect p = new CalibrationSelect(lst, _hsm.SelectMany(x=> x.DigitalInputs).ToList(), dev);
+                 
+
+                    if (selectedNodeData is DoaAirCore )
+                    {
+                        var board = selectedNodeData as DoaAirCore;
+                        board.OutputConfigs = p.OutputConfigs;
+
+                    }
+                    else if (selectedNodeData is Doa8Servo)
+                    {
+                        var board = selectedNodeData as Doa8Servo;
+                        board.OutputConfigs = p.OutputConfigs;
+                    }
+                    else if (selectedNodeData is DoaAnOut1)
+                    {
+                        var board = selectedNodeData as DoaAnOut1;
+                        board.OutputConfigs = p.OutputConfigs;
+                    }
+                    else if (selectedNodeData is DoaStepper)
+                    {
+                        var board = selectedNodeData as DoaStepper;
+                        board.OutputConfigs = p.OutputConfigs;
+                    }
+                    p.ShowDialog();
+                }
+            }
+        }
+
         private void mnuContextAddMotherboard_Click(object sender, EventArgs e)
         {
             AddMotherboard();
@@ -592,7 +713,7 @@ namespace Phcc.DeviceManager.UI
 
         private void mnuContextCalibrate_Click(object sender, EventArgs e)
         {
-            Calibrate();
+           
         }
 
         #endregion
@@ -613,7 +734,6 @@ namespace Phcc.DeviceManager.UI
         {
             AddNewPeripheral<Doa7Seg>();
         }
-
         private void mnuDevicesAddPeripheralDoa8Servo_Click(object sender, EventArgs e)
         {
             AddNewPeripheral<Doa8Servo>();
@@ -641,7 +761,7 @@ namespace Phcc.DeviceManager.UI
 
         private void mnuDevicesCalibrate_Click(object sender, EventArgs e)
         {
-            Calibrate();
+            
         }
 
         private void mnuDevicesRemove_Click(object sender, EventArgs e)
@@ -703,5 +823,58 @@ namespace Phcc.DeviceManager.UI
         }
 
         #endregion
+
+        private void calibrateServosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Calibrate();
+        }
+
+        private void calibrateServosToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Calibrate();
+        }
+
+        private void calibrateAnalogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CalibrateAnalog();
+        }
+
+        private void calibrateAnalogToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            CalibrateAnalog();
+        }
+
+        private void configure7SegmentDisplayToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Config7Segment();
+        }
+
+        private void configure7SegmentDisplayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Config7Segment();
+        }
+
+        private void Config7Segment()
+        {
+            var selectedNode = tvDevicesAndPeripherals.SelectedNode;
+            if (selectedNode != null)
+            {
+                var selectedNodeData = selectedNode.Tag;
+                if (selectedNodeData != null)
+                {
+                    if (selectedNodeData is Doa7Seg)
+                    {
+                        var board = selectedNodeData as Doa7Seg;                       
+                        Doa7SegConfigList p = new Doa7SegConfigList(board.Configuration);
+                        p.ShowDialog();
+                        board.Configuration = p.Configuration;
+                        p.Dispose();
+                    }
+                    
+                    
+                }
+            }
+        }
+
     }
 }
