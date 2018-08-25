@@ -25,11 +25,34 @@ namespace PhccConfiguration.Config.ConfigClasses
     public sealed class SegmentDisplayConfig
     {
         public int NumDisplays { get; set; }
-
+        public DisplayType DisplayType { get; set; }
         public int FirstPin { get; set; }
 
-        public int TotalPins => NumDisplays * 7;
+        public int TotalPins
+        {
+            get
+            {
+                if (DisplayType == DisplayType.SevenSegment)
+                {
+                    return NumDisplays * 8;
+                }
+                else if (DisplayType == DisplayType.FourteenSegment)
+                {
+                    return NumDisplays * 15;
+                }
+                else
+                {
+                    return NumDisplays * 8;
+                }
+            }
+        }
 
     }
-    
+
+    public enum DisplayType
+    {
+        SevenSegment,
+        FourteenSegment,
+
+    }
 }

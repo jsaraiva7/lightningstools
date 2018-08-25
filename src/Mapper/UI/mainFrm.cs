@@ -16,7 +16,7 @@ namespace Mapper.UI
         private readonly ILog _log = LogManager.GetLogger(typeof(Form));
         private Models.Mapping.MappingProfile _profile { get; set; }
         private SignalMapping _selectedMapping;
-      
+       
         //f
         public static SimLinkup.Runtime.Runtime SharedRuntime { get; set; }
 
@@ -47,9 +47,18 @@ namespace Mapper.UI
 
         private void newMappingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SharedRuntime = new SimLinkup.Runtime.Runtime();
-            _profile.SignalMappings = new List<SignalMapping>();
-            RefreshMappings();
+            if (_profile.SignalMappings.Any())
+            {
+                var result =
+                    MessageBox.Show("This will delete your current Mapping. Are you sure? ",
+                        "", MessageBoxButtons.OKCancel);
+                if (result == DialogResult.OK)
+                {
+                    SharedRuntime = new SimLinkup.Runtime.Runtime();
+                    _profile.SignalMappings = new List<SignalMapping>();
+                    RefreshMappings();
+                }
+            }
         }
 
         private void RefreshMappings()
@@ -60,29 +69,53 @@ namespace Mapper.UI
         }
         private void loadMappingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SharedRuntime = new SimLinkup.Runtime.Runtime();
-            DialogResult result = openFileDialog1.ShowDialog();
-            if (result == DialogResult.OK) // Test result.
+            if (_profile.SignalMappings.Any())
             {
-                try
+                var result2 =
+                    MessageBox.Show("This will delete your current Mapping. Are you sure? ",
+                        "", MessageBoxButtons.OKCancel);
+                if (result2 == DialogResult.OK)
                 {
-                    _profile = global::Mapper.Models.Mapping.MappingProfile.Load(openFileDialog1.FileName);
-                    var prof = SimLinkup.Signals.MappingProfile.Load(openFileDialog1.FileName);
-                    foreach (var profile in prof.SignalMappings)
+                    SharedRuntime = new SimLinkup.Runtime.Runtime();
+                    DialogResult result = openFileDialog1.ShowDialog();
+                    if (result == DialogResult.OK) // Test result.
                     {
-                        SharedRuntime.Mappings.ToList().Remove(profile);
+                        LoadMapping();
                     }
-                    RefreshMappings();
-                    this.Text = new FileInfo(openFileDialog1.FileName)?.Name;
                 }
-                catch (Exception exception)
+                
+            }
+            else
+            {
+                SharedRuntime = new SimLinkup.Runtime.Runtime();
+                DialogResult result = openFileDialog1.ShowDialog();
+                if (result == DialogResult.OK) // Test result.
                 {
-                    _log.Error(exception);
+                    LoadMapping();
                 }
             }
+            
            
         }
 
+        private void LoadMapping()
+        {
+            try
+            {
+                _profile = global::Mapper.Models.Mapping.MappingProfile.Load(openFileDialog1.FileName);
+                var prof = SimLinkup.Signals.MappingProfile.Load(openFileDialog1.FileName);
+                foreach (var profile in prof.SignalMappings)
+                {
+                    SharedRuntime.Mappings.ToList().Remove(profile);
+                }
+                RefreshMappings();
+                this.Text = new FileInfo(openFileDialog1.FileName)?.Name;
+            }
+            catch (Exception exception)
+            {
+                _log.Error(exception);
+            }
+        }
         private void saveMappingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_profile.SignalMappings.Count > 0)
@@ -91,15 +124,7 @@ namespace Mapper.UI
                 DialogResult result = saveFileDialog1.ShowDialog();
                 if (result == DialogResult.OK) // Test result.
                 {
-                    try
-                    {
-                        _profile.Save(saveFileDialog1.FileName);
-                    }
-                    catch (Exception exception)
-                    {
-                        _log.Error(exception);
-                    }
-                   
+                    SaveMapping();
                 }
             }
             else
@@ -107,6 +132,19 @@ namespace Mapper.UI
                 MessageBox.Show("Current Mapping is Empty!");
             }
             SharedRuntime = new SimLinkup.Runtime.Runtime();
+        }
+
+        private void SaveMapping()
+        {
+            try
+            {
+                ValidateProfile();
+                _profile.Save(saveFileDialog1.FileName);
+            }
+            catch (Exception exception)
+            {
+                _log.Error(exception);
+            }
         }
 
         private void _mappingDisplay_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -179,9 +217,14 @@ namespace Mapper.UI
 
         private void validateToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ValidateProfile();
+        }
+
+        private void ValidateProfile()
+        {
             var error = false;
             var validation = ValidateMappingList(_profile.SignalMappings, out error);
-            
+
             if (error)
             {
                 new MappingError(validation).ShowDialog();
@@ -190,7 +233,6 @@ namespace Mapper.UI
             {
                 new MappingError("Mapping Configuration appears to be OK!").ShowDialog();
             }
-           
         }
 
         private string ValidateMappingList(List<SignalMapping> mapList, out bool error) 
@@ -257,7 +299,13 @@ namespace Mapper.UI
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
-        }
+            var result2 =
+                MessageBox.Show("Are you sure you saved your mapping? ",
+                    "", MessageBoxButtons.OKCancel);
+            if (result2 == DialogResult.OK)
+            {
+                Application.Exit();
+            }
+         }
     }
 }

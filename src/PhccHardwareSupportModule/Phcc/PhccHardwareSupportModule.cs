@@ -431,7 +431,7 @@ namespace PhccHardwareSupportModule.Phcc
             }
 
         }
-
+        //todo: add logic to handle 7 segment mode
         private void DOA7SegBitOutputSignalChanged(object sender, DigitalSignalChangedEventArgs args)
         {
             var source = sender as DigitalSignal;
