@@ -13,11 +13,13 @@ namespace Phcc.DeviceManager.UI
         }
 
         public byte BaseAddress { get; set; }
+        public string FriendlyName { get; set; }
         public List<byte> ProhibitedBaseAddresses { get; set; }
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
             var wasValid = ValidateBaseAddress();
+            FriendlyName = tbFriendlyName.Text;
             if (wasValid)
             {
                 DialogResult = DialogResult.OK;

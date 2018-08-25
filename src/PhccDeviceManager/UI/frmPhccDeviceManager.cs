@@ -139,13 +139,15 @@ namespace Phcc.DeviceManager.UI
                 foreach (var motherboard in _configMgr.Motherboards)
                 {
                     var comPort = "Unknown COM port";
+                    var mName = "";
                     if (motherboard != null && !string.IsNullOrEmpty(motherboard.ComPort))
                     {
                         comPort = motherboard.ComPort;
+                        mName = motherboard.Name;
                     }
                     var tn = new TreeNode();
                     tn.Tag = motherboard;
-                    tn.Text = "PHCC Motherboard (" + comPort + ")";
+                    tn.Text = "PHCC Motherboard "+ mName + " (" + comPort + ")";
                     tvDevicesAndPeripherals.Nodes.Add(tn);
                     if (motherboard.Peripherals != null)
                     {
@@ -156,27 +158,27 @@ namespace Phcc.DeviceManager.UI
                             var deviceAddress = GetHexRepresentation(p.Address);
                             if (p is Doa40Do)
                             {
-                                tn.Text = "DOA_40DO - Digital Output card @ " + deviceAddress;
+                                tn.Text = "DOA_40DO - Digital Output card " + p.FriendlyName + " @ " + deviceAddress;
                             }
                             else if (p is Doa7Seg)
                             {
-                                tn.Text = "DOA_7Seg - 7-segment display driver card (BIT MODE) @ " + deviceAddress;
+                                tn.Text = "DOA_7Seg - 7-segment display driver card (BIT MODE) " + p.FriendlyName + " @ " + deviceAddress;
                             }                          
                             else if (p is Doa8Servo)
                             {
-                                tn.Text = "DOA_8Servo - Servo motor driver card @ " + deviceAddress;
+                                tn.Text = "DOA_8Servo - Servo motor driver card " + p.FriendlyName + " @ " + deviceAddress;
                             }
                             else if (p is DoaAirCore)
                             {
-                                tn.Text = "DOA_AirCore - Air Core motor driver card @ " + deviceAddress;
+                                tn.Text = "DOA_AirCore - Air Core motor driver card " + p.FriendlyName + " @ " + deviceAddress;
                             }
                             else if (p is DoaStepper)
                             {
-                                tn.Text = "DOA_Stepper - Stepper motor output card @ " + deviceAddress;
+                                tn.Text = "DOA_Stepper - Stepper motor output card " + p.FriendlyName + " @ " + deviceAddress;
                             }
                             else if (p is DoaAnOut1)
                             {
-                                tn.Text = "DOA_AnOut1 - Analog output card @ " + deviceAddress;
+                                tn.Text = "DOA_AnOut1 - Analog output card @ " + p.FriendlyName + " " + deviceAddress;
                             }
                             var motherboardNode = FindNodeForConfigElement(motherboard);
                             if (motherboardNode != null)
@@ -246,8 +248,7 @@ namespace Phcc.DeviceManager.UI
             }
             var result = prompt.ShowDialog(this);
             if (result == DialogResult.Cancel) return;
-            var baseAddress = prompt.BaseAddress;
-            var newDevice = new T {Address = baseAddress};
+            var newDevice = new T {Address = prompt.BaseAddress, FriendlyName = prompt.FriendlyName};
             AddPeripheralToTree(newDevice);
             _configIsModified = true;
         }
@@ -522,10 +523,12 @@ namespace Phcc.DeviceManager.UI
             }
 
             dialog.COMPort = motherboard.ComPort;
+            dialog.Name = motherboard.Name;
             var result = dialog.ShowDialog();
             if (result == DialogResult.OK)
             {
                 motherboard.ComPort = dialog.COMPort;
+                motherboard.Name = dialog.Name;
             }
             return result;
         }

@@ -10,23 +10,35 @@ namespace Phcc.DeviceManager.UI
     {
         private string _comPort;
         private List<string> _comPorts = new List<string>();
+        private string _name;
 
         public frmSelectCOMPort()
         {
             InitializeComponent();
             _comPorts = EnumerateSerialPorts();
+            tbFriendlyName.Text = Name;
         }
 
         public string COMPort
         {
-            get { return _comPort; }
-            set { _comPort = value; }
+            get => _comPort;
+            set => _comPort = value;
+        }
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                tbFriendlyName.Text = _name;
+            }
         }
 
         public List<string> COMPorts
         {
-            get { return _comPorts; }
-            set { _comPorts = value; }
+            get => _comPorts;
+            set => _comPorts = value;
         }
 
         private void SelectSuppliedComPortInList()
@@ -78,6 +90,7 @@ namespace Phcc.DeviceManager.UI
         private void cmdOk_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
+            _name = tbFriendlyName.Text;
             Close();
         }
 

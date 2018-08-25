@@ -13,6 +13,7 @@ namespace PhccConfiguration.Config
         }
 
         public string ComPort { get; set; }
+        public string Name { get; set; }
 
         [XmlArray("Peripherals")]
         [XmlArrayItem("Peripheral")]

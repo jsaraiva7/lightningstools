@@ -32,6 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cmdOk = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbFriendlyName = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // cbComPort
@@ -57,7 +59,7 @@
             // 
             this.cmdOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdOk.Enabled = false;
-            this.cmdOk.Location = new System.Drawing.Point(22, 60);
+            this.cmdOk.Location = new System.Drawing.Point(58, 82);
             this.cmdOk.Name = "cmdOk";
             this.cmdOk.Size = new System.Drawing.Size(75, 23);
             this.cmdOk.TabIndex = 2;
@@ -68,7 +70,7 @@
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(103, 60);
+            this.cmdCancel.Location = new System.Drawing.Point(139, 82);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 3;
@@ -76,14 +78,34 @@
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 46);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(38, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "&Name:";
+            // 
+            // tbFriendlyName
+            // 
+            this.tbFriendlyName.Location = new System.Drawing.Point(74, 46);
+            this.tbFriendlyName.MaxLength = 15;
+            this.tbFriendlyName.Name = "tbFriendlyName";
+            this.tbFriendlyName.Size = new System.Drawing.Size(183, 20);
+            this.tbFriendlyName.TabIndex = 5;
+            this.tbFriendlyName.Text = " ";
+            // 
             // frmSelectCOMPort
             // 
             this.AcceptButton = this.cmdOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(292, 92);
+            this.ClientSize = new System.Drawing.Size(292, 117);
             this.ControlBox = false;
+            this.Controls.Add(this.tbFriendlyName);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdOk);
             this.Controls.Add(this.label1);
@@ -108,5 +130,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button cmdOk;
         private System.Windows.Forms.Button cmdCancel;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tbFriendlyName;
     }
 }

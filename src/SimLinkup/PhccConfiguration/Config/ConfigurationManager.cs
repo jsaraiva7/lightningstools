@@ -19,7 +19,7 @@ namespace PhccConfiguration.Config
         }
 
         public static ConfigurationManager Load(string fileName)
-        {
+        {          
             return Util.DeserializeFromXmlFile<ConfigurationManager>(fileName);
         }
 

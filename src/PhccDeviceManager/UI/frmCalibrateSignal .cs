@@ -12,6 +12,12 @@ namespace Phcc.DeviceManager.UI
         {
             InitializeComponent();
             _signal = signal;
+            if (signal.MaxValue != 0)
+            {
+                trkCalibrateServoOffset.Minimum = (int)signal.MinValue;
+                trkCalibrateServoOffset.Maximum = (int)signal.MaxValue;
+            }
+          
         }
 
         public ushort InputValue

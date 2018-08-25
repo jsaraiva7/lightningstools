@@ -13,5 +13,7 @@ namespace PhccConfiguration.Config
     public abstract class Peripheral : PhccConfigElement
     {
         public byte Address { get; set; }
+        //Henk Suggestion
+        public string FriendlyName { get; set; }
     }
 }

@@ -57,8 +57,8 @@ namespace PhccHardwareSupportModule.Phcc
         {
             if (motherboard == null) throw new ArgumentNullException(nameof(motherboard));
             _device = CreateDevice(motherboard.ComPort);
-            _analogInputSignals = CreateAnalogInputSignals(_device, motherboard.ComPort);
-            _digitalInputSignals = CreateDigitalInputSignals(_device, motherboard.ComPort);
+            _analogInputSignals = CreateAnalogInputSignals(_device, motherboard);
+            _digitalInputSignals = CreateDigitalInputSignals(_device, motherboard);
             CreateOutputSignals(_device, motherboard, out _digitalOutputSignals, out _analogOutputSignals,
                 out _peripheralByteStates, out _peripheralFloatStates);
 
@@ -119,7 +119,7 @@ namespace PhccHardwareSupportModule.Phcc
 
         #region Create Input Signals
 
-        private AnalogSignal[] CreateAnalogInputSignals(p.Device device, string portName)
+        private AnalogSignal[] CreateAnalogInputSignals(p.Device device, Motherboard motherboard)
         {
             var toReturn = new List<AnalogSignal>();
             for (var i = 0; i < 35; i++)
@@ -129,12 +129,12 @@ namespace PhccHardwareSupportModule.Phcc
                     Category = "Inputs",
                     CollectionName = "Analog Inputs",
                     FriendlyName = $"Analog Input {string.Format($"{i + 1:0}", i + 1)}",
-                    Id = $"PhccAnalogInput[{portName}][{i}]",
+                    Id = $"PhccAnalogInput[{motherboard.ComPort}][{i}]",
                     Index = i,
                     PublisherObject = this,
                     Source = device,
-                    SourceAddress = portName,
-                    SourceFriendlyName = $"PHCC Device on {portName}",
+                    SourceAddress = motherboard.ComPort,
+                     SourceFriendlyName = $"PHCC Device " + motherboard.Name +$" on {motherboard.ComPort}",
                     State = 0,
                     MinValue = 0,
                     MaxValue = 1023
@@ -150,7 +150,7 @@ namespace PhccHardwareSupportModule.Phcc
 
         #region Create Output Signals
 
-        private DigitalSignal[] CreateDigitalInputSignals(p.Device device, string portName)
+        private DigitalSignal[] CreateDigitalInputSignals(p.Device device, Motherboard motherboard)
         {
             var toReturn = new List<DigitalSignal>();
             for (var i = 0; i < 1024; i++)
@@ -160,12 +160,12 @@ namespace PhccHardwareSupportModule.Phcc
                     Category = "Inputs",
                     CollectionName = "Digital Inputs",
                     FriendlyName = $"Digital Input {string.Format($"{i + 1:0}", i + 1)}",
-                    Id = $"PhccDigitalInput[{portName}][{i}]",
+                    Id = $"PhccDigitalInput[{motherboard.ComPort}][{i}]",
                     Index = i,
                     PublisherObject = this,
                     Source = device,
-                    SourceAddress = portName,
-                    SourceFriendlyName = $"PHCC Device on {portName}",
+                    SourceAddress = motherboard.ComPort,
+                     SourceFriendlyName = $"PHCC Device " + motherboard.Name + $" on {motherboard.ComPort}",
                     State = false
                 };
                 toReturn.Add(thisSignal);
@@ -198,13 +198,13 @@ namespace PhccHardwareSupportModule.Phcc
                         var thisSignal = new DigitalSignal
                         {
                             Category = "Outputs",
-                            CollectionName = "Digital Outputs",
+                            CollectionName = "Digital Outputs" + typedPeripheral.FriendlyName,
                             FriendlyName = $"Digital Output {string.Format($"{i + 1:0}", i + 1)}",
                             Id = $"DOA_40DO[{portName}][{baseAddress}][{i}]",
                             Index = i,
                             PublisherObject = this,
                             Source = device,
-                            SourceFriendlyName = $"PHCC Device on {portName}",
+                            SourceFriendlyName = "PHCC Device " + motherboard.Name +$" on {portName}",
                             SourceAddress = portName,
                             SubSource = $"DOA_40DO @ {baseAddress}",
                             SubSourceFriendlyName = $"DOA_40DO @ {baseAddress}",
@@ -226,17 +226,17 @@ namespace PhccHardwareSupportModule.Phcc
                             var thisSignal = new DigitalSignal
                             {
                                 Category = "Outputs",
-                                CollectionName = "Digital Outputs",
+                                CollectionName = "Digital Outputs" + typedPeripheral.FriendlyName,
                                 FriendlyName =
                                     $"Display {string.Format($"{j + 1:0}", j + 1)}, Output Line {string.Format($"{i + 1:0}", i + 1)}",
                                 Id = $"DOA_7SEG[{portName}][{baseAddress}][{j}][{i}]",
                                 Index = i * 8 + j,
                                 PublisherObject = this,
                                 Source = device,
-                                SourceFriendlyName = $"PHCC Device on {portName}",
+                                 SourceFriendlyName = $"PHCC Device " + motherboard.Name +$" on {portName}",
                                 SourceAddress = portName,
                                 SubSource = $"DOA_7SEG @ {baseAddress}",
-                                SubSourceFriendlyName = $"DOA_7SEG @ {baseAddress}",
+                                SubSourceFriendlyName = $"DOA_7SEG " + typedPeripheral.FriendlyName + $" @ {baseAddress}",
                                 SubSourceAddress = baseAddress,
                                 State = false
                             };
@@ -256,16 +256,16 @@ namespace PhccHardwareSupportModule.Phcc
                         var thisSignal = new CalibratedAnalogSignal
                         {
                             Category = "Outputs",
-                            CollectionName = "Motor Outputs",
+                            CollectionName = "Motor Outputs " + typedPeripheral.FriendlyName,
                             FriendlyName = $"Motor {i + 1}",
                             Id = $"DOA_8SERVO[{portName}][{baseAddress}][{i}]",
                             Index = i,
                             PublisherObject = this,
                             Source = device,
-                            SourceFriendlyName = $"PHCC Device on {portName}",
+                             SourceFriendlyName = $"PHCC Device " + motherboard.Name +$" on {portName}",
                             SourceAddress = portName,
                             SubSource = $"DOA_8SERVO @ {baseAddress}",
-                            SubSourceFriendlyName = $"DOA_8SERVO @ {baseAddress}",
+                            SubSourceFriendlyName = $"DOA_8SERVO " + typedPeripheral.FriendlyName + $" @ {baseAddress}",
                             SubSourceAddress = baseAddress,
                             State = 0,
                             IsAngle = true,
@@ -288,15 +288,15 @@ namespace PhccHardwareSupportModule.Phcc
                         var thisSignal = new CalibratedAnalogSignal
                         {
                             Category = "Outputs",
-                            CollectionName = "Motor Outputs",
+                            CollectionName = "Motor Outputs " + typedPeripheral.FriendlyName,
                             FriendlyName = $"Motor {i + 1}",
                             Id = $"DOA_AIRCORE[{portName}][{baseAddress}][{i}]",
                             Index = i,
                             Source = device,
-                            SourceFriendlyName = $"PHCC Device on {portName}",
+                             SourceFriendlyName = $"PHCC Device " + motherboard.Name +$" on {portName}",
                             SourceAddress = portName,
                             SubSource = $"DOA_AIRCORE @ {baseAddress}",
-                            SubSourceFriendlyName = $"DOA_AIRCORE @ {baseAddress}",
+                            SubSourceFriendlyName = $"DOA_AIRCORE"  + typedPeripheral.FriendlyName + $" @ {baseAddress}",
                             SubSourceAddress = baseAddress,
                             State = 0
                         };
@@ -319,16 +319,16 @@ namespace PhccHardwareSupportModule.Phcc
                         var thisSignal = new CalibratedAnalogSignal
                         {
                             Category = "Outputs",
-                            CollectionName = "Analog Outputs",
+                            CollectionName = "Analog Outputs" + typedPeripheral.FriendlyName,
                             FriendlyName = $"Analog Output {string.Format($"{i + 1:0}", i + 1)}",
                             Id = $"DOA_ANOUT1[{baseAddress}][{portName}][{i}]",
                             Index = i,
                             PublisherObject = this,
                             Source = device,
-                            SourceFriendlyName = $"PHCC Device on {portName}",
+                             SourceFriendlyName = $"PHCC Device " + motherboard.Name +$" on {portName}",
                             SourceAddress = portName,
                             SubSource = $"DOA_ANOUT1 @ {baseAddress}",
-                            SubSourceFriendlyName = $"DOA_ANOUT1 @ {baseAddress}",
+                            SubSourceFriendlyName = $"DOA_ANOUT1 " + typedPeripheral.FriendlyName + $" @ {baseAddress}",
                             SubSourceAddress = baseAddress,
                             MinValue = 0,
                             MaxValue = 5,
@@ -351,16 +351,16 @@ namespace PhccHardwareSupportModule.Phcc
                         var thisSignal = new CalibratedAnalogSignal
                         {
                             Category = "Outputs",
-                            CollectionName = "Motor Outputs",
+                            CollectionName = "Motor Outputs " + typedPeripheral.FriendlyName,
                             FriendlyName = $"Motor {i + 1}",
                             Id = $"DOA_STEPPER[{portName}][{baseAddress}][{i}]",
                             Index = i,
                             PublisherObject = this,
                             Source = device,
-                            SourceFriendlyName = $"PHCC Device on {portName}",
+                             SourceFriendlyName = $"PHCC Device " + motherboard.Name +$" on {portName}",
                             SourceAddress = portName,
                             SubSource = $"DOA_STEPPER @ {baseAddress}",
-                            SubSourceFriendlyName = $"DOA_STEPPER @ {baseAddress}",
+                            SubSourceFriendlyName = $"DOA_STEPPER " + typedPeripheral.FriendlyName + $" @ {baseAddress}",
                             SubSourceAddress = baseAddress,
 
                             State = 0
