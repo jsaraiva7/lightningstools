@@ -344,10 +344,7 @@ namespace Phcc
                     _serialPort.Open();
                     GC.SuppressFinalize(_serialPort.BaseStream);
                 }
-                catch
-                {
-                    // ignored
-                }
+                catch { }
             }
         }
 
@@ -1015,10 +1012,7 @@ namespace Phcc
                 {
                     _serialPort.Write(buffer, index, count);
                 }
-                catch
-                {
-                    // ignored
-                }
+                catch { }
             }
         }
 

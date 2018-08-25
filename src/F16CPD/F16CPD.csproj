@@ -16,7 +16,6 @@
     <ApplicationIcon>Resources\F16CPD.ICO</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -76,11 +75,12 @@
     <StartupObject>F16CPD.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Costura, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)\packages\Costura.Fody.2.0.0\lib\net452\Costura.dll</HintPath>
+    <Reference Include="Costura, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)\packages\Costura.Fody.3.1.0\lib\net46\Costura.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)\packages\SharpZipLib.1.0.0-alpha2\lib\netstandard1.3\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <HintPath>$(SolutionDir)\packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -102,8 +102,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
+    <Reference Include="System.Console, Version=4.0.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>$(SolutionDir)\packages\System.Console.4.3.1\lib\net46\System.Console.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Data">
     </Reference>
@@ -111,8 +112,9 @@
     </Reference>
     <Reference Include="System.Design">
     </Reference>
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+      <HintPath>$(SolutionDir)\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Drawing">
     </Reference>
@@ -437,10 +439,6 @@
       <Project>{320431c6-2454-4d95-8d3c-d27c8e2288e9}</Project>
       <Name>Common.MacroProgramming</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\PDF\Common.PDF.csproj">
-      <Project>{5130f409-0e66-4d02-9de9-7bfb11174c13}</Project>
-      <Name>Common.PDF</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\SimSupport\Common.SimSupport.csproj">
       <Project>{275c5e8d-a56a-45d2-8f70-93b0797c2e7b}</Project>
       <Name>Common.SimSupport</Name>
@@ -494,6 +492,10 @@
       <Project>{04f20e15-844a-4d30-9ec4-e8fd61a043a9}</Project>
       <Name>LzssManaged</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pdf2Img\Pdf2Img\Pdf2Img.csproj">
+      <Project>{2d16b3b2-66ca-4bd8-a1eb-5c2ab288f334}</Project>
+      <Name>Pdf2Img</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PHCC\PHCC.csproj">
       <Project>{75fa2030-c9ca-4b2d-8534-8f48eea13ca3}</Project>
       <Name>PHCC</Name>
@@ -504,24 +506,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.DirectX.9c">
-      <Visible>False</Visible>
-      <ProductName>Microsoft DirectX 9c Runtime</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Visual.C++.14.10.x86">
-      <Visible>False</Visible>
-      <ProductName>Visual C++ "14" Runtime Libraries %28x86%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
@@ -549,17 +536,17 @@
     <Folder Include="UI\UserControls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('$(SolutionDir)\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Import Project="$(SolutionDir)\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('$(SolutionDir)\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)\packages\Fody.3.0.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Fody.3.0.1\build\Fody.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)\packages\Costura.Fody.2.0.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Costura.Fody.2.0.0\build\Costura.Fody.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets'))" />
   </Target>
-  <Import Project="$(SolutionDir)\packages\Fody.3.0.1\build\Fody.targets" Condition="Exists('$(SolutionDir)\packages\Fody.3.0.1\build\Fody.targets')" />
-  <Import Project="$(SolutionDir)\packages\Costura.Fody.2.0.0\build\Costura.Fody.targets" Condition="Exists('$(SolutionDir)\packages\Costura.Fody.2.0.0\build\Costura.Fody.targets')" />
+  <Import Project="$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets" Condition="Exists('$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets')" />
+  <Import Project="$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets" Condition="Exists('$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

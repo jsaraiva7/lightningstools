@@ -224,9 +224,13 @@ namespace JoyMapper
             for (var i = 0; i < numImages; i++)
             {
                 Image img = imglstImages.Images[i]; //get a reference to the current Image from the control
-                var greyedOut = Common.Imaging.Util.ConvertImageToGreyscale((Bitmap) img);
-                //convert this image to greyscale
-                imglstImages.Images.Add(greyedOut); //add the greyscale version back into the control
+                using (var bmp = new Bitmap(img))
+                {
+                    //convert this image to greyscale
+                    var greyedOut = Common.Imaging.Util.ConvertImageToGreyscale(bmp);
+
+                    imglstImages.Images.Add(greyedOut); //add the greyscale version back into the control
+                }
             }
         }
 
@@ -2709,12 +2713,14 @@ namespace JoyMapper
                 //physical joystick.  If it's physical, enumerate its controls.
                 foreach (DeviceInstance instance in detectedJoysticks)
                 {
-                    var device = Common.InputSupport.DirectInput.Util.GetDIDevice(instance.InstanceGuid);
+                    var deviceInfo = new DIPhysicalDeviceInfo(instance.InstanceGuid, instance.InstanceName);
+                    var device = DIDeviceMonitor.GetInstance(deviceInfo, this,
+                        VirtualJoystick.MinAnalogDataSourceVal,
+                        VirtualJoystick.MaxAnalogDataSourceVal);
+
 
                     //get the vendor ID and product ID of the current device
-                    var vendorId = device.Properties.VendorId;
-                    var productId = device.Properties.ProductId;
-                    var vendorIdentityProductId = (int)((((long)vendorId << 16)) | ((long)productId));
+                    var vendorIdentityProductId = device.VendorIdentityProductId.HasValue ? device.VendorIdentityProductId.Value: 0;
                     //use the vendor ID/product ID to determine if the device is virtual or physical
                     var isVirtual = false;
                     try

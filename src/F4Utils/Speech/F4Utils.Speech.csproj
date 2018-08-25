@@ -17,7 +17,6 @@
     <DelaySign>false</DelaySign>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
@@ -67,8 +66,8 @@
     <LangVersion>7</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Costura, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)\packages\Costura.Fody.2.0.0\lib\net452\Costura.dll</HintPath>
+    <Reference Include="Costura, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)\packages\Costura.Fody.3.1.0\lib\net46\Costura.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.XML" />
@@ -95,6 +94,10 @@
     <None Include="sn.key.snk" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.csproj">
+      <Project>{aba9cc75-b778-4e46-a6f6-afec27f2eb59}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SpeexInvoke\SpeexInvoke\SpeexInvoke.csproj">
       <Project>{C19C5F53-4B71-4CAF-830E-4D9226914842}</Project>
       <Name>SpeexInvoke</Name>
@@ -120,9 +123,9 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\packages\Fody.3.0.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Fody.3.0.1\build\Fody.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)\packages\Costura.Fody.2.0.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Costura.Fody.2.0.0\build\Costura.Fody.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets'))" />
+    <Error Condition="!Exists('$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets'))" />
   </Target>
-  <Import Project="$(SolutionDir)\packages\Fody.3.0.1\build\Fody.targets" Condition="Exists('$(SolutionDir)\packages\Fody.3.0.1\build\Fody.targets')" />
-  <Import Project="$(SolutionDir)\packages\Costura.Fody.2.0.0\build\Costura.Fody.targets" Condition="Exists('$(SolutionDir)\packages\Costura.Fody.2.0.0\build\Costura.Fody.targets')" />
+  <Import Project="$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets" Condition="Exists('$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets')" />
+  <Import Project="$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets" Condition="Exists('$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets')" />
 </Project>
