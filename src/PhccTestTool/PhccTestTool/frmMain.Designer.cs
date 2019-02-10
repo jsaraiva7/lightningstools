@@ -5105,8 +5105,8 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PHCC Test Tool";
-            this.Load += new System.EventHandler(this.frmMain_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
+            this.Load += new System.EventHandler(this.frmMain_Load);
             this.tcTabs.ResumeLayout(false);
             this.tabInputs.ResumeLayout(false);
             this.keyMatrixCardTabs.ResumeLayout(false);

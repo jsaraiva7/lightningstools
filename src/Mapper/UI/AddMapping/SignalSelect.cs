@@ -60,5 +60,15 @@ namespace Mapper.UI.AddMapping
         {
 
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SelectedSignal = signalsView1.SelectedSignal;
+            if (SelectedSignal != null && SelectedSignal is DigitalSignal)
+            {
+                var digi = SelectedSignal as DigitalSignal;
+                digi.State = !digi.State;
+            }
+        }
     }
 }

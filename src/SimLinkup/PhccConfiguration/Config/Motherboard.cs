@@ -18,5 +18,7 @@ namespace PhccConfiguration.Config
         [XmlArray("Peripherals")]
         [XmlArrayItem("Peripheral")]
         public List<Peripheral> Peripherals { get; set; }
+
+        public string FriendlyName { get; set; }
     }
 }

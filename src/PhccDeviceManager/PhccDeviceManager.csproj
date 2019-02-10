@@ -101,11 +101,11 @@
     <EmbeddedResource Include="UI\Doa7SegConfig\Doa7SegmentModeSelector.resx">
       <DependentUpon>Doa7SegmentModeSelector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\frmCalibrateSignal .resx">
+    <EmbeddedResource Include="UI\AnalogSignal\frmCalibrateSignal .resx">
       <DependentUpon>frmCalibrateSignal .cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\frmCalibrateServo.resx">
+    <EmbeddedResource Include="UI\Servo\frmCalibrateServo.resx">
       <DependentUpon>frmCalibrateServo.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -168,16 +168,16 @@
     <Compile Include="UI\Doa7SegConfig\Doa7SegmentModeSelector.Designer.cs">
       <DependentUpon>Doa7SegmentModeSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\frmCalibrateSignal .cs">
+    <Compile Include="UI\AnalogSignal\frmCalibrateSignal .cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\frmCalibrateSignal .Designer.cs">
+    <Compile Include="UI\AnalogSignal\frmCalibrateSignal .Designer.cs">
       <DependentUpon>frmCalibrateSignal .cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\frmCalibrateServo.cs">
+    <Compile Include="UI\Servo\frmCalibrateServo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\frmCalibrateServo.Designer.cs">
+    <Compile Include="UI\Servo\frmCalibrateServo.Designer.cs">
       <DependentUpon>frmCalibrateServo.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\frmHelpAbout.cs">

@@ -510,7 +510,7 @@ namespace PhccTestTool
                             toSend |= (byte) (1 << j);
                         }
                     }
-                    if (_phccDevice != null && !String.IsNullOrEmpty(_phccDevice.PortName))
+                    if (_phccDevice != null )
                     {
                         try
                         {

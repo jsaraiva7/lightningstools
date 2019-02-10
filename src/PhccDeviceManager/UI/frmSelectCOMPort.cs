@@ -35,6 +35,8 @@ namespace Phcc.DeviceManager.UI
             }
         }
 
+        public string FriendlyName { get; set; }
+
         public List<string> COMPorts
         {
             get => _comPorts;
@@ -89,6 +91,7 @@ namespace Phcc.DeviceManager.UI
 
         private void cmdOk_Click(object sender, EventArgs e)
         {
+            FriendlyName = txtFriendlyName.Text;
             DialogResult = DialogResult.OK;
             _name = tbFriendlyName.Text;
             Close();

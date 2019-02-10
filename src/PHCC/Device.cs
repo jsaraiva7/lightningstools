@@ -15,7 +15,7 @@ namespace Phcc
     ///   a standard RS232 COM port.
     /// </summary>
     [ClassInterface(ClassInterfaceType.AutoDual)]
-    [ComSourceInterfaces(typeof (PhccEvents))]
+    [ComSourceInterfaces(typeof(PhccEvents))]
     [Synchronization]
     public sealed class Device : ContextBoundObject, IDisposable
     {
@@ -201,8 +201,8 @@ namespace Phcc
                 PollDigitalInputs();
                 for (var i = 0; i < toReturn.Length; i++)
                 {
-                    var relevantByte = _currentDigitalInputValues[((i)/8)];
-                    toReturn[i] = ((relevantByte & (byte) (Math.Pow(2, (i%8)))) != 0);
+                    var relevantByte = _currentDigitalInputValues[((i) / 8)];
+                    toReturn[i] = ((relevantByte & (byte)(Math.Pow(2, (i % 8)))) != 0);
                 }
                 return toReturn;
             }
@@ -308,7 +308,7 @@ namespace Phcc
                         }
                         _serialPort.Dispose();
                     }
-                    catch 
+                    catch
                     {
                     }
 
@@ -344,7 +344,11 @@ namespace Phcc
                     _serialPort.Open();
                     GC.SuppressFinalize(_serialPort.BaseStream);
                 }
-                catch { }
+                catch 
+                {
+                     //ignore
+                }
+        
             }
         }
 
@@ -360,9 +364,9 @@ namespace Phcc
         public void Reset()
         {
             EnsurePortIsReady();
-            _writeBuffer[0] = (byte) Host2PhccCommands.Reset;
-            _writeBuffer[1] = (byte) Host2PhccCommands.Reset;
-            _writeBuffer[2] = (byte) Host2PhccCommands.Reset;
+            _writeBuffer[0] = (byte)Host2PhccCommands.Reset;
+            _writeBuffer[1] = (byte)Host2PhccCommands.Reset;
+            _writeBuffer[2] = (byte)Host2PhccCommands.Reset;
             RS232Write(_writeBuffer, 0, 3);
         }
 
@@ -389,7 +393,7 @@ namespace Phcc
             {
                 throw new ArgumentOutOfRangeException(nameof(displayNum), "must be between 1 and 8");
             }
-            DoaSendRaw(deviceAddr, (byte) (displayNum & ((byte) mode)), data);
+            DoaSendRaw(deviceAddr, (byte)(displayNum & ((byte)mode)), data);
         }
 
         /// <summary>
@@ -425,7 +429,7 @@ namespace Phcc
             {
                 throw new ArgumentOutOfRangeException(nameof(channelNum), "must be between 1 and 16");
             }
-            DoaSendRaw(deviceAddr, (byte) (channelNum - 1), value);
+            DoaSendRaw(deviceAddr, (byte)(channelNum - 1), value);
         }
 
         /// <summary>
@@ -444,7 +448,7 @@ namespace Phcc
             {
                 throw new ArgumentOutOfRangeException(nameof(servoNum), "must be between 1 and 8");
             }
-            DoaSendRaw(deviceAddr, (byte) ((servoNum - 1) + 24), gain);
+            DoaSendRaw(deviceAddr, (byte)((servoNum - 1) + 24), gain);
         }
 
         /// <summary>
@@ -469,8 +473,8 @@ namespace Phcc
             {
                 Array.Reverse(calibrationBytes);
             }
-            DoaSendRaw(deviceAddr, (byte) ((servoNum - 1) + 8), calibrationBytes[0]);
-            DoaSendRaw(deviceAddr, (byte) ((servoNum - 1) + 16), calibrationBytes[1]);
+            DoaSendRaw(deviceAddr, (byte)((servoNum - 1) + 8), calibrationBytes[0]);
+            DoaSendRaw(deviceAddr, (byte)((servoNum - 1) + 16), calibrationBytes[1]);
         }
 
         /// <summary>
@@ -491,7 +495,7 @@ namespace Phcc
                 throw new ArgumentOutOfRangeException(nameof(servoNum), "must be between 1 and 8");
             }
 
-            DoaSendRaw(deviceAddr, (byte) (servoNum - 1), position);
+            DoaSendRaw(deviceAddr, (byte)(servoNum - 1), position);
         }
 
         /// <summary>
@@ -515,7 +519,7 @@ namespace Phcc
             {
                 throw new ArgumentOutOfRangeException(nameof(displayNum), "must be between 1 and 48");
             }
-            DoaSendRaw(deviceAddr, (byte) (displayNum - 1), bits);
+            DoaSendRaw(deviceAddr, (byte)(displayNum - 1), bits);
         }
 
         /// <summary>
@@ -538,7 +542,7 @@ namespace Phcc
             {
                 throw new ArgumentOutOfRangeException(nameof(displayNum), "must be between 1 and 32");
             }
-            DoaSendRaw(deviceAddr, (byte) (displayNum - 1), bits);
+            DoaSendRaw(deviceAddr, (byte)(displayNum - 1), bits);
         }
 
         /// <summary>
@@ -568,7 +572,7 @@ namespace Phcc
             {
                 throw new ArgumentOutOfRangeException(nameof(connectorNum), "must be between 3 and 7");
             }
-            DoaSendRaw(deviceAddr, (byte) (connectorNum - 3), bits);
+            DoaSendRaw(deviceAddr, (byte)(connectorNum - 3), bits);
         }
 
         /// <summary>
@@ -594,25 +598,25 @@ namespace Phcc
             if (position >= 0 && position <= 255)
             {
                 quadrant = 1;
-                pos = (byte) (255 - position);
+                pos = (byte)(255 - position);
             }
             else if (position >= 256 && position <= 511)
             {
                 quadrant = 3;
-                pos = (byte) (position - 256);
+                pos = (byte)(position - 256);
             }
             else if (position >= 512 && position <= 767)
             {
                 quadrant = 4;
-                pos = (byte) (255 - (position - 512));
+                pos = (byte)(255 - (position - 512));
             }
             else if (position >= 768 && position <= 1023)
             {
                 quadrant = 2;
-                pos = (byte) (position - 768);
+                pos = (byte)(position - 768);
             }
-            var motorNumMask = (byte) ((motorNum - 1) << 2);
-            var subAddress = (byte) (((byte) (quadrant - 1)) | motorNumMask);
+            var motorNumMask = (byte)((motorNum - 1) << 2);
+            var subAddress = (byte)(((byte)(quadrant - 1)) | motorNumMask);
 
             DoaSendRaw(deviceAddr, subAddress, pos);
         }
@@ -635,19 +639,13 @@ namespace Phcc
             }
             if (numSteps < 0 || numSteps > 127)
             {
-                while (numSteps > 127)
-                {
-                    DoaSendRaw(deviceAddr, (byte)(motorNum - 1), ((byte)((byte)direction | 127)));
-                    var rem = (int) numSteps - 127;
-                    numSteps = (byte) rem;
-                }
-               
+                throw new ArgumentOutOfRangeException(nameof(numSteps), "must be between 0 and 127");
             }
             if (stepType == MotorStepTypes.HalfStep)
             {
                 motorNum += 4;
             }
-            DoaSendRaw(deviceAddr, (byte) (motorNum - 1), ((byte) ((byte) direction | numSteps)));
+            DoaSendRaw(deviceAddr, (byte)(motorNum - 1), ((byte)((byte)direction | numSteps)));
         }
 
 
@@ -665,7 +663,7 @@ namespace Phcc
         public void DoaSendRaw(byte addr, byte subAddr, byte data)
         {
             EnsurePortIsReady();
-            _writeBuffer[0] = (byte) Host2PhccCommands.DoaSend;
+            _writeBuffer[0] = (byte)Host2PhccCommands.DoaSend;
             _writeBuffer[1] = addr;
             _writeBuffer[2] = subAddr;
             _writeBuffer[3] = data;
@@ -683,7 +681,7 @@ namespace Phcc
         public void DobSendRaw(byte addr, byte data)
         {
             EnsurePortIsReady();
-            _writeBuffer[0] = (byte) Host2PhccCommands.DobSend;
+            _writeBuffer[0] = (byte)Host2PhccCommands.DobSend;
             _writeBuffer[1] = addr;
             _writeBuffer[2] = data;
             RS232Write(_writeBuffer, 0, 3);
@@ -702,7 +700,7 @@ namespace Phcc
         public void I2CSend(byte addr, byte subAddr, byte data)
         {
             EnsurePortIsReady();
-            _writeBuffer[0] = (byte) Host2PhccCommands.I2CSend;
+            _writeBuffer[0] = (byte)Host2PhccCommands.I2CSend;
             _writeBuffer[1] = addr;
             _writeBuffer[2] = subAddr;
             _writeBuffer[3] = data;
@@ -725,7 +723,7 @@ namespace Phcc
             try
             {
                 WaitForInputBufferQuiesce();
-                _writeBuffer[0] = (byte) Host2PhccCommands.StopTalking;
+                _writeBuffer[0] = (byte)Host2PhccCommands.StopTalking;
                 RS232Write(_writeBuffer, 0, 1);
                 WaitForInputBufferQuiesce();
                 _talking = false;
@@ -740,7 +738,15 @@ namespace Phcc
         {
             lock (_rs232lock)
             {
-                _serialPort.DiscardInBuffer();
+                try
+                {
+                    _serialPort.DiscardInBuffer();
+                }
+                catch  
+                {
+                    
+                }
+               
             }
         }
 
@@ -755,7 +761,7 @@ namespace Phcc
                 {
                     Rs232DiscardInBuffer(); //now discard whatever's in the buffer
                     if (Rs232BytesAvailable() == 0)
-                        //if there's nothing in the buffer then we have quiesced, otherwise wait some more
+                    //if there's nothing in the buffer then we have quiesced, otherwise wait some more
                     {
                         done = true;
                     }
@@ -777,23 +783,23 @@ namespace Phcc
         {
             Rs232Read(_readBuffer, 1, 2);
             var addressLowOrderBits = _readBuffer[1];
-            var addressHighOrderBits = (byte) (_readBuffer[0] | I2CDataReceivedAddressHighOrderBitsMask);
+            var addressHighOrderBits = (byte)(_readBuffer[0] | I2CDataReceivedAddressHighOrderBitsMask);
 
             ushort address = 0;
             if (BitConverter.IsLittleEndian)
             {
-                address = BitConverter.ToUInt16(new[] {addressLowOrderBits, addressHighOrderBits}, 0);
+                address = BitConverter.ToUInt16(new[] { addressLowOrderBits, addressHighOrderBits }, 0);
             }
             else
             {
-                address = BitConverter.ToUInt16(new[] {addressHighOrderBits, addressLowOrderBits}, 0);
+                address = BitConverter.ToUInt16(new[] { addressHighOrderBits, addressLowOrderBits }, 0);
             }
 
             var data = _readBuffer[2];
             if (I2CDataReceived != null)
             {
                 I2CDataReceived(this,
-                                new I2CDataReceivedEventArgs((short) address, data));
+                                new I2CDataReceivedEventArgs((short)address, data));
             }
         }
 
@@ -807,13 +813,13 @@ namespace Phcc
             //ushort bits = ConvertBytesToUShort(_readBuffer, 0);
             ushort bits = _readBuffer[1];
             //byte index = (byte)((bits & AnalogInputUpdatedIndexMask)>>10);
-            var index = (byte) (bits >> 2);
+            var index = (byte)(bits >> 2);
             bits = ConvertBytesToUShort(_readBuffer, 1);
-            var newValue = (ushort) (bits & AnalogInputNewValueMask);
+            var newValue = (ushort)(bits & AnalogInputNewValueMask);
             if (AnalogInputChanged != null)
             {
                 AnalogInputChanged(this,
-                                   new AnalogInputChangedEventArgs(index, (short) newValue));
+                                   new AnalogInputChangedEventArgs(index, (short)newValue));
             }
         }
 
@@ -825,12 +831,12 @@ namespace Phcc
         {
             Rs232Read(_readBuffer, 1, 1);
             var bits = ConvertBytesToUShort(_readBuffer, 0);
-            var index = (ushort) ((bits & DigitalInputUpdatedIndexMask) >> 1);
+            var index = (ushort)((bits & DigitalInputUpdatedIndexMask) >> 1);
             var newVal = ((bits & DigitalInputNewValueMask) != 0);
             if (DigitalInputChanged != null)
             {
                 DigitalInputChanged(this,
-                                    new DigitalInputChangedEventArgs((short) index, newVal));
+                                    new DigitalInputChangedEventArgs((short)index, newVal));
             }
         }
 
@@ -881,7 +887,7 @@ namespace Phcc
         public void StartTalking()
         {
             EnsurePortIsReady();
-            _writeBuffer[0] = (byte) Host2PhccCommands.StartTalking;
+            _writeBuffer[0] = (byte)Host2PhccCommands.StartTalking;
             RS232Write(_writeBuffer, 0, 1);
             _talking = true;
         }
@@ -897,7 +903,7 @@ namespace Phcc
                 {
                     ProcessBufferContents();
                 }
-                catch 
+                catch
                 {
                 }
             }
@@ -909,9 +915,9 @@ namespace Phcc
         private void ProcessBufferContents()
         {
             if (_dontRead) //if reading has been temporarily disabled here so 
-                //that bytes don't disappear from the buffer 
-                //when needed elsewhere, then yield before reading any
-                //here
+                           //that bytes don't disappear from the buffer 
+                           //when needed elsewhere, then yield before reading any
+                           //here
             {
                 return;
             }
@@ -921,26 +927,26 @@ namespace Phcc
                 while (_serialPort.BytesToRead > 0)
                 {
                     Rs232Read(_readBuffer, 0, 1);
-                    switch ((byte) (_readBuffer[0] & (byte) Phcc2HostPacketTypes.PacketTypeMask))
+                    switch ((byte)(_readBuffer[0] & (byte)Phcc2HostPacketTypes.PacketTypeMask))
                     {
-                        case (byte) Phcc2HostPacketTypes.I2CDataReceivedPacket:
+                        case (byte)Phcc2HostPacketTypes.I2CDataReceivedPacket:
                             ReadI2CDataReceivedPacket();
                             break;
-                        case (byte) Phcc2HostPacketTypes.AnalogInputUpdatePacket:
+                        case (byte)Phcc2HostPacketTypes.AnalogInputUpdatePacket:
                             ReadAnalogInputUpdatePacket();
                             break;
-                        case (byte) Phcc2HostPacketTypes.DigitalInputUpdatePacket:
+                        case (byte)Phcc2HostPacketTypes.DigitalInputUpdatePacket:
                             ReadDigitalInputUpdatePacket();
                             break;
-                        case (byte) Phcc2HostPacketTypes.DigitalInputsFullDumpPacket:
+                        case (byte)Phcc2HostPacketTypes.DigitalInputsFullDumpPacket:
                             ReadDigitalInputFullDumpPacket();
                             break;
-                        case (byte) Phcc2HostPacketTypes.AnalogInputsFullDumpPacket:
+                        case (byte)Phcc2HostPacketTypes.AnalogInputsFullDumpPacket:
                             ReadAnalogInputFullDumpPacket();
                             break;
-                        case (byte) Phcc2HostPacketTypes.AllBitsOne:
+                        case (byte)Phcc2HostPacketTypes.AllBitsOne:
                             break;
-                        case (byte) Phcc2HostPacketTypes.AllBitsZero:
+                        case (byte)Phcc2HostPacketTypes.AllBitsZero:
                             break;
                         default:
                             break;
@@ -964,7 +970,7 @@ namespace Phcc
             {
                 StopTalking();
             }
-            _writeBuffer[0] = (byte) Host2PhccCommands.GetCurrentDigitalInputValues;
+            _writeBuffer[0] = (byte)Host2PhccCommands.GetCurrentDigitalInputValues;
             RS232Write(_writeBuffer, 0, 1);
             ProcessBufferContents();
             if (wasTalking)
@@ -985,7 +991,7 @@ namespace Phcc
             {
                 StopTalking();
             }
-            _writeBuffer[0] = (byte) Host2PhccCommands.GetCurrentAnalogInputValues;
+            _writeBuffer[0] = (byte)Host2PhccCommands.GetCurrentAnalogInputValues;
             RS232Write(_writeBuffer, 0, 1);
             ProcessBufferContents();
             if (wasTalking)
@@ -1012,7 +1018,11 @@ namespace Phcc
                 {
                     _serialPort.Write(buffer, index, count);
                 }
-                catch { }
+                catch  
+                {
+                   //ignore
+                }
+               
             }
         }
 
@@ -1072,7 +1082,7 @@ namespace Phcc
             processed = new short[35];
             for (var i = 0; i < raw.Length; i += 2)
             {
-                processed[i/2] = (short) ConvertBytesToUShort(raw, i);
+                processed[i / 2] = (short)ConvertBytesToUShort(raw, i);
             }
         }
 
@@ -1096,7 +1106,7 @@ namespace Phcc
         public void SetIdle()
         {
             EnsurePortIsReady();
-            _writeBuffer[0] = (byte) Host2PhccCommands.Idle;
+            _writeBuffer[0] = (byte)Host2PhccCommands.Idle;
             RS232Write(_writeBuffer, 0, 1);
         }
 
@@ -1149,14 +1159,17 @@ namespace Phcc
                         bytesAvailable = Rs232BytesAvailable();
                         if (DateTime.UtcNow > startTime.AddMilliseconds(timeOut) && timeOut != Timeout.Infinite)
                         {
-                            throw new TimeoutException();
+                            //throw new TimeoutException();
+                            Thread.Sleep(50);
                         }
-                        Thread.Sleep(15);
+                         
+
                     }
                     _serialPort.Read(buffer, index, count);
                     if (Rs232BytesAvailable() > 0)
                     {
                     }
+                   
                 }
                 finally
                 {

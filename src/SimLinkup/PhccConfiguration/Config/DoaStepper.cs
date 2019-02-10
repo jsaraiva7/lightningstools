@@ -19,55 +19,55 @@ namespace PhccConfiguration.Config
         public List<HomingSignalConfig> HomingSignals { get; set; } = new List<HomingSignalConfig>();
 
         #region Device specific methods
+ 
 
-        /// <summary>
-        ///Method to initialize the DOA steppers card if a "Home-In" switch is defined. 
-        /// </summary>
-        public bool HomeInStepper(AnalogSignal[] analogOutputs, DigitalSignal[] digitalInputs)
-        {
+        
+
+//        public override void PeripheralSetup(AnalogSignal[] analogOutputs, AnalogSignal[] analogInputs, DigitalSignal[] digitalInputs, DigitalSignal[] digitalOutputs)
+//        {
 
 
-            var analogSteppers = analogOutputs.Where(x => x.Id.Contains("DOA_STEPPER"))
-                .Where(x => HomingSignals.Any(y => y.MotorSignalId.Equals(x.Id))).ToList();
+//            var analogSteppers = analogOutputs.Where(x => x.Id.Contains("DOA_STEPPER"))
+//                .Where(x => HomingSignals.Any(y => y.MotorSignalId.Equals(x.Id))).ToList();
 
-            Parallel.ForEach(analogSteppers, (stepper) =>
-            {
-                var homingSignal = HomingSignals.FirstOrDefault(x => x.MotorSignalId == stepper.Id);
-                var digitalSignal = digitalInputs.FirstOrDefault(x => homingSignal != null && x.Id == homingSignal.ControlSignalId);
+//            Parallel.ForEach(analogSteppers, (stepper) =>
+//            {
+//                var homingSignal = HomingSignals.FirstOrDefault(x => x.MotorSignalId == stepper.Id);
+//                var digitalSignal = digitalInputs.FirstOrDefault(x => homingSignal != null && x.Id == homingSignal.ControlSignalId);
 
-                while (digitalSignal != null && digitalSignal.State)
-                {
-                    var source = stepper as CalibratedAnalogSignal;
-                    if (source?.Index == null) return;
-                    var motorNumZeroBase = source.Index.Value;
-                    var baseAddress = source.SubSourceAddress;
-                    var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
-                    var device = source.Source as p.Device;
-                    if (device == null) return;
-                    var motorNum = motorNumZeroBase + 1;
-                    var direction = p.MotorDirections.Counterclockwise;
+//                while (digitalSignal != null && digitalSignal.State)
+//                {
+//                    var source = stepper as CalibratedAnalogSignal;
+//                    if (source?.Index == null) return;
+//                    var motorNumZeroBase = source.Index.Value;
+//                    var baseAddress = source.SubSourceAddress;
+//                    var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
+//                    var device = source.Source as p.Device;
+//                    if (device == null) return;
+//                    var motorNum = motorNumZeroBase + 1;
+//                    var direction = p.MotorDirections.Counterclockwise;
 
-                    try
-                    {
-                        device.DoaSendStepperMotor(baseAddressByte, (byte)motorNum, direction, 1,
-                            p.MotorStepTypes.FullStep);
-                        Thread.Sleep(20);
-                    }
-                    catch (Exception e)
-                    {
+//                    try
+//                    {
+//                        device.DoaSendStepperMotor(baseAddressByte, (byte)motorNum, direction, 1,
+//                            p.MotorStepTypes.FullStep);
+//                        Thread.Sleep(20);
+//                    }
+//                    catch (Exception e)
+//                    {
 
-                        _log.Error(e.Message, e);
-                        return;
-                    }
-#if DEBUG
-                    digitalSignal.State = !digitalSignal.State;
-#endif
-                }
-            });
+//                        _log.Error(e.Message, e);
+//                        return;
+//                    }
+//#if DEBUG
+//                    digitalSignal.State = !digitalSignal.State;
+//#endif
+//                }
+//            });
 
-            return true;
 
-        }
+
+//        }
 
         #endregion
 
