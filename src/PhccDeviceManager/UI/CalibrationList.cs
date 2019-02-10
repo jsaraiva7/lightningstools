@@ -30,13 +30,33 @@ namespace Phcc.DeviceManager.UI
             {
                 btnHomingSignal.Visible = true;
                 button1.Visible = true;
+                var per = peripheral as DoaStepper;
+                if (per != null)
+                {
+                    var homeIn = per.HomingSignals.FirstOrDefault();
+                    if (homeIn != null)
+                    {
+                        var homeInSignal = digitalIns.FirstOrDefault(c => c.Id == homeIn.ControlSignalId);
+                        if (homeInSignal != null)
+                        {
+                            lblHomeInSignal.Text = homeInSignal.FriendlyName + " - " + homeInSignal.SourceFriendlyName;
+                        }
+                    }
+                    
+
+                }
+
+            
+
+                lblHomeInSignal.Visible = true;
             }
             else
             {
                 btnHomingSignal.Visible = false;
                 button1.Visible = false;
+                lblHomeInSignal.Visible = false;
             }
-
+            
             SignalSelected = signal as AnalogSignal;
             _digitalInputs = digitalIns;
             this.config = config;
@@ -55,7 +75,6 @@ namespace Phcc.DeviceManager.UI
             {
                 var row = (dataGridView1.SelectedRows[0].DataBoundItem as CalibrationPoint);
                 CalibrationSelected = config.CalibrationData.FirstOrDefault(x => x.Input == row.Input);
-                
             }
             catch (Exception exception)
             {
@@ -114,7 +133,7 @@ namespace Phcc.DeviceManager.UI
 
             var stepper = _peripheral as DoaStepper;
             stepper.HomingSignals.Add(new HomingSignalConfig(){MotorSignalId = this.SignalSelected.Id, ControlSignalId = r.Id, State = true});
-
+            lblHomeInSignal.Text = p.SignalSelected.FriendlyName;
             p.Dispose();
             MessageBox.Show("Home In Signal Configured");
 

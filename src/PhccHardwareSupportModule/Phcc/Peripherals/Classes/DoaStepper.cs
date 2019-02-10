@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Common.HardwareSupport.MotorControl;
 using Common.MacroProgramming;
 using log4net;
@@ -34,9 +37,11 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
             _peripheral = peripheral;
             _device = device;
             _portName = portName;
+           
         }
         public void InitializeSignals()
         {
+            
             List<AnalogSignal> analogSignalsToReturn = new List<AnalogSignal>();
             var typedPeripheral = _peripheral as PhccConfiguration.Config.DoaStepper;
             var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
@@ -77,7 +82,45 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
 
             _peripheralFloatStates[baseAddress] = new double[4];
             AnalogOutputs = analogSignalsToReturn.ToArray();
+
+            Task t = Task.Run(async () => { HomeIn(); });
+          
+            
         }
+
+        private async void HomeIn()
+        {
+            var p = _peripheral as DoaStepper;
+            if (p.HomingSignals.Any())
+            {
+                Parallel.ForEach(p.HomingSignals, (home) =>
+                {
+                    var homing = DigitalInputs.FirstOrDefault(c => c.Id == home.ControlSignalId);
+                    var motor = AnalogOutputs.FirstOrDefault(c => c.Id == home.MotorSignalId);
+                    if (homing != null && motor != null)
+                    {
+                        var baseAddress = motor.SubSourceAddress;
+                        var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
+                        var motorNumZeroBase = motor.Index.Value;
+                        var device = motor.Source as Device;
+                        var motorNum = motorNumZeroBase + 1;
+                        while (homing.State != true)
+                        {
+                            if (device != null)
+                            {
+                                device.DoaSendStepperMotor(baseAddressByte, (byte)motorNum, MotorDirections.Counterclockwise, (byte)1,
+                                    MotorStepTypes.FullStep);
+                                Thread.Sleep(10);
+                            }
+                           
+                            
+                        }
+                    }
+                });
+            }
+
+        }
+
 
         private void DOAStepperSignalChanged(object sender, AnalogSignalChangedEventArgs args)
         {
@@ -99,6 +142,15 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
             }
             try
             {
+                if (numSteps > 127)
+                {
+                    while (numSteps > 127)
+                    {
+                        device.DoaSendStepperMotor(baseAddressByte, (byte)motorNum, direction, (byte)127,
+                            MotorStepTypes.FullStep);
+                        numSteps = numSteps - 127;
+                    }
+                }
                 device.DoaSendStepperMotor(baseAddressByte, (byte)motorNum, direction, (byte)numSteps,
                     MotorStepTypes.FullStep);
                 _peripheralFloatStates[baseAddress][motorNumZeroBase] = newPosition;

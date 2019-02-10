@@ -46,11 +46,11 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
 
             for (var i = 0; i < 32; i++)
             {
-                if (typedPeripheral.Configuration.DisplayModeConfiguration.Any(x => x.FirstOutputPort == i))
+                if (typedPeripheral.Configuration.DisplayModeConfiguration.Any(x => x.FirstPin == i))
                 {
                     var outputConfig =
                         typedPeripheral.Configuration.DisplayModeConfiguration.FirstOrDefault(x =>
-                            x.FirstOutputPort == i);
+                            x.FirstPin == i);
                     string s = "9";
                     for (int j = 1; j < outputConfig.NumDisplays; j++)
                     {
@@ -68,7 +68,7 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                             FriendlyName =
                                 $"Display Group " + nDisp + ",  Number of digits " + j,
                             Id = $"DOA_7SEG[{_portName}][{baseAddress}][{i}]",
-                            Index = outputConfig.FirstOutputPort,
+                            Index = outputConfig.FirstPin,
                             PublisherObject = this,
                             Source = _device,
                             SourceFriendlyName = $"PHCC Device on {_portName}",

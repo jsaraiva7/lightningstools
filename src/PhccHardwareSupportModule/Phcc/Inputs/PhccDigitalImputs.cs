@@ -18,8 +18,7 @@ namespace PhccHardwareSupportModule.Phcc.Inputs
         private DigitalInputChangedEventHandler _digitalInputChangedEventHandler;
 
 
-        Dictionary<string, byte[]> _peripheralByteStates = new Dictionary<string, byte[]>();
-        Dictionary<string, double[]> _peripheralFloatStates = new Dictionary<string, double[]>();
+
         private static readonly ILog _log = LogManager.GetLogger(typeof(PhccHardwareSupportModule));
 
         private Peripheral _peripheral;

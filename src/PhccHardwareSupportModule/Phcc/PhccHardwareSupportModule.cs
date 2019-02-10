@@ -10,6 +10,9 @@ using Common.HardwareSupport.MotorControl;
 using Common.MacroProgramming;
 using log4net;
 using PhccConfiguration.Config;
+using PhccHardwareSupportModule.Phcc.Inputs;
+using PhccHardwareSupportModule.Phcc.Interfaces;
+using PhccHardwareSupportModule.Phcc.Peripherals.Classes;
 using p = Phcc;
  
 
@@ -20,7 +23,7 @@ namespace PhccHardwareSupportModule.Phcc
         private static readonly ILog _log = LogManager.GetLogger(typeof(PhccHardwareSupportModule));
 
         private readonly AnalogSignal[] _analogInputSignals;
-        private readonly CalibratedAnalogSignal[] _analogOutputSignals;
+        private readonly AnalogSignal[] _analogOutputSignals;
         private readonly DigitalSignal[] _digitalInputSignals;
         private readonly DigitalSignal[] _digitalOutputSignals;
         private readonly Dictionary<string, byte[]> _peripheralByteStates = new Dictionary<string, byte[]>();
@@ -47,7 +50,12 @@ namespace PhccHardwareSupportModule.Phcc
             var hsm = new PhccHardwareSupportModule(motherboard);
             foreach (var calOutput in hsm._analogOutputSignals)
             {
-                calOutput.CalibrationData = null;
+                if (calOutput is CalibratedAnalogSignal)
+                {
+                    var cal = calOutput as CalibratedAnalogSignal;
+                    cal.CalibrationData = null;
+                }
+                
             }
             return hsm;
         }
@@ -57,17 +65,15 @@ namespace PhccHardwareSupportModule.Phcc
         {
             if (motherboard == null) throw new ArgumentNullException(nameof(motherboard));
             _device = CreateDevice(motherboard.ComPort);
-            _analogInputSignals = CreateAnalogInputSignals(_device, motherboard);
-            _digitalInputSignals = CreateDigitalInputSignals(_device, motherboard);
-            CreateOutputSignals(_device, motherboard, out _digitalOutputSignals, out _analogOutputSignals,
-                out _peripheralByteStates, out _peripheralFloatStates);
+            _analogInputSignals = new PhccAnalogInputs(_device, motherboard.ComPort).AnalogInputs;
+            _digitalInputSignals = new PhccDigitalImputs(_device, motherboard.ComPort).DigitalInputs;
+
+            CreateOutputSignals(_device, motherboard, out _digitalOutputSignals, out _analogOutputSignals);
 
             CreateInputEventHandlers();
-            RegisterForInputEvents(_device, _analogInputChangedEventHandler, _digitalInputChangedEventHandler,
-                _i2cDataReceivedEventHandler);
+            RegisterForInputEvents(_device, _i2cDataReceivedEventHandler);
             try
             {              
-                Setup.Setup.SetupDevice(motherboard, _analogOutputSignals, _digitalInputSignals, _device);
                 StartTalking(_device);
             }
             catch (Exception e)
@@ -119,30 +125,7 @@ namespace PhccHardwareSupportModule.Phcc
 
         #region Create Input Signals
 
-        private AnalogSignal[] CreateAnalogInputSignals(p.Device device, Motherboard motherboard)
-        {
-            var toReturn = new List<AnalogSignal>();
-            for (var i = 0; i < 35; i++)
-            {
-                var thisSignal = new AnalogSignal
-                {
-                    Category = "Inputs",
-                    CollectionName = "Analog Inputs",
-                    FriendlyName = $"Analog Input {string.Format($"{i + 1:0}", i + 1)}",
-                    Id = $"PhccAnalogInput[{motherboard.ComPort}][{i}]",
-                    Index = i,
-                    PublisherObject = this,
-                    Source = device,
-                    SourceAddress = motherboard.ComPort,
-                     SourceFriendlyName = $"PHCC Device " + motherboard.Name +$" on {motherboard.ComPort}",
-                    State = 0,
-                    MinValue = 0,
-                    MaxValue = 1023
-                };
-                toReturn.Add(thisSignal);
-            }
-            return toReturn.ToArray();
-        }
+         
 
 
 
@@ -150,240 +133,66 @@ namespace PhccHardwareSupportModule.Phcc
 
         #region Create Output Signals
 
-        private DigitalSignal[] CreateDigitalInputSignals(p.Device device, Motherboard motherboard)
-        {
-            var toReturn = new List<DigitalSignal>();
-            for (var i = 0; i < 1024; i++)
-            {
-                var thisSignal = new DigitalSignal
-                {
-                    Category = "Inputs",
-                    CollectionName = "Digital Inputs",
-                    FriendlyName = $"Digital Input {string.Format($"{i + 1:0}", i + 1)}",
-                    Id = $"PhccDigitalInput[{motherboard.ComPort}][{i}]",
-                    Index = i,
-                    PublisherObject = this,
-                    Source = device,
-                    SourceAddress = motherboard.ComPort,
-                     SourceFriendlyName = $"PHCC Device " + motherboard.Name + $" on {motherboard.ComPort}",
-                    State = false
-                };
-                toReturn.Add(thisSignal);
-            }
-            return toReturn.ToArray();
-        }
+       
 
 
         private void CreateOutputSignals(p.Device device, Motherboard motherboard, out DigitalSignal[] digitalSignals,
-           out CalibratedAnalogSignal[] analogSignals,
-           out Dictionary<string, byte[]> peripheralByteStates,
-           out Dictionary<string, double[]> peripheralFloatStates)
+           out AnalogSignal[] analogSignals)
         {
             if (motherboard == null) throw new ArgumentNullException(nameof(motherboard));
             var portName = motherboard.ComPort;
             var digitalSignalsToReturn = new List<DigitalSignal>();
-            var analogSignalsToReturn = new List<CalibratedAnalogSignal>();
+            var analogSignalsToReturn = new List<AnalogSignal>();
 
+            var modules = new List<IPeripheral>();
 
             var attachedPeripherals = motherboard.Peripherals;
-            peripheralByteStates = new Dictionary<string, byte[]>();
-            peripheralFloatStates = new Dictionary<string, double[]>();
+          
             foreach (var peripheral in attachedPeripherals)
                 if (peripheral is Doa40Do)
                 {
-                    var typedPeripheral = peripheral as Doa40Do;
-                    var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
-                    for (var i = 0; i < 40; i++)
-                    {
-                        var thisSignal = new DigitalSignal
-                        {
-                            Category = "Outputs",
-                            CollectionName = "Digital Outputs" + typedPeripheral.FriendlyName,
-                            FriendlyName = $"Digital Output {string.Format($"{i + 1:0}", i + 1)}",
-                            Id = $"DOA_40DO[{portName}][{baseAddress}][{i}]",
-                            Index = i,
-                            PublisherObject = this,
-                            Source = device,
-                            SourceFriendlyName = "PHCC Device " + motherboard.Name +$" on {portName}",
-                            SourceAddress = portName,
-                            SubSource = $"DOA_40DO @ {baseAddress}",
-                            SubSourceFriendlyName = $"DOA_40DO @ {baseAddress}",
-                            SubSourceAddress = baseAddress,
-                            State = false
-                        };
-                        thisSignal.SignalChanged += DOA40DOOutputSignalChanged;
-                        digitalSignalsToReturn.Add(thisSignal);
-                    }
-                    peripheralByteStates[baseAddress] = new byte[5];
+                    modules.Add(new HSMDoa40DO(peripheral, device, portName));
                 }
                 else if (peripheral is Doa7Seg)
                 {
-                    var typedPeripheral = peripheral as Doa7Seg;
-                    var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
-                    for (var i = 0; i < 32; i++)
-                        for (var j = 0; j < 8; j++)
-                        {
-                            var thisSignal = new DigitalSignal
-                            {
-                                Category = "Outputs",
-                                CollectionName = "Digital Outputs" + typedPeripheral.FriendlyName,
-                                FriendlyName =
-                                    $"Display {string.Format($"{j + 1:0}", j + 1)}, Output Line {string.Format($"{i + 1:0}", i + 1)}",
-                                Id = $"DOA_7SEG[{portName}][{baseAddress}][{j}][{i}]",
-                                Index = i * 8 + j,
-                                PublisherObject = this,
-                                Source = device,
-                                 SourceFriendlyName = $"PHCC Device " + motherboard.Name +$" on {portName}",
-                                SourceAddress = portName,
-                                SubSource = $"DOA_7SEG @ {baseAddress}",
-                                SubSourceFriendlyName = $"DOA_7SEG " + typedPeripheral.FriendlyName + $" @ {baseAddress}",
-                                SubSourceAddress = baseAddress,
-                                State = false
-                            };
-                            thisSignal.SignalChanged += DOA7SegBitOutputSignalChanged;
-                            digitalSignalsToReturn.Add(thisSignal);
-                        }
-                    peripheralByteStates[baseAddress] = new byte[32];
+                    modules.Add(new HSMDoa7Seg(peripheral, device, portName));
                 }
-                // DOA7Seb Display Mode. Requires separate cards. 
-
                 else if (peripheral is Doa8Servo)
                 {
-                    var typedPeripheral = peripheral as Doa8Servo;
-                    var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
-                    for (var i = 0; i < 8; i++)
-                    {
-                        var thisSignal = new CalibratedAnalogSignal
-                        {
-                            Category = "Outputs",
-                            CollectionName = "Motor Outputs " + typedPeripheral.FriendlyName,
-                            FriendlyName = $"Motor {i + 1}",
-                            Id = $"DOA_8SERVO[{portName}][{baseAddress}][{i}]",
-                            Index = i,
-                            PublisherObject = this,
-                            Source = device,
-                             SourceFriendlyName = $"PHCC Device " + motherboard.Name +$" on {portName}",
-                            SourceAddress = portName,
-                            SubSource = $"DOA_8SERVO @ {baseAddress}",
-                            SubSourceFriendlyName = $"DOA_8SERVO " + typedPeripheral.FriendlyName + $" @ {baseAddress}",
-                            SubSourceAddress = baseAddress,
-                            State = 0,
-                            IsAngle = true,
-                            MinValue = -90,
-                            MaxValue = 90
-                        };
-                        thisSignal.CalibrationData = typedPeripheral.OutputConfigs
-                            .FirstOrDefault(x => x.SignalId.Equals(thisSignal.Id))?.CalibrationData;
-                        thisSignal.SignalChanged += DOA8ServoOutputSignalChanged;
-                        analogSignalsToReturn.Add(thisSignal);
-                    }
-                    peripheralFloatStates[baseAddress] = new double[8];
+                    modules.Add(new HSMDoa8Servo(peripheral, device, portName));
                 }
                 else if (peripheral is DoaAirCore)
                 {
-                    var typedPeripheral = peripheral as DoaAirCore;
-                    var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
-                    for (var i = 0; i < 4; i++)
-                    {
-                        var thisSignal = new CalibratedAnalogSignal
-                        {
-                            Category = "Outputs",
-                            CollectionName = "Motor Outputs " + typedPeripheral.FriendlyName,
-                            FriendlyName = $"Motor {i + 1}",
-                            Id = $"DOA_AIRCORE[{portName}][{baseAddress}][{i}]",
-                            Index = i,
-                            Source = device,
-                             SourceFriendlyName = $"PHCC Device " + motherboard.Name +$" on {portName}",
-                            SourceAddress = portName,
-                            SubSource = $"DOA_AIRCORE @ {baseAddress}",
-                            SubSourceFriendlyName = $"DOA_AIRCORE"  + typedPeripheral.FriendlyName + $" @ {baseAddress}",
-                            SubSourceAddress = baseAddress,
-                            State = 0
-                        };
-                        thisSignal.SignalChanged += DOAAircoreOutputSignalChanged;
-                        thisSignal.CalibrationData = typedPeripheral.OutputConfigs
-                            .FirstOrDefault(x => x.SignalId.Equals(thisSignal.Id))?.CalibrationData;
-                        thisSignal.MinValue = 0;
-                        thisSignal.MaxValue = 360;
-                        thisSignal.IsAngle = true;
-                        analogSignalsToReturn.Add(thisSignal);
-                    }
-                    peripheralFloatStates[baseAddress] = new double[4];
+                    modules.Add(new HSMDoaAirCore(peripheral, device, portName));
                 }
                 else if (peripheral is DoaAnOut1)
                 {
-                    var typedPeripheral = peripheral as DoaAnOut1;
-                    var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
-                    for (var i = 0; i < 16; i++)
-                    {
-                        var thisSignal = new CalibratedAnalogSignal
-                        {
-                            Category = "Outputs",
-                            CollectionName = "Analog Outputs" + typedPeripheral.FriendlyName,
-                            FriendlyName = $"Analog Output {string.Format($"{i + 1:0}", i + 1)}",
-                            Id = $"DOA_ANOUT1[{baseAddress}][{portName}][{i}]",
-                            Index = i,
-                            PublisherObject = this,
-                            Source = device,
-                             SourceFriendlyName = $"PHCC Device " + motherboard.Name +$" on {portName}",
-                            SourceAddress = portName,
-                            SubSource = $"DOA_ANOUT1 @ {baseAddress}",
-                            SubSourceFriendlyName = $"DOA_ANOUT1 " + typedPeripheral.FriendlyName + $" @ {baseAddress}",
-                            SubSourceAddress = baseAddress,
-                            MinValue = 0,
-                            MaxValue = 5,
-                            IsVoltage = true,
-                            State = 0
-                        };
-                        thisSignal.SignalChanged += DOAAnOut1SignalChanged;
-                        thisSignal.CalibrationData = typedPeripheral.OutputConfigs
-                            .FirstOrDefault(x => x.SignalId.Equals(thisSignal.Id))?.CalibrationData;
-                        analogSignalsToReturn.Add(thisSignal);
-                    }
-                    peripheralFloatStates[baseAddress] = new double[16];
+                    modules.Add(new HSMDoaAnOut1(peripheral, device, portName));
                 }
                 else if (peripheral is DoaStepper)
                 {
-                    var typedPeripheral = peripheral as DoaStepper;
-                    var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
-                    for (var i = 0; i < 4; i++)
-                    {
-                        var thisSignal = new CalibratedAnalogSignal
-                        {
-                            Category = "Outputs",
-                            CollectionName = "Motor Outputs " + typedPeripheral.FriendlyName,
-                            FriendlyName = $"Motor {i + 1}",
-                            Id = $"DOA_STEPPER[{portName}][{baseAddress}][{i}]",
-                            Index = i,
-                            PublisherObject = this,
-                            Source = device,
-                             SourceFriendlyName = $"PHCC Device " + motherboard.Name +$" on {portName}",
-                            SourceAddress = portName,
-                            SubSource = $"DOA_STEPPER @ {baseAddress}",
-                            SubSourceFriendlyName = $"DOA_STEPPER " + typedPeripheral.FriendlyName + $" @ {baseAddress}",
-                            SubSourceAddress = baseAddress,
-
-                            State = 0
-                        };
-                        thisSignal.SignalChanged += DOAStepperSignalChanged;
-                        thisSignal.CalibrationData = typedPeripheral.OutputConfigs
-                            .FirstOrDefault(x => x.SignalId.Equals(thisSignal.Id))?.CalibrationData;
-                        if (thisSignal.CalibrationData != null && thisSignal.CalibrationData.Any())
-                        {
-                            var max = thisSignal.CalibrationData.OrderByDescending(x => x.Output)
-                                .FirstOrDefault();
-                            if (max != null)
-                            {
-                                thisSignal.MaxValue = max.Output;
-                            }
-                        }
-                        analogSignalsToReturn.Add(thisSignal);
-                    }
-                    peripheralFloatStates[baseAddress] = new double[4];
+                    var test = new HSMDoaStepper(peripheral, device, portName);
+                    test.DigitalInputs = DigitalInputs;
+                    modules.Add(test);
                 }
+           
+            foreach (var peripheral in modules)
+            {
+                peripheral.InitializeSignals();
+                if (peripheral.AnalogOutputs != null)
+                {
+                    analogSignalsToReturn.AddRange(peripheral.AnalogOutputs);
+                }
+                if (peripheral.DigitalOutputs != null)
+                {
+                    digitalSignalsToReturn.AddRange(peripheral.DigitalOutputs);
+                }
+                
+               
+            }
+
             analogSignals = analogSignalsToReturn.ToArray();
             digitalSignals = digitalSignalsToReturn.ToArray();
-
         }
 
         #endregion
@@ -392,201 +201,20 @@ namespace PhccHardwareSupportModule.Phcc
 
         private void CreateInputEventHandlers()
         {
-            _analogInputChangedEventHandler = device_AnalogInputChanged;
-            _digitalInputChangedEventHandler = device_DigitalInputChanged;
+ 
             _i2cDataReceivedEventHandler = device_I2CDataReceived;
         }
 
         private void AbandonInputEventHandlers()
         {
-            _analogInputChangedEventHandler = null;
-            _digitalInputChangedEventHandler = null;
+
             _i2cDataReceivedEventHandler = null;
         }
+ 
+  
 
-        private void DOA40DOOutputSignalChanged(object sender, DigitalSignalChangedEventArgs args)
-        {
-            var source = sender as DigitalSignal;
-            if (source?.Index == null) return;
-            var outputNum = source.Index.Value;
-            var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = byte.Parse(baseAddress);
-            var device = source.Source as p.Device;
-            if (device == null) return;
-            var newBitVal = args.CurrentState;
-            var peripheralState = _peripheralByteStates[baseAddress];
-            var connectorNumZeroBase = outputNum / 8;
-            var thisBitIndex = outputNum % 8;
-            var connectorNum = connectorNumZeroBase + 3;
-            var currentBitsThisConnector = peripheralState[connectorNumZeroBase];
-            var newBits = Common.Util.SetBit(currentBitsThisConnector, thisBitIndex, newBitVal);
-            try
-            {
-                device.DoaSend40DO(baseAddressByte, (byte)connectorNum, newBits);
-                peripheralState[connectorNumZeroBase] = newBits;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
 
-        }
-        //todo: add logic to handle 7 segment mode
-        private void DOA7SegBitOutputSignalChanged(object sender, DigitalSignalChangedEventArgs args)
-        {
-            var source = sender as DigitalSignal;
-            if (source?.Index == null) return;
-            var outputLineNum = source.Index.Value;
-            var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = byte.Parse(baseAddress);
-            var device = source.Source as p.Device;
-            if (device == null) return;
-            var newBitVal = args.CurrentState;
-            var peripheralState = _peripheralByteStates[baseAddress];
-            var displayNumZeroBase = outputLineNum / 8;
-            var thisBitIndex = outputLineNum % 8;
-            var displayNum = displayNumZeroBase + 1;
-            var currentBitsThisDisplay = peripheralState[displayNumZeroBase];
-            var newBits = Common.Util.SetBit(currentBitsThisDisplay, thisBitIndex, newBitVal);
 
-            try
-            {
-                device.DoaSend7Seg(baseAddressByte, (byte)displayNum, newBits);
-                peripheralState[displayNumZeroBase] = newBits;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-        }
-
-        private void DOA7SegDisplayOutputSignalChanged(object sender, TextSignalChangedEventArgs args)
-        {
-            var source = sender as TextSignal;
-            if (source?.Index == null) return;
-            //var outputLineNum = source.Index.Value;
-            //var baseAddress = source.SubSourceAddress;
-            //var baseAddressByte = byte.Parse(baseAddress);
-            //var device = source.Source as p.Device;
-            //if (device == null) return;
-            //var newBitVal = args.CurrentState;
-            //var peripheralState = _peripheralByteStates[baseAddress];
-            //var displayNumZeroBase = outputLineNum / 8;
-            //var thisBitIndex = outputLineNum % 8;
-            //var displayNum = displayNumZeroBase + 1;
-            //var currentBitsThisDisplay = peripheralState[displayNumZeroBase];
-            //var newBits = Common.Util.SetBit(currentBitsThisDisplay, thisBitIndex, newBitVal);
-
-            try
-            {
-                //device.DoaSend7Seg(baseAddressByte, (byte)displayNum, newBits);
-                //peripheralState[displayNumZeroBase] = newBits;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-        }
-
-        private void DOA8ServoOutputSignalChanged(object sender, AnalogSignalChangedEventArgs args)
-        {
-            var source = sender as CalibratedAnalogSignal;
-            if (source?.Index == null) return;
-            var servoNumZeroBase = source.Index.Value;
-            var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
-            var device = source.Source as p.Device;
-            if (device == null) return;
-            var servoNum = servoNumZeroBase + 1;
-            var newPosition = (byte)(Math.Abs(args.CurrentState + 90.00) / 180.00 * 255);
-
-            try
-            {
-                device.DoaSend8ServoPosition(baseAddressByte, (byte)servoNum, newPosition);
-                _peripheralFloatStates[baseAddress][servoNum] = newPosition;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-
-        }
-
-        private void DOAAircoreOutputSignalChanged(object sender, AnalogSignalChangedEventArgs args)
-        {
-            var source = sender as CalibratedAnalogSignal;
-            if (source?.Index == null) return;
-            var motorNumZeroBase = source.Index.Value;
-            var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
-            var device = source.Source as p.Device;
-            if (device == null) return;
-            var motorNum = motorNumZeroBase + 1;
-            var newPosition = (int)(Math.Abs(args.CurrentState) / 360.00 * 1023);
-            try
-            {
-                device.DoaSendAirCoreMotor(baseAddressByte, (byte)motorNum, newPosition);
-                _peripheralFloatStates[baseAddress][motorNum] = newPosition;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-        }
-
-        private void DOAAnOut1SignalChanged(object sender, AnalogSignalChangedEventArgs args)
-        {
-            var source = sender as CalibratedAnalogSignal;
-            if (source?.Index == null) return;
-            var channelNumZeroBase = source.Index.Value;
-            var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
-            var device = source.Source as p.Device;
-            if (device == null) return;
-            var channelNum = channelNumZeroBase + 1;
-            var newVal = (byte)(Math.Abs(args.CurrentState) / 5.00 * 255);
-            try
-            {
-                device.DoaSendAnOut1(baseAddressByte, (byte)channelNum, newVal);
-                _peripheralFloatStates[baseAddress][channelNum] = newVal;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-
-        }
-
-        private void DOAStepperSignalChanged(object sender, AnalogSignalChangedEventArgs args)
-        {
-            var source = sender as CalibratedAnalogSignal;
-            if (source?.Index == null) return;
-            var motorNumZeroBase = source.Index.Value;
-            var baseAddress = source.SubSourceAddress;
-            var baseAddressByte = Convert.ToByte(baseAddress.Replace("0x", ""), 16);
-            var device = source.Source as p.Device;
-            if (device == null) return;
-            var motorNum = motorNumZeroBase + 1;
-            var newPosition = args.CurrentState;
-            var oldPosition = _peripheralFloatStates[baseAddress][motorNumZeroBase];
-            var numSteps = (int)Math.Abs(newPosition - oldPosition);
-            var direction = p.MotorDirections.Clockwise;
-            if (oldPosition < newPosition)
-            {
-                direction = p.MotorDirections.Counterclockwise;
-            }
-            try
-            {
-                device.DoaSendStepperMotor(baseAddressByte, (byte)motorNum, direction, (byte)numSteps,
-                    p.MotorStepTypes.FullStep);
-                _peripheralFloatStates[baseAddress][motorNumZeroBase] = newPosition;
-            }
-            catch (Exception e)
-            {
-                _log.Error(e.Message, e);
-            }
-
-        }
 
         private static ConfigurationManager LoadConfiguration(string phccConfigFile)
         {
@@ -595,20 +223,12 @@ namespace PhccHardwareSupportModule.Phcc
         }
 
         private static void RegisterForInputEvents(p.Device device,
-            p.AnalogInputChangedEventHandler analogInputChangedEventHandler,
-            p.DigitalInputChangedEventHandler digitalInputChangedEventHandler,
+           
             p.I2CDataReceivedEventHandler i2cDataReceivedEventHandler)
         {
             if (device == null) return;
 
-            if (analogInputChangedEventHandler != null)
-            {
-                device.AnalogInputChanged += analogInputChangedEventHandler;
-            }
-            if (digitalInputChangedEventHandler != null)
-            {
-                device.DigitalInputChanged += digitalInputChangedEventHandler;
-            }
+          
             if (i2cDataReceivedEventHandler != null)
             {
                 device.I2CDataReceived += i2cDataReceivedEventHandler;

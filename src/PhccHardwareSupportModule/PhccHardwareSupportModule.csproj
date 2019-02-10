@@ -34,9 +34,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Phcc\Inputs\PhccAnalogInputs.cs" />
+    <Compile Include="Phcc\Inputs\PhccDigitalImputs.cs" />
+    <Compile Include="Phcc\Interfaces\IPeripheral.cs" />
+    <Compile Include="Phcc\Peripherals\Classes\Doa40DO.cs" />
+    <Compile Include="Phcc\Peripherals\Classes\Doa7Seg.cs" />
+    <Compile Include="Phcc\Peripherals\Classes\Doa8Servo.cs" />
+    <Compile Include="Phcc\Peripherals\Classes\DoaAirCore.cs" />
+    <Compile Include="Phcc\Peripherals\Classes\DoaAnOut1.cs" />
+    <Compile Include="Phcc\Peripherals\Classes\DoaStepper.cs" />
     <Compile Include="Phcc\PhccHardwareSupportModule.cs" />
     <Compile Include="Phcc\PhccHardwareSupportModuleConfig.cs" />
-    <Compile Include="Phcc\Setup\Setup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>

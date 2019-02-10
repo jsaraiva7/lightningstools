@@ -62,9 +62,10 @@ namespace Phcc.DeviceManager.UI
 
         private void Update()
         {
+            
             var signalList = _signals.Select(x => new GridDisplayModel()
             {
-                SubSource = x.SubSourceFriendlyName,
+                SubSource = x.CollectionName,
                 FriendlyName = x.FriendlyName,
                 Id = x.Id,
                 SourceDevice = x.SourceFriendlyName
@@ -72,6 +73,7 @@ namespace Phcc.DeviceManager.UI
             dataGridView1.DataSource = signalList;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dataGridView1.Refresh();
+            dataGridView1.AllowUserToResizeColumns = true;
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)

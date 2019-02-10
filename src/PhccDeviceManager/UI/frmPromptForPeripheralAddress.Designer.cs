@@ -63,7 +63,7 @@
             // txtBaseAddress
             // 
             this.txtBaseAddress.Location = new System.Drawing.Point(117, 58);
-            this.txtBaseAddress.MaxLength = 5;
+            this.txtBaseAddress.MaxLength = 25;
             this.txtBaseAddress.Name = "txtBaseAddress";
             this.txtBaseAddress.Size = new System.Drawing.Size(181, 20);
             this.txtBaseAddress.TabIndex = 2;
@@ -94,7 +94,7 @@
             // tbFriendlyName
             // 
             this.tbFriendlyName.Location = new System.Drawing.Point(119, 18);
-            this.tbFriendlyName.MaxLength = 15;
+            this.tbFriendlyName.MaxLength = 25;
             this.tbFriendlyName.Name = "tbFriendlyName";
             this.tbFriendlyName.Size = new System.Drawing.Size(181, 20);
             this.tbFriendlyName.TabIndex = 4;

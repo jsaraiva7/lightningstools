@@ -16,7 +16,7 @@ namespace Phcc.DeviceManager.UI
         {
             InitializeComponent();
             _comPorts = EnumerateSerialPorts();
-            tbFriendlyName.Text = Name;
+            txtFriendlyName.Text = Name;
         }
 
         public string COMPort
@@ -31,7 +31,7 @@ namespace Phcc.DeviceManager.UI
             set
             {
                 _name = value;
-                tbFriendlyName.Text = _name;
+                txtFriendlyName.Text = _name;
             }
         }
 
@@ -93,7 +93,7 @@ namespace Phcc.DeviceManager.UI
         {
             FriendlyName = txtFriendlyName.Text;
             DialogResult = DialogResult.OK;
-            _name = tbFriendlyName.Text;
+            _name = txtFriendlyName.Text;
             Close();
         }
 

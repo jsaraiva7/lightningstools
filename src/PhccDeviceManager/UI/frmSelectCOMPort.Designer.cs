@@ -33,7 +33,7 @@
             this.cmdOk = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.tbFriendlyName = new System.Windows.Forms.TextBox();
+            this.txtFriendlyName = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // cbComPort
@@ -87,14 +87,14 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "&Name:";
             // 
-            // tbFriendlyName
+            // txtFriendlyName
             // 
-            this.tbFriendlyName.Location = new System.Drawing.Point(74, 46);
-            this.tbFriendlyName.MaxLength = 15;
-            this.tbFriendlyName.Name = "tbFriendlyName";
-            this.tbFriendlyName.Size = new System.Drawing.Size(183, 20);
-            this.tbFriendlyName.TabIndex = 5;
-            this.tbFriendlyName.Text = " ";
+            this.txtFriendlyName.Location = new System.Drawing.Point(74, 46);
+            this.txtFriendlyName.MaxLength = 25;
+            this.txtFriendlyName.Name = "txtFriendlyName";
+            this.txtFriendlyName.Size = new System.Drawing.Size(183, 20);
+            this.txtFriendlyName.TabIndex = 5;
+            this.txtFriendlyName.Text = " ";
             // 
             // frmSelectCOMPort
             // 
@@ -104,7 +104,7 @@
             this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(292, 117);
             this.ControlBox = false;
-            this.Controls.Add(this.tbFriendlyName);
+            this.Controls.Add(this.txtFriendlyName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdOk);
@@ -131,6 +131,6 @@
         private System.Windows.Forms.Button cmdOk;
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tbFriendlyName;
+        private System.Windows.Forms.TextBox txtFriendlyName;
     }
 }
