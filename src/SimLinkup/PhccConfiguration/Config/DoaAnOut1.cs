@@ -10,5 +10,10 @@ namespace PhccConfiguration.Config
        
         public List<OutputConfig> OutputConfigs { get; set; } = new List<OutputConfig>();
         public byte GainAllChannels { get; set; }
+        public override string ToString()
+        {
+            return "DoaAnOut1 - " + FriendlyName + " - " + Address.ToString("X");
+
+        }
     }
 }

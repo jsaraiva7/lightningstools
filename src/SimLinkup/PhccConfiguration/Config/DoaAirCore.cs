@@ -9,5 +9,10 @@ namespace PhccConfiguration.Config
     {
        
         public List<OutputConfig> OutputConfigs { get; set; } = new List<OutputConfig>();
+        public override string ToString()
+        {
+            return "DoaAirCore - " + FriendlyName + " - " + Address.ToString("X");
+
+        }
     }
 }

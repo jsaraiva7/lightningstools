@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Common.Excel;
 using log4net;
 using Mapper.Models.Mapping;
 using Mapper.UI.AddMapping;
+using OfficeOpenXml;
 using SignalMapping = Mapper.Models.Mapping.SignalMapping;
 
 namespace Mapper.UI
@@ -307,5 +309,73 @@ namespace Mapper.UI
                 Application.Exit();
             }
          }
+
+        private void exportMappingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dlgSaveExcel.Title = "Select a filename";
+
+            dlgSaveExcel.DefaultExt = "xlsx";
+            dlgSaveExcel.AddExtension = true;
+
+            if (dlgSaveExcel.ShowDialog() == DialogResult.OK)
+            {
+
+
+                var mapModel = _profile.SignalMappings.Select(c => new MapExportModel
+                {
+                    SourceId = c.Source.Id,
+                    DestinationId = c.Destination.Id
+                }).ToList();
+                FileInfo f = new FileInfo(dlgSaveExcel.FileName);
+
+                if (File.Exists(dlgSaveExcel.FileName))
+                {
+                    File.Delete(dlgSaveExcel.FileName);
+                }
+
+
+                ExcelPackage pkg = new ExcelPackage(f);
+
+                Export.ListToExcel(mapModel, pkg,
+                    "Signal Mappings");
+                pkg.Save();
+            }
+        }
+
+        private void exportAllSignalsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            dlgSaveExcel.Title = "Select a filename";
+
+            dlgSaveExcel.DefaultExt = "xlsx";
+            dlgSaveExcel.AddExtension = true;
+
+
+
+            if (dlgSaveExcel.ShowDialog() == DialogResult.OK)
+            {
+                FileInfo f = new FileInfo(dlgSaveExcel.FileName);
+
+                if (File.Exists(dlgSaveExcel.FileName))
+                {
+                    File.Delete(dlgSaveExcel.FileName);
+                }
+
+
+                ExcelPackage pkg = new ExcelPackage(f);
+
+                Export.ListToExcel(SharedRuntime.ScriptingContext.AllSignals, pkg,
+                    "All Signals");
+                pkg.Save();
+            }
+        }
+    }
+
+    class MapExportModel
+    {
+   
+        public string SourceId { get; set; }
+    
+        public string DestinationId { get; set; }
     }
 }

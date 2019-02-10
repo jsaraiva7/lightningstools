@@ -14,5 +14,11 @@ namespace PhccConfiguration.Config
         [XmlArray("Calibrations")]
         [XmlArrayItem("Calibration")]
         public List<ServoCalibration> ServoCalibrations { get; set; }
+
+        public override string ToString()
+        {
+            return "Doa8Servo - " + FriendlyName + " - " + Address.ToString("X");
+
+        }
     }
 }

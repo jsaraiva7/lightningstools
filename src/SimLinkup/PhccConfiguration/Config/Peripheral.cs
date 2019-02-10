@@ -15,5 +15,8 @@ namespace PhccConfiguration.Config
         public byte Address { get; set; }
         //Henk Suggestion
         public string FriendlyName { get; set; }
+       
     }
+
+     
 }

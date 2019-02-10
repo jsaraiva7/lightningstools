@@ -43,6 +43,10 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this._mappingDisplay = new System.Windows.Forms.DataGridView();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportMappingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAllSignalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dlgSaveExcel = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._mappingDisplay)).BeginInit();
             this.SuspendLayout();
@@ -52,6 +56,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.addToolStripMenuItem,
+            this.exportToolStripMenuItem,
             this.aboutToolStripMenuItem,
             this.testToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -158,6 +163,33 @@
             this._mappingDisplay.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._mappingDisplay_CellContentClick);
             this._mappingDisplay.SelectionChanged += new System.EventHandler(this._mappingDisplay_SelectionChanged);
             // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportMappingToolStripMenuItem,
+            this.exportAllSignalsToolStripMenuItem});
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.exportToolStripMenuItem.Text = "Export";
+            // 
+            // exportMappingToolStripMenuItem
+            // 
+            this.exportMappingToolStripMenuItem.Name = "exportMappingToolStripMenuItem";
+            this.exportMappingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportMappingToolStripMenuItem.Text = "Export Mapping";
+            this.exportMappingToolStripMenuItem.Click += new System.EventHandler(this.exportMappingToolStripMenuItem_Click);
+            // 
+            // exportAllSignalsToolStripMenuItem
+            // 
+            this.exportAllSignalsToolStripMenuItem.Name = "exportAllSignalsToolStripMenuItem";
+            this.exportAllSignalsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportAllSignalsToolStripMenuItem.Text = "Export All Signals";
+            this.exportAllSignalsToolStripMenuItem.Click += new System.EventHandler(this.exportAllSignalsToolStripMenuItem_Click);
+            // 
+            // dlgSaveExcel
+            // 
+            this.dlgSaveExcel.DefaultExt = "XLSX";
+            // 
             // Mapper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -194,6 +226,10 @@
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem validateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportMappingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportAllSignalsToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog dlgSaveExcel;
     }
 }
 

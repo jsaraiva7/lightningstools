@@ -4,10 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Common.Excel;
 using Common.MacroProgramming;
 using log4net;
+using OfficeOpenXml;
 using Phcc.DeviceManager.UI.Doa7SegConfig;
 using PhccConfiguration.Config;
+ 
+
+
 
 namespace Phcc.DeviceManager.UI
 {
@@ -879,5 +884,75 @@ namespace Phcc.DeviceManager.UI
             }
         }
 
+        private void exportToExcelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           
+            dlgSaveExcel.Title = "Select a filename";
+             
+            dlgSaveExcel.DefaultExt = "xlsx";
+            dlgSaveExcel.AddExtension = true;
+
+            if (dlgSaveExcel.ShowDialog() == DialogResult.OK)
+            {
+                FileInfo f = new FileInfo(dlgSaveExcel.FileName);
+
+                if (File.Exists(dlgSaveExcel.FileName))
+                {
+                     File.Delete(dlgSaveExcel.FileName);
+                }
+
+
+                ExcelPackage pkg =new ExcelPackage(f);
+                foreach (var motherboard in _configMgr.Motherboards)
+                {
+                    Export.ListToExcel(motherboard.Peripherals, pkg,
+                        motherboard.FriendlyName + "- " + motherboard.ComPort);
+                    foreach (var board in motherboard.Peripherals)
+                    {
+
+                        if (board is DoaStepper)
+                        {
+                            var b = board as DoaStepper;
+                            Export.ListToExcel(b.HomingSignals, pkg,
+                                board.FriendlyName + " - " + "Home_IN");
+                            Export.ListToExcel(b.OutputConfigs.FirstOrDefault()?.CalibrationData, pkg,
+                                board.FriendlyName + " - " + "Calibration");
+                        }
+                        else if (board is Doa7Seg)
+                        {
+                            var b = board as Doa7Seg;
+                            Export.ListToExcel(b.Configuration.DisplayModeConfiguration, pkg,
+                                board.FriendlyName);
+                         
+                        }
+                        else if (board is Doa8Servo)
+                        {
+                            var b = board as Doa8Servo;
+                            Export.ListToExcel(b.OutputConfigs, pkg,
+                                board.FriendlyName + " - Configs");
+
+                            Export.ListToExcel(b.OutputConfigs.FirstOrDefault()?.CalibrationData, pkg,
+                                board.FriendlyName + " - Calibration");
+                        }
+                        else if (board is DoaAirCore)
+                        {
+                            var b = board as DoaAirCore;
+                            Export.ListToExcel(b.OutputConfigs.FirstOrDefault()?.CalibrationData, pkg,
+                                board.FriendlyName + " - Calibration");
+                        }
+                        else if (board is DoaAnOut1)
+                        {
+                            var b = board as DoaAnOut1;
+                            Export.ListToExcel(b.OutputConfigs.FirstOrDefault()?.CalibrationData, pkg,
+                                board.FriendlyName + " - Calibration");
+
+                        }
+
+
+                    }
+                }
+                pkg.Save();
+            }
+        }
     }
 }
