@@ -9,13 +9,10 @@ using PhccHardwareSupportModule.Phcc.Interfaces;
 
 namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
 {
-    public class HSMDoaAnOut1 : IPeripheral
+    public class HSMDoaAnOut1 : HSMPeripheral
     {
 
-        public AnalogSignal[] AnalogOutputs { get; set; }
-        public AnalogSignal[] AnalogInputs { get; set; }
-        public DigitalSignal[] DigitalOutputs { get; set; }
-        public DigitalSignal[] DigitalInputs { get; set; }
+ 
         Dictionary<string, byte[]> _peripheralByteStates = new Dictionary<string, byte[]>();
         Dictionary<string, double[]> _peripheralFloatStates = new Dictionary<string, double[]>();
         private static readonly ILog _log = LogManager.GetLogger(typeof(PhccHardwareSupportModule));
@@ -26,24 +23,23 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
         private Device _device;
         private string _portName;
 
-        public HSMDoaAnOut1(Peripheral peripheral, Device device, string portName)
+       
+        public override void InitializeSignals(object peripheral, object device)
         {
-            _peripheral = peripheral;
-            _device = device;
-            _portName = portName;
+            _peripheral = peripheral as DoaAnOut1;
+            _device = device as Device;
+            if (_device != null) _portName = _device.PortName;
             try
             {
                 if (device == null) throw new ArgumentNullException(nameof(device));
                 if (peripheral == null) throw new ArgumentNullException(nameof(peripheral));
-                SendAnOut1Calibrations(device, peripheral);
+                SendAnOut1Calibrations(_device, _peripheral);
             }
             catch (Exception e)
             {
                 _log.Error(e.Message, e);
             }
-        }
-        public void InitializeSignals()
-        {
+
             List<AnalogSignal> analogSignalsToReturn = new List<AnalogSignal>();
             var typedPeripheral = _peripheral as PhccConfiguration.Config.DoaAnOut1;
             var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
@@ -74,7 +70,8 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                 analogSignalsToReturn.Add(thisSignal);
             }
             _peripheralFloatStates[baseAddress] = new double[16];
-            AnalogOutputs = analogSignalsToReturn.ToArray();
+            AnalogOutputs.AddRange(analogSignalsToReturn);
+           
         }
 
 

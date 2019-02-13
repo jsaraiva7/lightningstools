@@ -10,10 +10,10 @@ namespace PhccHardwareSupportModule.Phcc.Inputs
 {
     public class PhccDigitalImputs : IPeripheral
     {
-        public AnalogSignal[] AnalogOutputs { get; set; }
-        public AnalogSignal[] AnalogInputs { get; set; }
-        public DigitalSignal[] DigitalOutputs { get; set; }
-        public DigitalSignal[] DigitalInputs { get; set; }
+        public List<AnalogSignal> AnalogOutputs { get; set; } = new List<AnalogSignal>();
+        public List<AnalogSignal> AnalogInputs { get; set; } = new List<AnalogSignal>();
+        public List<DigitalSignal> DigitalOutputs { get; set; } = new List<DigitalSignal>();
+        public List<DigitalSignal> DigitalInputs { get; set; } = new List<DigitalSignal>();
 
         private DigitalInputChangedEventHandler _digitalInputChangedEventHandler;
 
@@ -25,11 +25,11 @@ namespace PhccHardwareSupportModule.Phcc.Inputs
         private Device _device;
         private string _portName;
 
-        public PhccDigitalImputs(Device device, string portName)
+        public PhccDigitalImputs(Device device)
         {
             _device = device;
-            _portName = portName;
-            InitializeSignals();
+            if (device.PortName != null) _portName = device.PortName;
+            InitializeSignals(null, device);
             if (device == null) return;
          
             _digitalInputChangedEventHandler = device_DigitalInputChanged;
@@ -41,7 +41,7 @@ namespace PhccHardwareSupportModule.Phcc.Inputs
         }
 
       
-        public void InitializeSignals()
+        public void InitializeSignals(object peripheral, object device)
         {
             var toReturn = new List<DigitalSignal>();
             for (var i = 0; i < 1024; i++)
@@ -61,13 +61,13 @@ namespace PhccHardwareSupportModule.Phcc.Inputs
                 };
                 toReturn.Add(thisSignal);
             }
-            DigitalInputs = toReturn.ToArray();
+            DigitalInputs.AddRange(toReturn);
         }
 
 
         private void device_DigitalInputChanged(object sender, DigitalInputChangedEventArgs e)
         {
-            if (DigitalInputs == null || DigitalInputs.Length <= e.Index) return;
+            if (DigitalInputs == null || DigitalInputs.Count <= e.Index) return;
             var signal = DigitalInputs[e.Index];
             signal.State = e.NewValue;
         }

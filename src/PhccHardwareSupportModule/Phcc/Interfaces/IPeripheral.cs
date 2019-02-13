@@ -1,18 +1,19 @@
-﻿using Common.MacroProgramming;
+﻿using System.Collections.Generic;
+using Common.MacroProgramming;
 
 namespace PhccHardwareSupportModule.Phcc.Interfaces
 {
     public interface IPeripheral
     {
 
-        AnalogSignal[] AnalogOutputs { get; set; }
-        AnalogSignal[] AnalogInputs { get; set; }
-        DigitalSignal[] DigitalOutputs { get; set; }
-        DigitalSignal[] DigitalInputs { get; set; }
+        List<AnalogSignal> AnalogOutputs { get; set; }
+        List<AnalogSignal> AnalogInputs { get; set; }
+        List<DigitalSignal> DigitalOutputs { get; set; }
+        List<DigitalSignal> DigitalInputs { get; set; }
  
 
  
-        void InitializeSignals();
+        void InitializeSignals(object peripheral, object device);
 
     
 

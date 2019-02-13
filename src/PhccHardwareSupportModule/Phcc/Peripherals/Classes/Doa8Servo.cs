@@ -9,15 +9,9 @@ using PhccHardwareSupportModule.Phcc.Interfaces;
 
 namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
 {
-    public class HSMDoa8Servo : IPeripheral
+    public class HSMDoa8Servo : HSMPeripheral
     {
-        public AnalogSignal[] AnalogOutputs { get; set; }
-        public AnalogSignal[] AnalogInputs { get; set; }
-        public DigitalSignal[] DigitalOutputs { get; set; }
-        public DigitalSignal[] DigitalInputs { get; set; }
-
-
-
+ 
 
         Dictionary<string, byte[]> _peripheralByteStates = new Dictionary<string, byte[]>();
         Dictionary<string, double[]> _peripheralFloatStates = new Dictionary<string, double[]>();
@@ -26,12 +20,12 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
         private Peripheral _peripheral;
         private Device _device;
         private string _portName;
-
-        public HSMDoa8Servo(Peripheral peripheral, Device device, string portName)
+ 
+        public override void InitializeSignals(object peripheral, object device)
         {
-            _peripheral = peripheral;
-            _device = device;
-            _portName = portName;
+            _peripheral = peripheral as Doa8Servo;
+            _device = device as Device;
+            if (_device != null) _portName = _device.PortName;
             try
             {
                 if (device == null) throw new ArgumentNullException(nameof(device));
@@ -42,10 +36,6 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
             {
                 _log.Error(e.Message, e);
             }
-            
-        }
-        public void InitializeSignals( )
-        {
 
             List<AnalogSignal> analogSignalsToReturn = new List<AnalogSignal>();
 
@@ -78,7 +68,8 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                 analogSignalsToReturn.Add(thisSignal);
             }
             _peripheralFloatStates[baseAddress] = new double[8];
-            AnalogOutputs = analogSignalsToReturn.ToArray();
+            AnalogOutputs.AddRange(analogSignalsToReturn);
+             
         }
 
 

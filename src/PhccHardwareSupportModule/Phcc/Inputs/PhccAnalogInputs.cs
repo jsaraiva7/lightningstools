@@ -11,10 +11,10 @@ namespace PhccHardwareSupportModule.Phcc.Inputs
 {
     public class PhccAnalogInputs : IPeripheral, IDisposable
     {
-        public AnalogSignal[] AnalogOutputs { get; set; }
-        public AnalogSignal[] AnalogInputs { get; set; }
-        public DigitalSignal[] DigitalOutputs { get; set; }
-        public DigitalSignal[] DigitalInputs { get; set; }
+        public List<AnalogSignal> AnalogOutputs { get; set; } = new List<AnalogSignal>();
+        public List<AnalogSignal> AnalogInputs { get; set; } = new List<AnalogSignal>();
+        public List<DigitalSignal> DigitalOutputs { get; set; } = new List<DigitalSignal>();
+        public List<DigitalSignal> DigitalInputs { get; set; } = new List<DigitalSignal>();
 
         private AnalogInputChangedEventHandler _analogInputChangedEventHandler;
 
@@ -25,11 +25,11 @@ namespace PhccHardwareSupportModule.Phcc.Inputs
         private Device _device;
         private string _portName;
 
-        public PhccAnalogInputs(Device device, string portName)
+        public PhccAnalogInputs(Device device)
         {
             _device = device;
-            _portName = portName;
-            InitializeSignals();
+            if (_device != null) _portName = _device.PortName;
+            InitializeSignals(null, device);
             _analogInputChangedEventHandler = device_AnalogInputChanged;
             if (_analogInputChangedEventHandler != null)
             {
@@ -39,7 +39,7 @@ namespace PhccHardwareSupportModule.Phcc.Inputs
 
       
 
-        public void InitializeSignals()
+        public void InitializeSignals(object peripheral, object device)
         {
             List<AnalogSignal> digitalSignalsToReturn = new List<AnalogSignal>();
             var toReturn = new List<AnalogSignal>();
@@ -62,14 +62,14 @@ namespace PhccHardwareSupportModule.Phcc.Inputs
                 };
                 toReturn.Add(thisSignal);
             }
-            AnalogInputs = toReturn.ToArray();
+            AnalogInputs.AddRange(toReturn);
 
 
         }
 
         private void device_AnalogInputChanged(object sender, AnalogInputChangedEventArgs e)
         {
-            if (AnalogInputs == null || AnalogInputs.Length <= e.Index) return;
+            if (AnalogInputs == null || AnalogInputs.Count <= e.Index) return;
             var signal = AnalogInputs[e.Index];
             signal.State = e.NewValue;
         }

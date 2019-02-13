@@ -124,7 +124,6 @@
     <Compile Include="HardwareSupport\AnalogDevices\AnalogDevicesHardwareSupportModule.cs" />
     <Compile Include="HardwareSupport\AnalogDevices\AnalogDevicesHardwareSupportModuleConfig.cs" />
     <Compile Include="HardwareSupport\Astronautics\Astronautics12871HardwareSupportModule.cs" />
-    <Compile Include="HardwareSupport\DirectInput\DirectInputHardwareSupportModule.cs" />
     <Compile Include="HardwareSupport\Gould\GouldHS070D51341HardwareSupportModule.cs" />
     <Compile Include="HardwareSupport\Henk\ADI\HenkF16ADISupportBoardHardwareSupportModule.cs" />
     <Compile Include="HardwareSupport\Henk\Altimeter\HenkieF16AltimeterHardwareSupportModule.cs" />
@@ -422,9 +421,7 @@
     <Content Include="Content\Mapping\PHCC\PhccHardwareSupportModule.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Mapping\PHCC\phcc.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Content\Mapping\PHCC\phcc.config" />
     <Content Include="Content\Mapping\Nigel\AMI900158001horizontalsituationindicator.mapping">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -718,6 +715,10 @@
     <ProjectReference Include="..\PHCC\PHCC.csproj">
       <Project>{75fa2030-c9ca-4b2d-8534-8f48eea13ca3}</Project>
       <Name>PHCC</Name>
+    </ProjectReference>
+    <ProjectReference Include="DirectInputHardwareSupportModule\DirectInputHardwareSupportModule.csproj">
+      <Project>{55bd4572-857a-4a22-8400-2298f8da9574}</Project>
+      <Name>DirectInputHardwareSupportModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

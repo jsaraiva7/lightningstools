@@ -43,6 +43,7 @@
     <Compile Include="Phcc\Peripherals\Classes\DoaAirCore.cs" />
     <Compile Include="Phcc\Peripherals\Classes\DoaAnOut1.cs" />
     <Compile Include="Phcc\Peripherals\Classes\DoaStepper.cs" />
+    <Compile Include="Phcc\Peripherals\Classes\HSMPeripheral.cs" />
     <Compile Include="Phcc\PhccHardwareSupportModule.cs" />
     <Compile Include="Phcc\PhccHardwareSupportModuleConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,6 +84,7 @@
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

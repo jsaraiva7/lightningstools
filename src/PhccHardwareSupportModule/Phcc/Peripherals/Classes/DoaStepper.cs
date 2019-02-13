@@ -13,14 +13,8 @@ using PhccHardwareSupportModule.Phcc.Interfaces;
 
 namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
 {
-    public class HSMDoaStepper : IPeripheral
+    public class HSMDoaStepper : HSMPeripheral
     {
-
-        public AnalogSignal[] AnalogOutputs { get; set; }
-        public AnalogSignal[] AnalogInputs { get; set; }
-        public DigitalSignal[] DigitalOutputs { get; set; }
-        public DigitalSignal[] DigitalInputs { get; set; }
-
 
         Dictionary<string, byte[]> _peripheralByteStates = new Dictionary<string, byte[]>();
         Dictionary<string, double[]> _peripheralFloatStates = new Dictionary<string, double[]>();
@@ -32,16 +26,12 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
         private Device _device;
         private string _portName;
 
-        public HSMDoaStepper(Peripheral peripheral, Device device, string portName)
+     
+        public override void InitializeSignals(object peripheral, object device)
         {
-            _peripheral = peripheral;
-            _device = device;
-            _portName = portName;
-           
-        }
-        public void InitializeSignals()
-        {
-            
+            _peripheral = peripheral as DoaStepper;
+            _device = device as Device;
+            if (_device != null) _portName = _device.PortName;
             List<AnalogSignal> analogSignalsToReturn = new List<AnalogSignal>();
             var typedPeripheral = _peripheral as PhccConfiguration.Config.DoaStepper;
             var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
@@ -81,7 +71,8 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
             }
 
             _peripheralFloatStates[baseAddress] = new double[4];
-            AnalogOutputs = analogSignalsToReturn.ToArray();
+            AnalogOutputs.AddRange(analogSignalsToReturn);
+          
 
             Task t = Task.Run(async () => { HomeIn(); });
           

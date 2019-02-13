@@ -8,15 +8,8 @@ using PhccHardwareSupportModule.Phcc.Interfaces;
 
 namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
 {
-    public class HSMDoa40DO : IPeripheral
+    public class HSMDoa40DO : HSMPeripheral
     {
-        public AnalogSignal[] AnalogOutputs { get; set; }
-        public AnalogSignal[] AnalogInputs { get; set; }
-        public DigitalSignal[] DigitalOutputs { get; set; }
-        public DigitalSignal[] DigitalInputs { get; set; }
-
-
-        
 
         Dictionary<string, byte[]> _peripheralByteStates = new Dictionary<string, byte[]>();
         Dictionary<string, double[]> _peripheralFloatStates = new Dictionary<string, double[]>();
@@ -26,16 +19,12 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
         private Device _device;
         private string _portName;
 
-        public HSMDoa40DO(Peripheral peripheral, Device device, string portName)
+        public override void InitializeSignals(object peripheral, object device)
         {
-            _peripheral = peripheral;
-            _device = device;
-            _portName = portName;
-        }
+            _peripheral = peripheral as Peripheral;
+            _device = device as Device;
+            if (_device != null) _portName = _device.PortName;
 
-
-        public void InitializeSignals()
-        {
             List<DigitalSignal> digitalSignalsToReturn = new List<DigitalSignal>();
 
             var typedPeripheral = _peripheral as Doa40Do;
@@ -61,9 +50,10 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                 thisSignal.SignalChanged += SignalChanged;
                 digitalSignalsToReturn.Add(thisSignal);
             }
+
             _peripheralByteStates[baseAddress] = new byte[5];
 
-            DigitalOutputs = digitalSignalsToReturn.ToArray();
+            DigitalOutputs.AddRange(digitalSignalsToReturn); 
         }
 
 
@@ -85,7 +75,7 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
             var newBits = Common.Util.SetBit(currentBitsThisConnector, thisBitIndex, newBitVal);
             try
             {
-                device.DoaSend40DO(baseAddressByte, (byte)connectorNum, newBits);
+                device.DoaSend40DO(baseAddressByte, (byte) connectorNum, newBits);
                 peripheralState[connectorNumZeroBase] = newBits;
             }
             catch (Exception e)

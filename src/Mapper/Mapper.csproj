@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\SimLinkup\packages\Costura.Fody.3.3.2\build\Costura.Fody.props" Condition="Exists('..\SimLinkup\packages\Costura.Fody.3.3.2\build\Costura.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -20,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\SimLinkup\bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -35,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Costura, Version=3.3.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>..\SimLinkup\packages\Costura.Fody.3.3.2\lib\net40\Costura.dll</HintPath>
+    </Reference>
     <Reference Include="EPPlus, Version=4.5.3.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\SimLinkup\packages\EPPlus.4.5.3.1\lib\net40\EPPlus.dll</HintPath>
     </Reference>
@@ -148,6 +152,14 @@
       <Project>{52ab07af-c7bb-4586-bc5e-34759831cb08}</Project>
       <Name>PhccDeviceManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PhccHardwareSupportModule\PhccHardwareSupportModule.csproj">
+      <Project>{c3dd6cb1-824c-4ddf-a44d-486a31be432e}</Project>
+      <Name>PhccHardwareSupportModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimLinkup\DirectInputHardwareSupportModule\DirectInputHardwareSupportModule.csproj">
+      <Project>{55bd4572-857a-4a22-8400-2298f8da9574}</Project>
+      <Name>DirectInputHardwareSupportModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimLinkup\SimLinkup.csproj">
       <Project>{b928d6cb-9199-4679-8ef6-a489f167d400}</Project>
       <Name>SimLinkup</Name>
@@ -159,4 +171,12 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\SimLinkup\packages\Fody.3.3.5\build\Fody.targets" Condition="Exists('..\SimLinkup\packages\Fody.3.3.5\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este projeto faz referência a pacotes do NuGet que não estão presentes neste computador. Use a Restauração de Pacotes do NuGet para baixá-los.  Para obter mais informações, consulte http://go.microsoft.com/fwlink/?LinkID=322105. O arquivo ausente é {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\SimLinkup\packages\Fody.3.3.5\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\SimLinkup\packages\Fody.3.3.5\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\SimLinkup\packages\Costura.Fody.3.3.2\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\SimLinkup\packages\Costura.Fody.3.3.2\build\Costura.Fody.props'))" />
+  </Target>
 </Project>

@@ -9,15 +9,10 @@ using PhccHardwareSupportModule.Phcc.Interfaces;
 
 namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
 {
-    public class HSMDoa7Seg : IPeripheral
+    public class HSMDoa7Seg : HSMPeripheral
     {
-        public AnalogSignal[] AnalogOutputs { get; set; }
-        public AnalogSignal[] AnalogInputs { get; set; }
-        public DigitalSignal[] DigitalOutputs { get; set; }
-        public DigitalSignal[] DigitalInputs { get; set; }
-
-
-
+     
+ 
 
         Dictionary<string, byte[]> _peripheralByteStates = new Dictionary<string, byte[]>();
         Dictionary<string, double[]> _peripheralFloatStates = new Dictionary<string, double[]>();
@@ -28,14 +23,12 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
         private Device _device;
         private string _portName;
 
-        public HSMDoa7Seg(Peripheral peripheral, Device device, string portName)
+ 
+        public override void InitializeSignals(object peripheral, object device)
         {
-            _peripheral = peripheral;
-            _device = device;
-            _portName = portName;
-        }
-        public void InitializeSignals()
-        {
+            _peripheral = peripheral as Doa7Seg;
+            _device = device as Device;
+            if (_device != null) _portName = _device.PortName;
 
             List<AnalogSignal> analogSignalsToReturn = new List<AnalogSignal>();
             List<DigitalSignal> digitalSignalsToReturn = new List<DigitalSignal>();
@@ -46,7 +39,7 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
 
             for (var i = 0; i < 32; i++)
             {
-                if (typedPeripheral.Configuration.DisplayModeConfiguration.Any(x => x.FirstPin == i))
+                if (typedPeripheral.Configuration.DisplayModeConfiguration.Any(x => x?.FirstPin == i))
                 {
                     var outputConfig =
                         typedPeripheral.Configuration.DisplayModeConfiguration.FirstOrDefault(x =>
@@ -97,9 +90,9 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                         var thisSignal = new DigitalSignal
                         {
                             Category = "Outputs",
-                            CollectionName = "Digital Outputs",
+                            CollectionName = "Digital Outputs " + _peripheral.FriendlyName,
                             FriendlyName =
-                                $"Display Group  {string.Format($"{i + 1:0}", j + 1)}, Output Line {string.Format($"{j + 1:0}", j + 1)}",
+                                $"Display Group  {string.Format($"{i + 1:0}", j + 1)}, Output Pin {string.Format($"{j + 1:0}", j + 1)}",
                             Id = $"DOA_7SEG[{_portName}][{baseAddress}][{i}][{j}]",
                             Index = i * 8 + j,
                             PublisherObject = this,
@@ -120,8 +113,8 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
 
             }
             _peripheralByteStates[baseAddress] = new byte[32];
-            AnalogOutputs = analogSignalsToReturn.ToArray();
-            DigitalOutputs = digitalSignalsToReturn.ToArray();
+            AnalogOutputs.AddRange(analogSignalsToReturn);
+            DigitalOutputs.AddRange(digitalSignalsToReturn);
         }
 
         private void DOA7SegBitOutputSignalChanged(object sender, DigitalSignalChangedEventArgs args)

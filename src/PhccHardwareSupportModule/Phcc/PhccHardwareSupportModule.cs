@@ -63,24 +63,33 @@ namespace PhccHardwareSupportModule.Phcc
 
         private PhccHardwareSupportModule(Motherboard motherboard) : this()
         {
-            if (motherboard == null) throw new ArgumentNullException(nameof(motherboard));
-            _device = CreateDevice(motherboard.ComPort);
-            _analogInputSignals = new PhccAnalogInputs(_device, motherboard.ComPort).AnalogInputs;
-            _digitalInputSignals = new PhccDigitalImputs(_device, motherboard.ComPort).DigitalInputs;
-
-            CreateOutputSignals(_device, motherboard, out _digitalOutputSignals, out _analogOutputSignals);
-
-            CreateInputEventHandlers();
-            RegisterForInputEvents(_device, _i2cDataReceivedEventHandler);
             try
-            {              
-                StartTalking(_device);
+            {
+                if (motherboard == null) throw new ArgumentNullException(nameof(motherboard));
+                _device = CreateDevice(motherboard.ComPort);
+                _analogInputSignals = new PhccAnalogInputs(_device).AnalogInputs.ToArray();
+                _digitalInputSignals = new PhccDigitalImputs(_device).DigitalInputs.ToArray();
+
+                CreateOutputSignals(_device, motherboard, out _digitalOutputSignals, out _analogOutputSignals);
+
+                CreateInputEventHandlers();
+                RegisterForInputEvents(_device, _i2cDataReceivedEventHandler);
+                try
+                {
+                    StartTalking(_device);
+                }
+                catch (Exception e)
+                {
+                    _log.Error(e.Message, e);
+                }
             }
             catch (Exception e)
             {
                 _log.Error(e.Message, e);
             }
         }
+           
+        
 
         public override AnalogSignal[] AnalogInputs => _analogInputSignals;
 
@@ -147,38 +156,63 @@ namespace PhccHardwareSupportModule.Phcc
             var modules = new List<IPeripheral>();
 
             var attachedPeripherals = motherboard.Peripherals;
-          
+
             foreach (var peripheral in attachedPeripherals)
+            {
                 if (peripheral is Doa40Do)
-                {
-                    modules.Add(new HSMDoa40DO(peripheral, device, portName));
+                {              
+                    var test = new HSMDoa40DO();
+                    test.DigitalInputs = _digitalInputSignals.ToList();
+                    test.AnalogInputs = _analogInputSignals.ToList();
+                    test.InitializeSignals(peripheral, device);
+                    modules.Add(test);
                 }
                 else if (peripheral is Doa7Seg)
-                {
-                    modules.Add(new HSMDoa7Seg(peripheral, device, portName));
+                {              
+                    var test = new HSMDoa7Seg();
+                    test.DigitalInputs = _digitalInputSignals.ToList();
+                    test.AnalogInputs = _analogInputSignals.ToList();
+                    test.InitializeSignals(peripheral, device);
+                    modules.Add(test);
                 }
                 else if (peripheral is Doa8Servo)
-                {
-                    modules.Add(new HSMDoa8Servo(peripheral, device, portName));
+                {            
+                    var test = new HSMDoa8Servo();
+                    test.DigitalInputs = _digitalInputSignals.ToList();
+                    test.AnalogInputs = _analogInputSignals.ToList();
+                    test.InitializeSignals(peripheral, device);
+                    modules.Add(test);
                 }
                 else if (peripheral is DoaAirCore)
-                {
-                    modules.Add(new HSMDoaAirCore(peripheral, device, portName));
+                {     
+                    var test = new HSMDoaAirCore();
+                    test.DigitalInputs = _digitalInputSignals.ToList();
+                    test.AnalogInputs = _analogInputSignals.ToList();
+                    test.InitializeSignals(peripheral, device);
+                    modules.Add(test);
                 }
                 else if (peripheral is DoaAnOut1)
-                {
-                    modules.Add(new HSMDoaAnOut1(peripheral, device, portName));
+                {                  
+                    var test = new HSMDoaAnOut1();
+                    test.DigitalInputs = _digitalInputSignals.ToList();
+                    test.AnalogInputs = _analogInputSignals.ToList();
+                    test.InitializeSignals(peripheral, device);
+                    modules.Add(test);
                 }
                 else if (peripheral is DoaStepper)
                 {
-                    var test = new HSMDoaStepper(peripheral, device, portName);
-                    test.DigitalInputs = DigitalInputs;
+                    var test = new HSMDoaStepper();
+                    test.DigitalInputs = _digitalInputSignals.ToList();
+                    test.AnalogInputs = _analogInputSignals.ToList();
+                    test.InitializeSignals(peripheral, device);
                     modules.Add(test);
                 }
-           
+
+            }
+
             foreach (var peripheral in modules)
             {
-                peripheral.InitializeSignals();
+               
                 if (peripheral.AnalogOutputs != null)
                 {
                     analogSignalsToReturn.AddRange(peripheral.AnalogOutputs);
@@ -187,6 +221,8 @@ namespace PhccHardwareSupportModule.Phcc
                 {
                     digitalSignalsToReturn.AddRange(peripheral.DigitalOutputs);
                 }
+
+              
                 
                
             }
@@ -194,6 +230,8 @@ namespace PhccHardwareSupportModule.Phcc
             analogSignals = analogSignalsToReturn.ToArray();
             digitalSignals = digitalSignalsToReturn.ToArray();
         }
+
+         
 
         #endregion
 
