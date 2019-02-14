@@ -339,6 +339,8 @@ namespace Phcc.DeviceManager.UI
             calibrateAnalogToolStripMenuItem.Enabled = false;
             configure7SegmentDisplayToolStripMenuItem1.Enabled = false;
             configure7SegmentDisplayToolStripMenuItem.Enabled = false;
+            configureDOA40DOToolStripMenuItem.Enabled = false;
+            configureDOA40DOToolStripMenuItem1.Enabled = false;
             mnuDevicesCalibrate.Enabled = false;
             mnuDevicesSetComPort.Enabled = false;
             mnuContextSetCOMPort.Enabled = false;
@@ -364,6 +366,7 @@ namespace Phcc.DeviceManager.UI
                         mnuDevicesSetComPort.Enabled = true;
                         mnuContextSetCOMPort.Enabled = true;
                     }
+
                     if (selectedNodeData is DoaAirCore)
                     {
                         mnuDevicesCalibrate.Enabled = true;
@@ -372,6 +375,7 @@ namespace Phcc.DeviceManager.UI
                         calibrateAnalogToolStripMenuItem.Enabled = true;
 
                     }
+
                     if (selectedNodeData is DoaStepper)
                     {
                         mnuDevicesCalibrate.Enabled = true;
@@ -380,6 +384,7 @@ namespace Phcc.DeviceManager.UI
                         calibrateAnalogToolStripMenuItem.Enabled = true;
 
                     }
+
                     if (selectedNodeData is DoaAnOut1)
                     {
                         mnuDevicesCalibrate.Enabled = true;
@@ -388,6 +393,7 @@ namespace Phcc.DeviceManager.UI
                         calibrateAnalogToolStripMenuItem.Enabled = true;
 
                     }
+
                     if (selectedNodeData is Doa7Seg)
                     {
                         mnuDevicesCalibrate.Enabled = true;
@@ -397,7 +403,16 @@ namespace Phcc.DeviceManager.UI
 
                     }
 
+                    if (selectedNodeData is Doa40Do)
+                    {
+                        mnuDevicesCalibrate.Enabled = true;
+                        mnuContextCalibrate.Enabled = true;
+                        configureDOA40DOToolStripMenuItem.Enabled = true;
+                        configureDOA40DOToolStripMenuItem1.Enabled = true;
+
+                    }
                 }
+
                 if (selectedMotherboard != null)
                 {
                     mnuDevicesAddPeripheral.Enabled = true;
@@ -861,7 +876,14 @@ namespace Phcc.DeviceManager.UI
         {
             Config7Segment();
         }
-
+        private void configureDOA40DOToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Config40DO();
+        }
+        private void configureDOA40DOToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Config40DO();
+        }
         private void Config7Segment()
         {
             var selectedNode = tvDevicesAndPeripherals.SelectedNode;
@@ -884,6 +906,28 @@ namespace Phcc.DeviceManager.UI
             }
         }
 
+
+        private void Config40DO()
+        {
+            var selectedNode = tvDevicesAndPeripherals.SelectedNode;
+            if (selectedNode != null)
+            {
+                var selectedNodeData = selectedNode.Tag;
+                if (selectedNodeData != null)
+                {
+                    if (selectedNodeData is Doa40Do)
+                    {
+                        var board = selectedNodeData as Doa40Do;
+                        Doa40DoConfig p = new Doa40DoConfig(board.OutputConfig);
+                        p.ShowDialog();
+                        board.OutputConfig = p.Configuration;
+                        p.Dispose();
+                    }
+
+
+                }
+            }
+        }
         private void exportToExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
            
@@ -954,5 +998,7 @@ namespace Phcc.DeviceManager.UI
                 pkg.Save();
             }
         }
+
+       
     }
 }

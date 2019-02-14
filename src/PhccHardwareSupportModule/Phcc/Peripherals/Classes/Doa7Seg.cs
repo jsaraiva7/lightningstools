@@ -87,27 +87,65 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                 {
                     for (var j = 0; j < 8; j++)
                     {
-                        var thisSignal = new DigitalSignal
+                        var pinNumber = 0;
+                        if (i == 0)
                         {
-                            Category = "Outputs",
-                            CollectionName = "Digital Outputs " + _peripheral.FriendlyName,
-                            FriendlyName =
-                                $"Display Group  {string.Format($"{i + 1:0}", j + 1)}, Output Pin {string.Format($"{j + 1:0}", j + 1)}",
-                            Id = $"DOA_7SEG[{_portName}][{baseAddress}][{i}][{j}]",
-                            Index = i * 8 + j,
-                            PublisherObject = this,
-                            Source = _device,
-                            SourceFriendlyName = $"PHCC Device on {_portName}",
-                            SourceAddress = _portName,
-                            SubSource = $"DOA_7SEG @ {baseAddress}",
-                            SubSourceFriendlyName = $"DOA_7SEG @ {baseAddress}",
-                            SubSourceAddress = baseAddress,
-                            State = false
-                        };
+                            pinNumber = j + 1;
+                        }
+                        else
+                        {
+                            pinNumber = i * 8 + j +1 ;
+                        }
+
+                        if (typedPeripheral.Configuration.OutputConfig.Any(x => x.PinNumber == pinNumber))
+                        {
+                            var thisSignal = new DigitalSignal
+                            {
+                                Category = "Outputs",
+                                CollectionName = "Digital Outputs " + _peripheral.FriendlyName,
+                                FriendlyName =
+                                    $"Display Group  {string.Format($"{i + 1:0}", j + 1)}, Output Pin {string.Format($"{j + 1:0} (Inverted)", j + 1)}",
+                                Id = $"DOA_7SEG[{_portName}][{baseAddress}][{i}][{j}]",
+                                Index = i * 8 + j,
+                                PublisherObject = this,
+                                Source = _device,
+                                SourceFriendlyName = $"PHCC Device on {_portName}",
+                                SourceAddress = _portName,
+                                SubSource = $"DOA_7SEG @ {baseAddress}",
+                                SubSourceFriendlyName = $"DOA_7SEG @ {baseAddress}",
+                                SubSourceAddress = baseAddress,
+                                State = false,
+                            };
 
 
-                        thisSignal.SignalChanged += DOA7SegBitOutputSignalChanged;
-                        digitalSignalsToReturn.Add(thisSignal);
+                            thisSignal.SignalChanged += DOA7SegBitOutputSignalChanged;
+                            digitalSignalsToReturn.Add(thisSignal);
+                        }
+                        else
+                        {
+                            var thisSignal = new DigitalSignal
+                            {
+                                Category = "Outputs",
+                                CollectionName = "Digital Outputs " + _peripheral.FriendlyName,
+                                FriendlyName =
+                                    $"Display Group  {string.Format($"{i + 1:0}", j + 1)}, Output Pin {string.Format($"{j + 1:0}", j + 1)}",
+                                Id = $"DOA_7SEG[{_portName}][{baseAddress}][{i}][{j}]",
+                                Index = i * 8 + j,
+                                PublisherObject = this,
+                                Source = _device,
+                                SourceFriendlyName = $"PHCC Device on {_portName}",
+                                SourceAddress = _portName,
+                                SubSource = $"DOA_7SEG @ {baseAddress}",
+                                SubSourceFriendlyName = $"DOA_7SEG @ {baseAddress}",
+                                SubSourceAddress = baseAddress,
+                                State = false
+
+                            };
+
+
+                            thisSignal.SignalChanged += DOA7SegBitOutputSignalChanged;
+                            digitalSignalsToReturn.Add(thisSignal);
+                        }
                     }
                 }
 
@@ -127,6 +165,10 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
             var device = source.Source as Device;
             if (device == null) return;
             var newBitVal = args.CurrentState;
+            if (source.FriendlyName.Contains("Inverted"))
+            {
+                newBitVal = !args.CurrentState;
+            }
             var peripheralState = _peripheralByteStates[baseAddress];
             var displayNumZeroBase = outputLineNum / 8;
             var thisBitIndex = outputLineNum % 8;

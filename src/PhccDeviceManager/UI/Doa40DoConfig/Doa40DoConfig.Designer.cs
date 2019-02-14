@@ -1,6 +1,6 @@
 ﻿namespace Phcc.DeviceManager.UI.Doa7SegConfig
 {
-    partial class Doa7SegConfigList
+    partial class Doa40DoConfig
     {
         /// <summary>
         /// Required designer variable.

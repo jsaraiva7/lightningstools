@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\ConfigClasses\DigitalOutputConfig.cs" />
     <Compile Include="Config\ConfigClasses\Doa7SegConfiguration.cs" />
     <Compile Include="Config\ConfigurationManager.cs" />
     <Compile Include="Config\Doa40Do.cs" />

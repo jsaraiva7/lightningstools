@@ -15,7 +15,9 @@ namespace Phcc.DeviceManager.UI.Doa7SegConfig
     {
         public Doa7SegConfiguration Configuration { get; set; }
 
-        private SegmentDisplayConfig _selectedConfig;
+        public List<DisplayConfigModel> _gridModel = new List<DisplayConfigModel>();
+
+     
         public Doa7SegConfigList(Doa7SegConfiguration config)
         {
             InitializeComponent();
@@ -30,7 +32,8 @@ namespace Phcc.DeviceManager.UI.Doa7SegConfig
 
         private void RefreshGrid()
         {
-            dataViewOutput.DataSource = Configuration.DisplayModeConfiguration.ToList();
+
+            dataViewOutput.DataSource = RefreshGridModel(Configuration).ToList();
         }
         private void btnAddMode_Click(object sender, EventArgs e)
         {
@@ -41,7 +44,23 @@ namespace Phcc.DeviceManager.UI.Doa7SegConfig
                 Configuration = new Doa7SegConfiguration();
                
             }
-            Configuration.DisplayModeConfiguration.Add(m.ModeConfiguration);
+
+            if (m.ModeConfiguration != null)
+            {
+                Configuration.DisplayModeConfiguration.Add(m.ModeConfiguration);
+                ConfigValidator(Configuration, m.ModeConfiguration, null);
+            }
+
+            if (m.DigitalOutputConfig != null)
+            {
+                Configuration.OutputConfig.Add(m.DigitalOutputConfig);
+                ConfigValidator(Configuration, null, m.DigitalOutputConfig);
+            }
+
+           
+
+
+
             RefreshGrid();
         }
 
@@ -52,33 +71,121 @@ namespace Phcc.DeviceManager.UI.Doa7SegConfig
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (_selectedConfig != null && Configuration.DisplayModeConfiguration.Contains(_selectedConfig))
-            {
-                Configuration.DisplayModeConfiguration.Remove(_selectedConfig);
-
-            }
-
-            RefreshGrid();
-        }
-       
-
-        private void dataViewOutput_SelectionChanged(object sender, EventArgs e)
-        {
-           
             try
             {
-                var row = (dataViewOutput.SelectedRows[0].DataBoundItem as SegmentDisplayConfig);
+                var row = (dataViewOutput.SelectedRows[0].DataBoundItem as DisplayConfigModel);
                 if (row != null)
                 {
-                    _selectedConfig = row;
+                    if (row.Mode.Contains("Digital"))
+                    {
+                        var pin = int.Parse(row.FirstPin);
+                        var data = Configuration.OutputConfig.FirstOrDefault(c => c.PinNumber == pin);
+                        if (data != null)
+                        {
+                            Configuration.OutputConfig.Remove(data);
+                        }
+                    }
+                    else
+                    {
+                        var pin = int.Parse(row.FirstPin);
+                        var data = Configuration.DisplayModeConfiguration.FirstOrDefault(c => c.FirstPin == pin);
+                        if (data != null)
+                        {
+                            Configuration.DisplayModeConfiguration.Remove(data);
+                        }
+                    }
 
+                }
+                else
+                {
+                    MessageBox.Show("Now Row selected! \n Please select a row and try again.");
                 }
 
             }
             catch (Exception exception)
             {
-                _selectedConfig = null;
+                MessageBox.Show("Now Row selected! \n Please select a row and try again.");
             }
+
+            RefreshGrid();
         }
+
+        private bool ConfigValidator(Doa7SegConfiguration config, SegmentDisplayConfig segConfig, DigitalOutputConfig digitConfig )
+        {
+
+       
+            foreach (var display in config.DisplayModeConfiguration)
+            {
+                var fp = display.FirstPin;
+                var lastPin = display.FirstPin + display.TotalPins;
+
+                if (config.DisplayModeConfiguration.Any(x => x.FirstPin >= fp && (x.FirstPin + x.TotalPins) <= lastPin))
+                {
+                    MessageBox.Show("there was an error on your configuration. \n Please check your pin numbers.\n Note - Your defenitions were added to the configuration. \n either delete or accept");
+                   
+                    return false;
+                }
+                if(config.OutputConfig.Any(x => x.PinNumber >= fp && (fp + lastPin) <= x.PinNumber))
+                {
+                    MessageBox.Show("there was an error on your configuration. \n Please check your pin numbers.\n Note - Your defenitions were added to the configuration. \n either delete or accept");
+
+                    return false;
+                }
+            }
+
+
+
+
+            return true;
+        }
+        private void dataViewOutput_SelectionChanged(object sender, EventArgs e)
+        {
+           
+    
+        }
+
+        private List<DisplayConfigModel> RefreshGridModel(Doa7SegConfiguration config)
+        {
+            var toRet = new List<DisplayConfigModel>();
+
+            foreach (var disp in config.DisplayModeConfiguration)
+            {
+                if(disp != null)
+                toRet.Add(new DisplayConfigModel()
+                {
+                    Mode = "Display",
+                    DisplayCount = disp.NumDisplays.ToString(),
+                    FirstPin = disp.FirstPin.ToString(),
+                    TotalPins = disp.TotalPins.ToString(),
+                    Reversed = false
+                });
+            }
+
+            foreach (var disp in config.OutputConfig)
+            {
+                if (disp != null)
+                    toRet.Add(new DisplayConfigModel()
+                {
+                    Mode = "Digital Output",
+                    FirstPin = disp.PinNumber.ToString(),
+                    Reversed = disp.Inverted
+                });
+            }
+
+
+
+
+            return toRet;
+        }
+    }
+
+    public class DisplayConfigModel
+    {
+
+        public string Mode { get; set; } = "";
+        public bool Reversed { get; set; } = false;
+        public string DisplayCount { get; set; } = "";
+        public string FirstPin { get; set; } = "";
+        public string TotalPins { get; set; } = "";
     }
 }

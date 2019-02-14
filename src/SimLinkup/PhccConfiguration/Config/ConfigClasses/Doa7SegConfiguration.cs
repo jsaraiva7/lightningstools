@@ -15,7 +15,8 @@ namespace PhccConfiguration.Config.ConfigClasses
     public sealed class Doa7SegConfiguration
     {
         public List<SegmentDisplayConfig> DisplayModeConfiguration = new List<SegmentDisplayConfig>();
-     
+        public List<DigitalOutputConfig> OutputConfig { get; set; } = new List<DigitalOutputConfig>();
+
     }
 
     /// <summary>

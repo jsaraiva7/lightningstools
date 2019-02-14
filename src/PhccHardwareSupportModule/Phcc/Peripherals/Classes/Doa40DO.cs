@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Common.MacroProgramming;
 using log4net;
 using Phcc;
@@ -31,24 +32,50 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
             var baseAddress = "0x" + typedPeripheral.Address.ToString("X4");
             for (var i = 0; i < 40; i++)
             {
-                var thisSignal = new DigitalSignal
+                if (typedPeripheral.OutputConfig.Any(x => x.PinNumber == i + 1))
                 {
-                    Category = "Outputs",
-                    CollectionName = "Digital Outputs - " + _peripheral.FriendlyName,
-                    FriendlyName = $"Digital Output {string.Format($"{i + 1:0}", i + 1)}",
-                    Id = $"DOA_40DO[{_portName}][{baseAddress}][{i}]",
-                    Index = i,
-                    PublisherObject = this,
-                    Source = _device,
-                    SourceFriendlyName = $"PHCC Device on {_portName}",
-                    SourceAddress = _portName,
-                    SubSource = $"DOA_40DO @ {baseAddress}",
-                    SubSourceFriendlyName = $"DOA_40DO @ {baseAddress}",
-                    SubSourceAddress = baseAddress,
-                    State = false
-                };
-                thisSignal.SignalChanged += SignalChanged;
-                digitalSignalsToReturn.Add(thisSignal);
+                    var thisSignal = new DigitalSignal
+                    {
+                        Category = "Outputs",
+                        CollectionName = "Digital Outputs - " + _peripheral.FriendlyName,
+                        FriendlyName = $"Digital Output {string.Format($"{i + 1:0}", i + 1)} (Inverted)",
+                        Id = $"DOA_40DO[{_portName}][{baseAddress}][{i}]",
+                        Index = i,
+                        PublisherObject = this,
+                        Source = _device,
+                        SourceFriendlyName = $"PHCC Device on {_portName}",
+                        SourceAddress = _portName,
+                        SubSource = $"DOA_40DO @ {baseAddress}",
+                        SubSourceFriendlyName = $"DOA_40DO @ {baseAddress}",
+                        SubSourceAddress = baseAddress,
+                        State = false
+                    };
+                    thisSignal.SignalChanged += SignalChanged;
+                    digitalSignalsToReturn.Add(thisSignal);
+
+                }
+                else
+                {
+                    var thisSignal = new DigitalSignal
+                    {
+                        Category = "Outputs",
+                        CollectionName = "Digital Outputs - " + _peripheral.FriendlyName,
+                        FriendlyName = $"Digital Output {string.Format($"{i + 1:0}", i + 1)}",
+                        Id = $"DOA_40DO[{_portName}][{baseAddress}][{i}]",
+                        Index = i,
+                        PublisherObject = this,
+                        Source = _device,
+                        SourceFriendlyName = $"PHCC Device on {_portName}",
+                        SourceAddress = _portName,
+                        SubSource = $"DOA_40DO @ {baseAddress}",
+                        SubSourceFriendlyName = $"DOA_40DO @ {baseAddress}",
+                        SubSourceAddress = baseAddress,
+                        State = false
+                    };
+                    thisSignal.SignalChanged += SignalChanged;
+                    digitalSignalsToReturn.Add(thisSignal);
+                }
+               
             }
 
             _peripheralByteStates[baseAddress] = new byte[5];
@@ -67,6 +94,10 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
             var device = source.Source as Device;
             if (device == null) return;
             var newBitVal = args.CurrentState;
+            if (source.FriendlyName.Contains("(Inverted)"))
+            {
+                newBitVal = !args.CurrentState;
+            }
             var peripheralState = _peripheralByteStates[baseAddress];
             var connectorNumZeroBase = outputNum / 8;
             var thisBitIndex = outputNum % 8;

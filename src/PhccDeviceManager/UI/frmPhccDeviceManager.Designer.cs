@@ -59,6 +59,8 @@
             this.configure7SegmentDisplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuDevicesRemove = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxContext = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -79,9 +81,9 @@
             this.configure7SegmentDisplayToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuContextRemove = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dlgSaveExcel = new System.Windows.Forms.SaveFileDialog();
+            this.configureDOA40DOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configureDOA40DOToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.ctxContext.SuspendLayout();
             this.SuspendLayout();
@@ -283,7 +285,8 @@
             this.mnuDevicesCalibrate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.calibrateServosToolStripMenuItem1,
             this.calibrateAnalogToolStripMenuItem1,
-            this.configure7SegmentDisplayToolStripMenuItem});
+            this.configure7SegmentDisplayToolStripMenuItem,
+            this.configureDOA40DOToolStripMenuItem});
             this.mnuDevicesCalibrate.Name = "mnuDevicesCalibrate";
             this.mnuDevicesCalibrate.Size = new System.Drawing.Size(194, 22);
             this.mnuDevicesCalibrate.Text = "&Calibrate / Configure...";
@@ -325,6 +328,21 @@
             this.mnuDevicesRemove.Text = "&Remove...";
             this.mnuDevicesRemove.Click += new System.EventHandler(this.mnuDevicesRemove_Click);
             // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportToExcelToolStripMenuItem});
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.exportToolStripMenuItem.Text = "Export";
+            // 
+            // exportToExcelToolStripMenuItem
+            // 
+            this.exportToExcelToolStripMenuItem.Name = "exportToExcelToolStripMenuItem";
+            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.exportToExcelToolStripMenuItem.Text = "Export to Excel";
+            this.exportToExcelToolStripMenuItem.Click += new System.EventHandler(this.exportToExcelToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -352,7 +370,7 @@
             this.toolStripMenuItem6,
             this.mnuContextRemove});
             this.ctxContext.Name = "ctxMotherboard";
-            this.ctxContext.Size = new System.Drawing.Size(195, 132);
+            this.ctxContext.Size = new System.Drawing.Size(195, 154);
             // 
             // mnuContextSetCOMPort
             // 
@@ -438,7 +456,8 @@
             this.mnuContextCalibrate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.calibrateServosToolStripMenuItem,
             this.calibrateAnalogToolStripMenuItem,
-            this.configure7SegmentDisplayToolStripMenuItem1});
+            this.configure7SegmentDisplayToolStripMenuItem1,
+            this.configureDOA40DOToolStripMenuItem1});
             this.mnuContextCalibrate.Name = "mnuContextCalibrate";
             this.mnuContextCalibrate.Size = new System.Drawing.Size(194, 22);
             this.mnuContextCalibrate.Text = "&Calibrate / Configure...";
@@ -480,24 +499,23 @@
             this.mnuContextRemove.Text = "Remove...";
             this.mnuContextRemove.Click += new System.EventHandler(this.mnuContextRemove_Click);
             // 
-            // exportToolStripMenuItem
-            // 
-            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportToExcelToolStripMenuItem});
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
-            this.exportToolStripMenuItem.Text = "Export";
-            // 
-            // exportToExcelToolStripMenuItem
-            // 
-            this.exportToExcelToolStripMenuItem.Name = "exportToExcelToolStripMenuItem";
-            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.exportToExcelToolStripMenuItem.Text = "Export to Excel";
-            this.exportToExcelToolStripMenuItem.Click += new System.EventHandler(this.exportToExcelToolStripMenuItem_Click);
-            // 
             // dlgSaveExcel
             // 
             this.dlgSaveExcel.DefaultExt = "xlsx";
+            // 
+            // configureDOA40DOToolStripMenuItem
+            // 
+            this.configureDOA40DOToolStripMenuItem.Name = "configureDOA40DOToolStripMenuItem";
+            this.configureDOA40DOToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.configureDOA40DOToolStripMenuItem.Text = "Configure &DOA 40 DO";
+            this.configureDOA40DOToolStripMenuItem.Click += new System.EventHandler(this.configureDOA40DOToolStripMenuItem_Click);
+            // 
+            // configureDOA40DOToolStripMenuItem1
+            // 
+            this.configureDOA40DOToolStripMenuItem1.Name = "configureDOA40DOToolStripMenuItem1";
+            this.configureDOA40DOToolStripMenuItem1.Size = new System.Drawing.Size(221, 22);
+            this.configureDOA40DOToolStripMenuItem1.Text = "Configure DOA 40 DO";
+            this.configureDOA40DOToolStripMenuItem1.Click += new System.EventHandler(this.configureDOA40DOToolStripMenuItem1_Click);
             // 
             // frmPhccDeviceManager
             // 
@@ -577,5 +595,7 @@
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToExcelToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog dlgSaveExcel;
+        private System.Windows.Forms.ToolStripMenuItem configureDOA40DOToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configureDOA40DOToolStripMenuItem1;
     }
 }
