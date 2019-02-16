@@ -1270,6 +1270,7 @@ namespace F4Utils.SimSupport
         private SimCommand CreateNewF4SimCommand(string collectionName, string subcollectionName, string signalFriendlyName, Callbacks callback)
         {
             var simCommand = new SendCallbackCommand();
+            simCommand.Callback = callback.ToString();
             var falconInput = simCommand.In;
             falconInput.Category = "Sim Inputs (Callbacks)";
             falconInput.CollectionName = collectionName;
@@ -1284,6 +1285,8 @@ namespace F4Utils.SimSupport
             simCommand.FriendlyName = simCommand.In.FriendlyName;
             return simCommand;
         }
+
+
 
         private ISimOutput CreateNewF4SimOutput(
             string collectionName, string subcollectionName, string signalFriendlyName, F4SimOutputs simOutput, int? index, Type dataType, double minVal = 0.0000001, double maxVal = 0.0000001,
@@ -1399,11 +1402,17 @@ namespace F4Utils.SimSupport
             foreach (Callbacks callback in Enum.GetValues(typeof(Callbacks)))
             {
                 var category = EnumAttributeReader.GetAttribute<CategoryAttribute>(callback).Category;
-                if (string.Compare(category, "NOOP", StringComparison.OrdinalIgnoreCase) > -1) continue;
+                if (category == "RADIO COMMS")
+                {
 
+                }
+                //changed to allow creation of all signals. string Compare does not allow all signals to be created
+                //if (string.Compare(category, "NOOP", StringComparison.OrdinalIgnoreCase) > -1) continue;
+                if(category.Equals("NOOP")) continue;
                 var subCategory = EnumAttributeReader.GetAttribute<SubCategoryAttribute>(callback).SubCategory;
                 var description = EnumAttributeReader.GetAttribute<DescriptionAttribute>(callback).Description;
                 var simCommand = CreateNewF4SimCommand(category, subCategory, description, callback);
+                
                 AddF4SimCommand(simCommand);
             }
         }

@@ -716,6 +716,10 @@
       <Project>{75fa2030-c9ca-4b2d-8534-8f48eea13ca3}</Project>
       <Name>PHCC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VjoyHardwareSupportModule\VjoyHardwareSupportModule.csproj">
+      <Project>{f6cc651c-6c2d-46cc-8020-b69157b34421}</Project>
+      <Name>VjoyHardwareSupportModule</Name>
+    </ProjectReference>
     <ProjectReference Include="DirectInputHardwareSupportModule\DirectInputHardwareSupportModule.csproj">
       <Project>{55bd4572-857a-4a22-8400-2298f8da9574}</Project>
       <Name>DirectInputHardwareSupportModule</Name>

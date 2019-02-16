@@ -6,8 +6,15 @@ namespace Common.SimSupport
     [Serializable]
     public abstract class SimCommand : Chainable
     {
-        private DigitalSignal _in = new DigitalSignal();
-        private DigitalSignal _out = new DigitalSignal();
+        private DigitalSignal _in;
+        private DigitalSignal _out;
+
+        protected SimCommand()
+        {
+            _in = new DigitalSignal();
+            _in.SignalChanged += value_SignalChanged;
+            _out = new DigitalSignal();
+        }
 
         public DigitalSignal In
         {
@@ -17,8 +24,8 @@ namespace Common.SimSupport
                 if (value == null)
                 {
                     value = new DigitalSignal();
-                }
-                value.SignalChanged += value_SignalChanged;
+                    value.SignalChanged += value_SignalChanged;
+                }                
                 _in = value;
             }
         }

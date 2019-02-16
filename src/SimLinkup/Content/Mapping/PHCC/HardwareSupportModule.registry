@@ -3,5 +3,6 @@
   <HardwareSupportModules>
     <Module>PhccHardwareSupportModule.Phcc.PhccHardwareSupportModule, PhccHardwareSupportModule, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Module>
     <Module>DirectInputHardwareSupportModule.DirectInput.DirectInputHardwareSupportModule, DirectInputHardwareSupportModule, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Module>
+    <Module>VjoyHardwareSupportModule.Device.VjoyHardwareSupportModule, VjoyHardwareSupportModule, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Module>
   </HardwareSupportModules>
 </HardwareSupportModuleRegistry>
