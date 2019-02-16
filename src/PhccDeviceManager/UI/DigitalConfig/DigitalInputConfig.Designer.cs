@@ -1,6 +1,6 @@
-﻿namespace Phcc.DeviceManager.UI.Doa7SegConfig
+﻿namespace Phcc.DeviceManager.UI.DigitalConfig
 {
-    partial class Doa40DoConfig
+    partial class DigitalInputConfig
     {
         /// <summary>
         /// Required designer variable.

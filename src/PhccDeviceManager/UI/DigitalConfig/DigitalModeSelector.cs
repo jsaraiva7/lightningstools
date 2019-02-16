@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using PhccConfiguration.Config.ConfigClasses;
 
-namespace Phcc.DeviceManager.UI.Doa7SegConfig
+namespace Phcc.DeviceManager.UI.DigitalConfig
 {
-    public partial class Doa40DoModeSelector : Form
+    public partial class DigitalModeSelector : Form
     {
  
         public DigitalOutputConfig DigitalOutputConfig { get; set; }
 
 
-        public Doa40DoModeSelector()
+        public DigitalModeSelector()
         {
             InitializeComponent();
             gb14Segment.Visible = true;

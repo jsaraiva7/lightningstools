@@ -8,6 +8,7 @@ using Common.Excel;
 using Common.MacroProgramming;
 using log4net;
 using OfficeOpenXml;
+using Phcc.DeviceManager.UI.DigitalConfig;
 using Phcc.DeviceManager.UI.Doa7SegConfig;
 using PhccConfiguration.Config;
  
@@ -132,7 +133,7 @@ namespace Phcc.DeviceManager.UI
                 }
             }
 
-
+            EnableDisableUIElements();
         }
 
         private void RenderCurrentConfiguration()
@@ -341,6 +342,8 @@ namespace Phcc.DeviceManager.UI
             configure7SegmentDisplayToolStripMenuItem.Enabled = false;
             configureDOA40DOToolStripMenuItem.Enabled = false;
             configureDOA40DOToolStripMenuItem1.Enabled = false;
+            motherboardDigitalOutputsToolStripMenuItem.Enabled = false;
+            motherboardDigitalOutputsToolStripMenuItem1.Enabled = false;
             mnuDevicesCalibrate.Enabled = false;
             mnuDevicesSetComPort.Enabled = false;
             mnuContextSetCOMPort.Enabled = false;
@@ -363,8 +366,12 @@ namespace Phcc.DeviceManager.UI
                     }
                     else if (selectedNodeData is Motherboard)
                     {
+                        mnuDevicesCalibrate.Enabled = true;
+                        mnuContextCalibrate.Enabled = true;
                         mnuDevicesSetComPort.Enabled = true;
                         mnuContextSetCOMPort.Enabled = true;
+                        motherboardDigitalOutputsToolStripMenuItem.Enabled = true;
+                        motherboardDigitalOutputsToolStripMenuItem1.Enabled = true;
                     }
 
                     if (selectedNodeData is DoaAirCore)
@@ -906,7 +913,27 @@ namespace Phcc.DeviceManager.UI
             }
         }
 
+        private void ConfigDigitalOutputs()
+        {
+            var selectedNode = tvDevicesAndPeripherals.SelectedNode;
+            if (selectedNode != null)
+            {
+                var selectedNodeData = selectedNode.Tag;
+                if (selectedNodeData != null)
+                {
+                    if (selectedNodeData is Motherboard)
+                    {
+                        var board = selectedNodeData as Motherboard;
+                        DigitalInputConfig p = new DigitalInputConfig(board.InputConfig);
+                        p.ShowDialog();
+                        board.InputConfig = p.Configuration;
+                        p.Dispose();
+                    }
 
+
+                }
+            }
+        }
         private void Config40DO()
         {
             var selectedNode = tvDevicesAndPeripherals.SelectedNode;
@@ -918,7 +945,7 @@ namespace Phcc.DeviceManager.UI
                     if (selectedNodeData is Doa40Do)
                     {
                         var board = selectedNodeData as Doa40Do;
-                        Doa40DoConfig p = new Doa40DoConfig(board.OutputConfig);
+                        DigitalInputConfig p = new DigitalInputConfig(board.OutputConfig);
                         p.ShowDialog();
                         board.OutputConfig = p.Configuration;
                         p.Dispose();
@@ -998,7 +1025,5 @@ namespace Phcc.DeviceManager.UI
                 pkg.Save();
             }
         }
-
-       
     }
 }

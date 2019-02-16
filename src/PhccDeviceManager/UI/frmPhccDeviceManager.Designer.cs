@@ -57,6 +57,7 @@
             this.calibrateServosToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrateAnalogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.configure7SegmentDisplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configureDOA40DOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuDevicesRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,11 +80,14 @@
             this.calibrateServosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrateAnalogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configure7SegmentDisplayToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.configureDOA40DOToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuContextRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.dlgSaveExcel = new System.Windows.Forms.SaveFileDialog();
-            this.configureDOA40DOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.configureDOA40DOToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.motherboardDigitalOutputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.motherboardDigitalOutputsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.digitalInputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.digitalInputsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.ctxContext.SuspendLayout();
             this.SuspendLayout();
@@ -283,6 +287,7 @@
             // mnuDevicesCalibrate
             // 
             this.mnuDevicesCalibrate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.motherboardDigitalOutputsToolStripMenuItem,
             this.calibrateServosToolStripMenuItem1,
             this.calibrateAnalogToolStripMenuItem1,
             this.configure7SegmentDisplayToolStripMenuItem,
@@ -295,23 +300,30 @@
             // calibrateServosToolStripMenuItem1
             // 
             this.calibrateServosToolStripMenuItem1.Name = "calibrateServosToolStripMenuItem1";
-            this.calibrateServosToolStripMenuItem1.Size = new System.Drawing.Size(221, 22);
+            this.calibrateServosToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.calibrateServosToolStripMenuItem1.Text = "Calibrate Servos";
             this.calibrateServosToolStripMenuItem1.Click += new System.EventHandler(this.calibrateServosToolStripMenuItem1_Click);
             // 
             // calibrateAnalogToolStripMenuItem1
             // 
             this.calibrateAnalogToolStripMenuItem1.Name = "calibrateAnalogToolStripMenuItem1";
-            this.calibrateAnalogToolStripMenuItem1.Size = new System.Drawing.Size(221, 22);
+            this.calibrateAnalogToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.calibrateAnalogToolStripMenuItem1.Text = "Calibrate Analog";
             this.calibrateAnalogToolStripMenuItem1.Click += new System.EventHandler(this.calibrateAnalogToolStripMenuItem1_Click);
             // 
             // configure7SegmentDisplayToolStripMenuItem
             // 
             this.configure7SegmentDisplayToolStripMenuItem.Name = "configure7SegmentDisplayToolStripMenuItem";
-            this.configure7SegmentDisplayToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
-            this.configure7SegmentDisplayToolStripMenuItem.Text = "Configure 7SegmentDisplay";
+            this.configure7SegmentDisplayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.configure7SegmentDisplayToolStripMenuItem.Text = "7SegmentDisplay";
             this.configure7SegmentDisplayToolStripMenuItem.Click += new System.EventHandler(this.configure7SegmentDisplayToolStripMenuItem_Click);
+            // 
+            // configureDOA40DOToolStripMenuItem
+            // 
+            this.configureDOA40DOToolStripMenuItem.Name = "configureDOA40DOToolStripMenuItem";
+            this.configureDOA40DOToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.configureDOA40DOToolStripMenuItem.Text = "&DOA 40 DO";
+            this.configureDOA40DOToolStripMenuItem.Click += new System.EventHandler(this.configureDOA40DOToolStripMenuItem_Click);
             // 
             // toolStripMenuItem7
             // 
@@ -339,7 +351,7 @@
             // exportToExcelToolStripMenuItem
             // 
             this.exportToExcelToolStripMenuItem.Name = "exportToExcelToolStripMenuItem";
-            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exportToExcelToolStripMenuItem.Text = "Export to Excel";
             this.exportToExcelToolStripMenuItem.Click += new System.EventHandler(this.exportToExcelToolStripMenuItem_Click);
             // 
@@ -370,7 +382,7 @@
             this.toolStripMenuItem6,
             this.mnuContextRemove});
             this.ctxContext.Name = "ctxMotherboard";
-            this.ctxContext.Size = new System.Drawing.Size(195, 154);
+            this.ctxContext.Size = new System.Drawing.Size(195, 132);
             // 
             // mnuContextSetCOMPort
             // 
@@ -454,6 +466,7 @@
             // mnuContextCalibrate
             // 
             this.mnuContextCalibrate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.motherboardDigitalOutputsToolStripMenuItem1,
             this.calibrateServosToolStripMenuItem,
             this.calibrateAnalogToolStripMenuItem,
             this.configure7SegmentDisplayToolStripMenuItem1,
@@ -484,6 +497,13 @@
             this.configure7SegmentDisplayToolStripMenuItem1.Text = "Configure 7SegmentDisplay";
             this.configure7SegmentDisplayToolStripMenuItem1.Click += new System.EventHandler(this.configure7SegmentDisplayToolStripMenuItem1_Click);
             // 
+            // configureDOA40DOToolStripMenuItem1
+            // 
+            this.configureDOA40DOToolStripMenuItem1.Name = "configureDOA40DOToolStripMenuItem1";
+            this.configureDOA40DOToolStripMenuItem1.Size = new System.Drawing.Size(221, 22);
+            this.configureDOA40DOToolStripMenuItem1.Text = "Configure DOA 40 DO";
+            this.configureDOA40DOToolStripMenuItem1.Click += new System.EventHandler(this.configureDOA40DOToolStripMenuItem1_Click);
+            // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
@@ -503,19 +523,33 @@
             // 
             this.dlgSaveExcel.DefaultExt = "xlsx";
             // 
-            // configureDOA40DOToolStripMenuItem
+            // motherboardDigitalOutputsToolStripMenuItem
             // 
-            this.configureDOA40DOToolStripMenuItem.Name = "configureDOA40DOToolStripMenuItem";
-            this.configureDOA40DOToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
-            this.configureDOA40DOToolStripMenuItem.Text = "Configure &DOA 40 DO";
-            this.configureDOA40DOToolStripMenuItem.Click += new System.EventHandler(this.configureDOA40DOToolStripMenuItem_Click);
+            this.motherboardDigitalOutputsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.digitalInputsToolStripMenuItem});
+            this.motherboardDigitalOutputsToolStripMenuItem.Name = "motherboardDigitalOutputsToolStripMenuItem";
+            this.motherboardDigitalOutputsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.motherboardDigitalOutputsToolStripMenuItem.Text = "Motherboard";
             // 
-            // configureDOA40DOToolStripMenuItem1
+            // motherboardDigitalOutputsToolStripMenuItem1
             // 
-            this.configureDOA40DOToolStripMenuItem1.Name = "configureDOA40DOToolStripMenuItem1";
-            this.configureDOA40DOToolStripMenuItem1.Size = new System.Drawing.Size(221, 22);
-            this.configureDOA40DOToolStripMenuItem1.Text = "Configure DOA 40 DO";
-            this.configureDOA40DOToolStripMenuItem1.Click += new System.EventHandler(this.configureDOA40DOToolStripMenuItem1_Click);
+            this.motherboardDigitalOutputsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.digitalInputsToolStripMenuItem1});
+            this.motherboardDigitalOutputsToolStripMenuItem1.Name = "motherboardDigitalOutputsToolStripMenuItem1";
+            this.motherboardDigitalOutputsToolStripMenuItem1.Size = new System.Drawing.Size(221, 22);
+            this.motherboardDigitalOutputsToolStripMenuItem1.Text = "Motherboard";
+            // 
+            // digitalInputsToolStripMenuItem
+            // 
+            this.digitalInputsToolStripMenuItem.Name = "digitalInputsToolStripMenuItem";
+            this.digitalInputsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.digitalInputsToolStripMenuItem.Text = "Digital Inputs";
+            // 
+            // digitalInputsToolStripMenuItem1
+            // 
+            this.digitalInputsToolStripMenuItem1.Name = "digitalInputsToolStripMenuItem1";
+            this.digitalInputsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.digitalInputsToolStripMenuItem1.Text = "Digital Inputs";
             // 
             // frmPhccDeviceManager
             // 
@@ -597,5 +631,9 @@
         private System.Windows.Forms.SaveFileDialog dlgSaveExcel;
         private System.Windows.Forms.ToolStripMenuItem configureDOA40DOToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configureDOA40DOToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem motherboardDigitalOutputsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem motherboardDigitalOutputsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem digitalInputsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem digitalInputsToolStripMenuItem1;
     }
 }

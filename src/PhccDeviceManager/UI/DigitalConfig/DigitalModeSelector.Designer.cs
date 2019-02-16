@@ -1,7 +1,8 @@
-﻿namespace Phcc.DeviceManager.UI.Doa7SegConfig
+﻿namespace Phcc.DeviceManager.UI.DigitalConfig
 {
-    partial class Doa40DoModeSelector
+    partial class DigitalModeSelector
     {
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -30,12 +31,12 @@
         {
             this.btnAdd = new System.Windows.Forms.Button();
             this.gb14Segment = new System.Windows.Forms.GroupBox();
-            this.rbReversed = new System.Windows.Forms.RadioButton();
-            this.numOutput = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.numOutput = new System.Windows.Forms.NumericUpDown();
+            this.rbReversed = new System.Windows.Forms.RadioButton();
             this.gb14Segment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numOutput)).BeginInit();
             this.SuspendLayout();
@@ -65,22 +66,48 @@
             this.gb14Segment.TabStop = false;
             this.gb14Segment.Text = "Output Configuration";
             // 
-            // rbReversed
+            // label8
             // 
-            this.rbReversed.AutoSize = true;
-            this.rbReversed.Location = new System.Drawing.Point(258, 154);
-            this.rbReversed.Name = "rbReversed";
-            this.rbReversed.Size = new System.Drawing.Size(77, 17);
-            this.rbReversed.TabIndex = 0;
-            this.rbReversed.TabStop = true;
-            this.rbReversed.Text = "Reversed?";
-            this.rbReversed.UseVisualStyleBackColor = true;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(71, 135);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(79, 13);
+            this.label8.TabIndex = 6;
+            this.label8.Text = "Output Number";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(19, 94);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(412, 13);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "Then, click on add. Repeat the process for remaining outputs that need to be inve" +
+    "rted";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(19, 68);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(335, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "Write the output number, and click on the checkbox to invert the pin. ";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(19, 42);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(240, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Please use this screen to invert any digital output.";
             // 
             // numOutput
             // 
             this.numOutput.Location = new System.Drawing.Point(63, 151);
             this.numOutput.Maximum = new decimal(new int[] {
-            256,
+            32768,
             0,
             0,
             0});
@@ -98,51 +125,25 @@
             0,
             0});
             // 
-            // label5
+            // rbReversed
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(19, 42);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(240, 13);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "Please use this screen to invert any digital output.";
+            this.rbReversed.AutoSize = true;
+            this.rbReversed.Location = new System.Drawing.Point(258, 154);
+            this.rbReversed.Name = "rbReversed";
+            this.rbReversed.Size = new System.Drawing.Size(77, 17);
+            this.rbReversed.TabIndex = 0;
+            this.rbReversed.TabStop = true;
+            this.rbReversed.Text = "Reversed?";
+            this.rbReversed.UseVisualStyleBackColor = true;
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(19, 68);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(335, 13);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Write the output number, and click on the checkbox to invert the pin. ";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(19, 94);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(412, 13);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "Then, click on add. Repeat the process for remaining outputs that need to be inve" +
-    "rted";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(71, 135);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(79, 13);
-            this.label8.TabIndex = 6;
-            this.label8.Text = "Output Number";
-            // 
-            // Doa40DoModeSelector
+            // DigitalModeSelector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(468, 450);
             this.Controls.Add(this.gb14Segment);
             this.Controls.Add(this.btnAdd);
-            this.Name = "Doa40DoModeSelector";
+            this.Name = "DigitalModeSelector";
             this.Text = "Doa7SegmentModeSelector";
             this.gb14Segment.ResumeLayout(false);
             this.gb14Segment.PerformLayout();
