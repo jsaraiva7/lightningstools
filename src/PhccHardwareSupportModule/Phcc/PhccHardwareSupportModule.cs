@@ -68,7 +68,7 @@ namespace PhccHardwareSupportModule.Phcc
                 if (motherboard == null) throw new ArgumentNullException(nameof(motherboard));
                 _device = CreateDevice(motherboard.ComPort);
                 _analogInputSignals = new PhccAnalogInputs(_device).AnalogInputs.ToArray();
-                _digitalInputSignals = new PhccDigitalImputs(_device).DigitalInputs.ToArray();
+                _digitalInputSignals = new PhccDigitalImputs(motherboard, _device).DigitalInputs.ToArray();
 
                 CreateOutputSignals(_device, motherboard, out _digitalOutputSignals, out _analogOutputSignals);
 

@@ -891,6 +891,16 @@ namespace Phcc.DeviceManager.UI
         {
             Config40DO();
         }
+
+        private void digitalInputsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ConfigDigitalOutputs();
+        }
+   
+        private void digitalInputsToolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            ConfigDigitalOutputs();
+        }
         private void Config7Segment()
         {
             var selectedNode = tvDevicesAndPeripherals.SelectedNode;
@@ -1025,5 +1035,7 @@ namespace Phcc.DeviceManager.UI
                 pkg.Save();
             }
         }
+
+        
     }
 }

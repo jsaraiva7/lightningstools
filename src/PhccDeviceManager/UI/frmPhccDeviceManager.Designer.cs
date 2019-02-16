@@ -54,6 +54,8 @@
             this.mnuDevicesAddPeripheralDoaStepper = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuDevicesCalibrate = new System.Windows.Forms.ToolStripMenuItem();
+            this.motherboardDigitalOutputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.digitalInputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrateServosToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrateAnalogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.configure7SegmentDisplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,6 +79,8 @@
             this.mnuContextAddPeripheralDoa8Servo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuContextCalibrate = new System.Windows.Forms.ToolStripMenuItem();
+            this.motherboardDigitalOutputsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.digitalInputsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrateServosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrateAnalogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configure7SegmentDisplayToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,10 +88,6 @@
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuContextRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.dlgSaveExcel = new System.Windows.Forms.SaveFileDialog();
-            this.motherboardDigitalOutputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.motherboardDigitalOutputsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.digitalInputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.digitalInputsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.ctxContext.SuspendLayout();
             this.SuspendLayout();
@@ -297,6 +297,21 @@
             this.mnuDevicesCalibrate.Text = "&Calibrate / Configure...";
             this.mnuDevicesCalibrate.Click += new System.EventHandler(this.mnuDevicesCalibrate_Click);
             // 
+            // motherboardDigitalOutputsToolStripMenuItem
+            // 
+            this.motherboardDigitalOutputsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.digitalInputsToolStripMenuItem});
+            this.motherboardDigitalOutputsToolStripMenuItem.Name = "motherboardDigitalOutputsToolStripMenuItem";
+            this.motherboardDigitalOutputsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.motherboardDigitalOutputsToolStripMenuItem.Text = "Motherboard";
+            // 
+            // digitalInputsToolStripMenuItem
+            // 
+            this.digitalInputsToolStripMenuItem.Name = "digitalInputsToolStripMenuItem";
+            this.digitalInputsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.digitalInputsToolStripMenuItem.Text = "Digital Inputs";
+            this.digitalInputsToolStripMenuItem.Click += new System.EventHandler(this.digitalInputsToolStripMenuItem_Click);
+            // 
             // calibrateServosToolStripMenuItem1
             // 
             this.calibrateServosToolStripMenuItem1.Name = "calibrateServosToolStripMenuItem1";
@@ -351,7 +366,7 @@
             // exportToExcelToolStripMenuItem
             // 
             this.exportToExcelToolStripMenuItem.Name = "exportToExcelToolStripMenuItem";
-            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportToExcelToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.exportToExcelToolStripMenuItem.Text = "Export to Excel";
             this.exportToExcelToolStripMenuItem.Click += new System.EventHandler(this.exportToExcelToolStripMenuItem_Click);
             // 
@@ -382,7 +397,7 @@
             this.toolStripMenuItem6,
             this.mnuContextRemove});
             this.ctxContext.Name = "ctxMotherboard";
-            this.ctxContext.Size = new System.Drawing.Size(195, 132);
+            this.ctxContext.Size = new System.Drawing.Size(195, 154);
             // 
             // mnuContextSetCOMPort
             // 
@@ -476,6 +491,21 @@
             this.mnuContextCalibrate.Text = "&Calibrate / Configure...";
             this.mnuContextCalibrate.Click += new System.EventHandler(this.mnuContextCalibrate_Click);
             // 
+            // motherboardDigitalOutputsToolStripMenuItem1
+            // 
+            this.motherboardDigitalOutputsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.digitalInputsToolStripMenuItem1});
+            this.motherboardDigitalOutputsToolStripMenuItem1.Name = "motherboardDigitalOutputsToolStripMenuItem1";
+            this.motherboardDigitalOutputsToolStripMenuItem1.Size = new System.Drawing.Size(221, 22);
+            this.motherboardDigitalOutputsToolStripMenuItem1.Text = "Motherboard";
+            // 
+            // digitalInputsToolStripMenuItem1
+            // 
+            this.digitalInputsToolStripMenuItem1.Name = "digitalInputsToolStripMenuItem1";
+            this.digitalInputsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.digitalInputsToolStripMenuItem1.Text = "Digital Inputs";
+            this.digitalInputsToolStripMenuItem1.Click += new System.EventHandler(this.digitalInputsToolStripMenuItem1_Click_1);
+            // 
             // calibrateServosToolStripMenuItem
             // 
             this.calibrateServosToolStripMenuItem.Name = "calibrateServosToolStripMenuItem";
@@ -522,34 +552,6 @@
             // dlgSaveExcel
             // 
             this.dlgSaveExcel.DefaultExt = "xlsx";
-            // 
-            // motherboardDigitalOutputsToolStripMenuItem
-            // 
-            this.motherboardDigitalOutputsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.digitalInputsToolStripMenuItem});
-            this.motherboardDigitalOutputsToolStripMenuItem.Name = "motherboardDigitalOutputsToolStripMenuItem";
-            this.motherboardDigitalOutputsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.motherboardDigitalOutputsToolStripMenuItem.Text = "Motherboard";
-            // 
-            // motherboardDigitalOutputsToolStripMenuItem1
-            // 
-            this.motherboardDigitalOutputsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.digitalInputsToolStripMenuItem1});
-            this.motherboardDigitalOutputsToolStripMenuItem1.Name = "motherboardDigitalOutputsToolStripMenuItem1";
-            this.motherboardDigitalOutputsToolStripMenuItem1.Size = new System.Drawing.Size(221, 22);
-            this.motherboardDigitalOutputsToolStripMenuItem1.Text = "Motherboard";
-            // 
-            // digitalInputsToolStripMenuItem
-            // 
-            this.digitalInputsToolStripMenuItem.Name = "digitalInputsToolStripMenuItem";
-            this.digitalInputsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.digitalInputsToolStripMenuItem.Text = "Digital Inputs";
-            // 
-            // digitalInputsToolStripMenuItem1
-            // 
-            this.digitalInputsToolStripMenuItem1.Name = "digitalInputsToolStripMenuItem1";
-            this.digitalInputsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.digitalInputsToolStripMenuItem1.Text = "Digital Inputs";
             // 
             // frmPhccDeviceManager
             // 

@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using Common.MacroProgramming;
 using log4net;
 using Phcc;
 using PhccConfiguration.Config;
+using PhccConfiguration.Config.ConfigClasses;
 using PhccHardwareSupportModule.Phcc.Interfaces;
 
 namespace PhccHardwareSupportModule.Phcc.Inputs
@@ -25,11 +28,11 @@ namespace PhccHardwareSupportModule.Phcc.Inputs
         private Device _device;
         private string _portName;
 
-        public PhccDigitalImputs(Device device)
+        public PhccDigitalImputs(Motherboard motherboard, Device device)
         {
             _device = device;
             if (device.PortName != null) _portName = device.PortName;
-            InitializeSignals(null, device);
+            InitializeSignals(motherboard, device);
             if (device == null) return;
          
             _digitalInputChangedEventHandler = device_DigitalInputChanged;
@@ -44,22 +47,57 @@ namespace PhccHardwareSupportModule.Phcc.Inputs
         public void InitializeSignals(object peripheral, object device)
         {
             var toReturn = new List<DigitalSignal>();
+
+            List<DigitalOutputConfig> inputConfig = new List<DigitalOutputConfig>();
+
+            var motherboard = peripheral as Motherboard;
+            if (motherboard != null)
+            {
+                if (motherboard.InputConfig != null && motherboard.InputConfig.Any())
+                {
+                    inputConfig = motherboard.InputConfig;
+                }
+            }
             for (var i = 0; i < 1024; i++)
             {
-                var thisSignal = new DigitalSignal
+                if (inputConfig.Any(x => x.PinNumber == i + 1))
                 {
-                    Category = "Inputs",
-                    CollectionName = "Digital Inputs",
-                    FriendlyName = $"Digital Input {string.Format($"{i + 1:0}", i + 1)}",
-                    Id = $"PhccDigitalInput[{_portName}][{i}]",
-                    Index = i,
-                    PublisherObject = this,
-                    Source = _device,
-                    SourceAddress = _portName,
-                    SourceFriendlyName = $"PHCC Device on {_portName}",
-                    State = false
-                };
-                toReturn.Add(thisSignal);
+                    var thisSignal = new DigitalSignal
+                    {
+                        Category = "Inversed Inputs",
+                        CollectionName = "Digital Inputs",
+                        FriendlyName = $"Digital Input (inverted) {string.Format($"{i + 1:0}", i + 1)}",
+                        Id = $"PhccDigitalInput[{_portName}][{i}]",
+                        Index = i,
+                        PublisherObject = this,
+                        Source = _device,
+                 
+                        SourceAddress = _portName,
+                        SourceFriendlyName = $"PHCC Device on {_portName}",
+                        State = false
+                    };
+                    toReturn.Add(thisSignal);
+
+                }
+                else
+                {
+                    var thisSignal = new DigitalSignal
+                    {
+                        Category = "Inputs",
+                        CollectionName = "Digital Inputs",
+                        FriendlyName = $"Digital Input {string.Format($"{i + 1:0}", i + 1)}",
+                        Id = $"PhccDigitalInput[{_portName}][{i}]",
+                        Index = i,
+                        PublisherObject = this,
+                        Source = _device,
+                    
+                        SourceAddress = _portName,
+                        SourceFriendlyName = $"PHCC Device on {_portName}",
+                        State = false
+                    };
+                    toReturn.Add(thisSignal);
+                }
+                
             }
             DigitalInputs.AddRange(toReturn);
         }
@@ -69,7 +107,15 @@ namespace PhccHardwareSupportModule.Phcc.Inputs
         {
             if (DigitalInputs == null || DigitalInputs.Count <= e.Index) return;
             var signal = DigitalInputs[e.Index];
-            signal.State = e.NewValue;
+            if (signal.FriendlyName.Contains("(inverted)"))
+            {
+                signal.State = !e.NewValue;
+            }
+            else
+            {
+                signal.State = e.NewValue;
+            }
+           
         }
 
         public void Dispose()
