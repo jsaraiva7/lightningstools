@@ -66,6 +66,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
     <LangVersion>7</LangVersion>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>SimLinkup.Program</StartupObject>
@@ -704,10 +705,6 @@
       <Project>{04f20e15-844a-4d30-9ec4-e8fd61a043a9}</Project>
       <Name>LzssManaged</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PhccDeviceManager\PhccDeviceManager.csproj">
-      <Project>{52AB07AF-C7BB-4586-BC5E-34759831CB08}</Project>
-      <Name>PhccDeviceManager</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Henkie\Henkie.SDI\Henkie.SDI.csproj">
       <Project>{7326f627-65f7-4163-a579-36af2091b357}</Project>
       <Name>Henkie.SDI</Name>
@@ -715,10 +712,6 @@
     <ProjectReference Include="..\PHCC\PHCC.csproj">
       <Project>{75fa2030-c9ca-4b2d-8534-8f48eea13ca3}</Project>
       <Name>PHCC</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VjoyHardwareSupportModule\VjoyHardwareSupportModule.csproj">
-      <Project>{f6cc651c-6c2d-46cc-8020-b69157b34421}</Project>
-      <Name>VjoyHardwareSupportModule</Name>
     </ProjectReference>
     <ProjectReference Include="DirectInputHardwareSupportModule\DirectInputHardwareSupportModule.csproj">
       <Project>{55bd4572-857a-4a22-8400-2298f8da9574}</Project>

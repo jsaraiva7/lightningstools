@@ -444,7 +444,7 @@ namespace Phcc
         ///   servo.</param>
         public void DoaSend8ServoGain(byte deviceAddr, byte servoNum, byte gain)
         {
-            if (servoNum == 0 || servoNum > 8)
+            if (servoNum < 0 || servoNum > 8)
             {
                 throw new ArgumentOutOfRangeException(nameof(servoNum), "must be between 1 and 8");
             }
@@ -464,7 +464,7 @@ namespace Phcc
         ///   offset value to use with this specific servo.</param>
         public void DoaSend8ServoCalibration(byte deviceAddr, byte servoNum, Int16 calibrationOffset)
         {
-            if (servoNum == 0 || servoNum > 8)
+            if (servoNum < 0 || servoNum > 8)
             {
                 throw new ArgumentOutOfRangeException(nameof(servoNum), "must be between 1 and 8");
             }

@@ -26,6 +26,8 @@ namespace PhccHardwareSupportModule.Phcc
         private readonly AnalogSignal[] _analogOutputSignals;
         private readonly DigitalSignal[] _digitalInputSignals;
         private readonly DigitalSignal[] _digitalOutputSignals;
+        private readonly TextSignal[] _textOutputSignals;
+
         private readonly Dictionary<string, byte[]> _peripheralByteStates = new Dictionary<string, byte[]>();
         private readonly Dictionary<string, double[]> _peripheralFloatStates = new Dictionary<string, double[]>();
         private p.AnalogInputChangedEventHandler _analogInputChangedEventHandler;
@@ -60,13 +62,45 @@ namespace PhccHardwareSupportModule.Phcc
             return hsm;
         }
 
+        private TextSignal[] GetDeviceFwSignal(p.Device device)
+        {
+            var firmware = "PHCC not Connected";
+            try
+            {
+                firmware = device.FirmwareVersion;
+            }
+            catch
+            {
+                // ignored
+            }
+
+            var txtS = new List<TextSignal>();
+            var thisSignal = new TextSignal
+            {
+                Category = "Firmware Version",
+                CollectionName = "PHCC Firmware Version",
+                FriendlyName = firmware,
+                Id = $"PhccFwVersion[{device.PortName}]",
+                Index = 1,
+                PublisherObject = null,
+                Source = device,
+                SourceAddress = device.PortName,
+                SourceFriendlyName = $"PHCC Device on {device.PortName}",
+                State = firmware
+            };
+            txtS.Add(thisSignal);
+            return txtS.ToArray();
+
+        }
 
         private PhccHardwareSupportModule(Motherboard motherboard) : this()
         {
             try
             {
+
                 if (motherboard == null) throw new ArgumentNullException(nameof(motherboard));
                 _device = CreateDevice(motherboard.ComPort);
+                _textOutputSignals = GetDeviceFwSignal(_device);          
                 _analogInputSignals = new PhccAnalogInputs(_device).AnalogInputs.ToArray();
                 _digitalInputSignals = new PhccDigitalImputs(motherboard, _device).DigitalInputs.ToArray();
 
@@ -98,7 +132,8 @@ namespace PhccHardwareSupportModule.Phcc
         public override DigitalSignal[] DigitalInputs => _digitalInputSignals;
 
         public override DigitalSignal[] DigitalOutputs => _digitalOutputSignals;
-     
+        public override TextSignal[] TextOutputs => _textOutputSignals;
+
 
         public override string FriendlyName => "PHCC";
 

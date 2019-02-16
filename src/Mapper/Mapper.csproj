@@ -30,7 +30,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\X86\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -151,10 +151,6 @@
     <ProjectReference Include="..\PhccDeviceManager\PhccDeviceManager.csproj">
       <Project>{52ab07af-c7bb-4586-bc5e-34759831cb08}</Project>
       <Name>PhccDeviceManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PhccHardwareSupportModule\PhccHardwareSupportModule.csproj">
-      <Project>{c3dd6cb1-824c-4ddf-a44d-486a31be432e}</Project>
-      <Name>PhccHardwareSupportModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimLinkup\DirectInputHardwareSupportModule\DirectInputHardwareSupportModule.csproj">
       <Project>{55bd4572-857a-4a22-8400-2298f8da9574}</Project>

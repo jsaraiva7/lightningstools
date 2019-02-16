@@ -38,6 +38,12 @@ namespace Phcc.DeviceManager.UI
         public frmPhccDeviceManager()
         {
             InitializeComponent();
+
+#if DEBUG
+            testToolStripMenuItem.Visible = true;
+#else
+            testToolStripMenuItem.Visible = true;
+#endif
         }
 
         #endregion
@@ -1036,6 +1042,20 @@ namespace Phcc.DeviceManager.UI
             }
         }
 
-        
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selectedNode = tvDevicesAndPeripherals.SelectedNode;
+            if (selectedNode != null && selectedNode.Tag is Motherboard)
+            {
+                var mb = selectedNode.Tag as Motherboard;
+
+                for (int i = 0; i < 127; i++)
+                {
+                    mb.Peripherals.Add(new DoaAnOut1((byte)i));
+                   
+                }
+            }
+            RenderCurrentConfiguration();
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace Mapper.UI
 #if DEBUG
             testToolStripMenuItem.Visible = true;
 #else
-            testToolStripMenuItem.Visible = false;
+            testToolStripMenuItem.Visible = true;
 #endif
             saveFileDialog1.Filter = "SimLinkup Mapping files (*.mapping)|*.mapping";
             saveFileDialog1.DefaultExt = "mapping";
@@ -177,7 +177,54 @@ namespace Mapper.UI
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // SignalExporter.Export(SharedRuntime.ScriptingContext.AllSignals);
+            // SignalExporter.Export(SharedRuntime.ScriptingContext.AllSignals);
+
+            var falconSignals =
+                SharedRuntime.ScriptingContext.AnalogSignals.Where(X =>
+                    X.SourceFriendlyName.ToLower().Contains("falcon")).ToList();
+
+            var otherSignals = SharedRuntime.ScriptingContext.AnalogSignals.Where(X =>
+                !X.SourceFriendlyName.ToLower().Contains("falcon")).Where(x=> !x.Id.ToLower().Contains("inputs")).ToList();
+
+            if (falconSignals.Count > otherSignals.Count)
+            {
+                int i = 0;
+                foreach (var analogSignal in otherSignals)
+                {
+                    var m = new SignalMapping();
+                    var source = new AnalogSignal();
+                    var f4 = falconSignals[i];
+                    source.Id = f4.Id;
+                    var dest = new AnalogSignal();
+                    dest.Id = analogSignal.Id;
+                    m.Source = source;
+                    m.Destination = dest;
+                    _profile.SignalMappings.Add(m);
+                    i++;
+
+                }
+
+            }
+            else
+            {
+                int i = 0;
+                foreach (var analogSignal in falconSignals)
+                {
+                    var m = new SignalMapping();
+                    var source = new AnalogSignal();
+                    var f4 = otherSignals[i];
+                    source.Id = analogSignal.Id;
+                    var dest = new AnalogSignal();
+                    dest.Id =  f4.Id;
+                    m.Source = source;
+                    m.Destination = dest;
+                    _profile.SignalMappings.Add(m);
+                    i++;
+
+                }
+            }
+
+            RefreshMappings();
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)

@@ -41,5 +41,10 @@ namespace Phcc.DeviceManager.UI
         {
             trkCalibrateServoOffset.Value = (int) nudCalibrateServoOffset.Value;
         }
+
+        private void CalibrateServoWizard_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
