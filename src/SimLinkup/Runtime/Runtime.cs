@@ -122,7 +122,7 @@ namespace SimLinkup.Runtime
             UpdateSimSignals();
             Synchronize();
             var elapsed = DateTime.UtcNow.Subtract(startTime).TotalMilliseconds;
-            var toSleep = 2 - (int) elapsed;
+            var toSleep = 16 - (int) elapsed;
             if (toSleep < 0) toSleep = 1;
             Thread.Sleep(toSleep);
             var endTime = DateTime.UtcNow;

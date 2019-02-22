@@ -192,6 +192,10 @@ namespace Phcc.DeviceManager.UI
                             {
                                 tn.Text = "DOA_AnOut1 - Analog output card @ " + p.FriendlyName + " " + deviceAddress;
                             }
+                            else if (p is DoaArduinoX27)
+                            {
+                                tn.Text = "DOA Arduino Stepper Motor @ " + p.FriendlyName + " " + deviceAddress;
+                            }
                             var motherboardNode = FindNodeForConfigElement(motherboard);
                             if (motherboardNode != null)
                             {
@@ -350,6 +354,8 @@ namespace Phcc.DeviceManager.UI
             configureDOA40DOToolStripMenuItem1.Enabled = false;
             motherboardDigitalOutputsToolStripMenuItem.Enabled = false;
             motherboardDigitalOutputsToolStripMenuItem1.Enabled = false;
+            dOADuinoX27ToolStripMenuItem2.Enabled = false;
+            calibrateDOADuinoX27ToolStripMenuItem.Enabled = false;
             mnuDevicesCalibrate.Enabled = false;
             mnuDevicesSetComPort.Enabled = false;
             mnuContextSetCOMPort.Enabled = false;
@@ -422,6 +428,15 @@ namespace Phcc.DeviceManager.UI
                         mnuContextCalibrate.Enabled = true;
                         configureDOA40DOToolStripMenuItem.Enabled = true;
                         configureDOA40DOToolStripMenuItem1.Enabled = true;
+
+                    }
+                   
+                    if (selectedNodeData is DoaArduinoX27)
+                    {
+                        mnuDevicesCalibrate.Enabled = true;
+                        mnuContextCalibrate.Enabled = true;
+                        dOADuinoX27ToolStripMenuItem2.Enabled = true;
+                        calibrateDOADuinoX27ToolStripMenuItem.Enabled = true;
 
                     }
                 }
@@ -637,6 +652,11 @@ namespace Phcc.DeviceManager.UI
                         var board = selectedNodeData as DoaStepper;
                         board.OutputConfigs = p.OutputConfigs;
                     }
+                    else if (selectedNodeData is DoaArduinoX27)
+                    {
+                        var board = selectedNodeData as DoaArduinoX27;
+                        board.OutputConfigs = p.OutputConfigs;
+                    }
                     p.ShowDialog();
                 }
             }
@@ -784,7 +804,15 @@ namespace Phcc.DeviceManager.UI
         {
             AddNewPeripheral<DoaAnOut1>();
         }
+        private void dOADuinoX27ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AddNewPeripheral<DoaArduinoX27>();
+        }
 
+        private void dOADuinoX27ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddNewPeripheral<DoaArduinoX27>();
+        }
         private void mnuDevicesAddPeripheralDoaStepper_Click(object sender, EventArgs e)
         {
             AddNewPeripheral<DoaStepper>();
@@ -867,7 +895,7 @@ namespace Phcc.DeviceManager.UI
 
         private void calibrateServosToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Calibrate();
+            
         }
 
         private void calibrateAnalogToolStripMenuItem_Click(object sender, EventArgs e)
@@ -906,6 +934,34 @@ namespace Phcc.DeviceManager.UI
         private void digitalInputsToolStripMenuItem1_Click_1(object sender, EventArgs e)
         {
             ConfigDigitalOutputs();
+        }
+        private void dOADuinoX27ToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            CalibrateAnalog();
+        }
+
+        private void calibrateDOADuinoX27ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CalibrateAnalog();
+        }
+        private void gaugeCalibrationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CalibrateAnalog();
+        }
+
+        private void gaugeCalibrationToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            CalibrateAnalog();
+        }
+
+        private void gainOffsetToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Calibrate();
+        }
+
+        private void gainOffsetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Calibrate();
         }
         private void Config7Segment()
         {
@@ -1057,5 +1113,7 @@ namespace Phcc.DeviceManager.UI
             }
             RenderCurrentConfiguration();
         }
+
+ 
     }
 }

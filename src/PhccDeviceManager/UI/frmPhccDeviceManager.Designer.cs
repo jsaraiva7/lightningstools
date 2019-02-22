@@ -52,6 +52,7 @@
             this.mnuDevicesAddPeripheralDoaAircore = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDevicesAddPeripheralDoaAnOut1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDevicesAddPeripheralDoaStepper = new System.Windows.Forms.ToolStripMenuItem();
+            this.dOADuinoX27ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuDevicesCalibrate = new System.Windows.Forms.ToolStripMenuItem();
             this.motherboardDigitalOutputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,12 +61,14 @@
             this.calibrateAnalogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.configure7SegmentDisplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureDOA40DOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dOADuinoX27ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuDevicesRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuContextSetCOMPort = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
@@ -77,6 +80,7 @@
             this.mnuContextAddPeripheralDoaAnOut1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuContextAddPeripheralDoa7Seg = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuContextAddPeripheralDoa8Servo = new System.Windows.Forms.ToolStripMenuItem();
+            this.dOADuinoX27ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuContextCalibrate = new System.Windows.Forms.ToolStripMenuItem();
             this.motherboardDigitalOutputsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,10 +89,14 @@
             this.calibrateAnalogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configure7SegmentDisplayToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.configureDOA40DOToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.calibrateDOADuinoX27ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuContextRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.dlgSaveExcel = new System.Windows.Forms.SaveFileDialog();
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gainOffsetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gaugeCalibrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gainOffsetToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.gaugeCalibrationToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.ctxContext.SuspendLayout();
             this.SuspendLayout();
@@ -234,7 +242,8 @@
             this.mnuDevicesAddPeripheralDoa8Servo,
             this.mnuDevicesAddPeripheralDoaAircore,
             this.mnuDevicesAddPeripheralDoaAnOut1,
-            this.mnuDevicesAddPeripheralDoaStepper});
+            this.mnuDevicesAddPeripheralDoaStepper,
+            this.dOADuinoX27ToolStripMenuItem});
             this.mnuDevicesAddPeripheral.Name = "mnuDevicesAddPeripheral";
             this.mnuDevicesAddPeripheral.Size = new System.Drawing.Size(194, 22);
             this.mnuDevicesAddPeripheral.Text = "Add &peripheral";
@@ -242,44 +251,51 @@
             // mnuDevicesAddPeripheralDoa40Do
             // 
             this.mnuDevicesAddPeripheralDoa40Do.Name = "mnuDevicesAddPeripheralDoa40Do";
-            this.mnuDevicesAddPeripheralDoa40Do.Size = new System.Drawing.Size(154, 22);
+            this.mnuDevicesAddPeripheralDoa40Do.Size = new System.Drawing.Size(155, 22);
             this.mnuDevicesAddPeripheralDoa40Do.Text = "DOA_40DO...";
             this.mnuDevicesAddPeripheralDoa40Do.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoa40Do_Click);
             // 
             // mnuDevicesAddPeripheralDoa7Seg
             // 
             this.mnuDevicesAddPeripheralDoa7Seg.Name = "mnuDevicesAddPeripheralDoa7Seg";
-            this.mnuDevicesAddPeripheralDoa7Seg.Size = new System.Drawing.Size(154, 22);
+            this.mnuDevicesAddPeripheralDoa7Seg.Size = new System.Drawing.Size(155, 22);
             this.mnuDevicesAddPeripheralDoa7Seg.Text = "DOA_7Seg";
             this.mnuDevicesAddPeripheralDoa7Seg.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoa7Seg_Click);
             // 
             // mnuDevicesAddPeripheralDoa8Servo
             // 
             this.mnuDevicesAddPeripheralDoa8Servo.Name = "mnuDevicesAddPeripheralDoa8Servo";
-            this.mnuDevicesAddPeripheralDoa8Servo.Size = new System.Drawing.Size(154, 22);
+            this.mnuDevicesAddPeripheralDoa8Servo.Size = new System.Drawing.Size(155, 22);
             this.mnuDevicesAddPeripheralDoa8Servo.Text = "DOA_8Servo...";
             this.mnuDevicesAddPeripheralDoa8Servo.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoa8Servo_Click);
             // 
             // mnuDevicesAddPeripheralDoaAircore
             // 
             this.mnuDevicesAddPeripheralDoaAircore.Name = "mnuDevicesAddPeripheralDoaAircore";
-            this.mnuDevicesAddPeripheralDoaAircore.Size = new System.Drawing.Size(154, 22);
+            this.mnuDevicesAddPeripheralDoaAircore.Size = new System.Drawing.Size(155, 22);
             this.mnuDevicesAddPeripheralDoaAircore.Text = "DOA_Aircore...";
             this.mnuDevicesAddPeripheralDoaAircore.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoaAircore_Click);
             // 
             // mnuDevicesAddPeripheralDoaAnOut1
             // 
             this.mnuDevicesAddPeripheralDoaAnOut1.Name = "mnuDevicesAddPeripheralDoaAnOut1";
-            this.mnuDevicesAddPeripheralDoaAnOut1.Size = new System.Drawing.Size(154, 22);
+            this.mnuDevicesAddPeripheralDoaAnOut1.Size = new System.Drawing.Size(155, 22);
             this.mnuDevicesAddPeripheralDoaAnOut1.Text = "DOA_AnOut1...";
             this.mnuDevicesAddPeripheralDoaAnOut1.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoaAnOut1_Click);
             // 
             // mnuDevicesAddPeripheralDoaStepper
             // 
             this.mnuDevicesAddPeripheralDoaStepper.Name = "mnuDevicesAddPeripheralDoaStepper";
-            this.mnuDevicesAddPeripheralDoaStepper.Size = new System.Drawing.Size(154, 22);
+            this.mnuDevicesAddPeripheralDoaStepper.Size = new System.Drawing.Size(155, 22);
             this.mnuDevicesAddPeripheralDoaStepper.Text = "DOA_Stepper...";
             this.mnuDevicesAddPeripheralDoaStepper.Click += new System.EventHandler(this.mnuDevicesAddPeripheralDoaStepper_Click);
+            // 
+            // dOADuinoX27ToolStripMenuItem
+            // 
+            this.dOADuinoX27ToolStripMenuItem.Name = "dOADuinoX27ToolStripMenuItem";
+            this.dOADuinoX27ToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.dOADuinoX27ToolStripMenuItem.Text = "DOA_DuinoX27";
+            this.dOADuinoX27ToolStripMenuItem.Click += new System.EventHandler(this.dOADuinoX27ToolStripMenuItem_Click);
             // 
             // toolStripMenuItem10
             // 
@@ -293,7 +309,8 @@
             this.calibrateServosToolStripMenuItem1,
             this.calibrateAnalogToolStripMenuItem1,
             this.configure7SegmentDisplayToolStripMenuItem,
-            this.configureDOA40DOToolStripMenuItem});
+            this.configureDOA40DOToolStripMenuItem,
+            this.dOADuinoX27ToolStripMenuItem2});
             this.mnuDevicesCalibrate.Name = "mnuDevicesCalibrate";
             this.mnuDevicesCalibrate.Size = new System.Drawing.Size(194, 22);
             this.mnuDevicesCalibrate.Text = "&Calibrate / Configure...";
@@ -304,7 +321,7 @@
             this.motherboardDigitalOutputsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.digitalInputsToolStripMenuItem});
             this.motherboardDigitalOutputsToolStripMenuItem.Name = "motherboardDigitalOutputsToolStripMenuItem";
-            this.motherboardDigitalOutputsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.motherboardDigitalOutputsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.motherboardDigitalOutputsToolStripMenuItem.Text = "Motherboard";
             // 
             // digitalInputsToolStripMenuItem
@@ -316,31 +333,41 @@
             // 
             // calibrateServosToolStripMenuItem1
             // 
+            this.calibrateServosToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gainOffsetToolStripMenuItem,
+            this.gaugeCalibrationToolStripMenuItem});
             this.calibrateServosToolStripMenuItem1.Name = "calibrateServosToolStripMenuItem1";
-            this.calibrateServosToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+            this.calibrateServosToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.calibrateServosToolStripMenuItem1.Text = "Calibrate Servos";
             this.calibrateServosToolStripMenuItem1.Click += new System.EventHandler(this.calibrateServosToolStripMenuItem1_Click);
             // 
             // calibrateAnalogToolStripMenuItem1
             // 
             this.calibrateAnalogToolStripMenuItem1.Name = "calibrateAnalogToolStripMenuItem1";
-            this.calibrateAnalogToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+            this.calibrateAnalogToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.calibrateAnalogToolStripMenuItem1.Text = "Calibrate Analog";
             this.calibrateAnalogToolStripMenuItem1.Click += new System.EventHandler(this.calibrateAnalogToolStripMenuItem1_Click);
             // 
             // configure7SegmentDisplayToolStripMenuItem
             // 
             this.configure7SegmentDisplayToolStripMenuItem.Name = "configure7SegmentDisplayToolStripMenuItem";
-            this.configure7SegmentDisplayToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.configure7SegmentDisplayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.configure7SegmentDisplayToolStripMenuItem.Text = "7SegmentDisplay";
             this.configure7SegmentDisplayToolStripMenuItem.Click += new System.EventHandler(this.configure7SegmentDisplayToolStripMenuItem_Click);
             // 
             // configureDOA40DOToolStripMenuItem
             // 
             this.configureDOA40DOToolStripMenuItem.Name = "configureDOA40DOToolStripMenuItem";
-            this.configureDOA40DOToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.configureDOA40DOToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.configureDOA40DOToolStripMenuItem.Text = "&DOA 40 DO";
             this.configureDOA40DOToolStripMenuItem.Click += new System.EventHandler(this.configureDOA40DOToolStripMenuItem_Click);
+            // 
+            // dOADuinoX27ToolStripMenuItem2
+            // 
+            this.dOADuinoX27ToolStripMenuItem2.Name = "dOADuinoX27ToolStripMenuItem2";
+            this.dOADuinoX27ToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.dOADuinoX27ToolStripMenuItem2.Text = "DOA_DuinoX27";
+            this.dOADuinoX27ToolStripMenuItem2.Click += new System.EventHandler(this.dOADuinoX27ToolStripMenuItem2_Click);
             // 
             // toolStripMenuItem7
             // 
@@ -387,6 +414,13 @@
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.mnuHelpAbout_Click);
             // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
+            this.testToolStripMenuItem.Text = "test";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
+            // 
             // ctxContext
             // 
             this.ctxContext.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -428,7 +462,8 @@
             this.mnuContextAddPeripheralDoaStepper,
             this.mnuContextAddPeripheralDoaAnOut1,
             this.mnuContextAddPeripheralDoa7Seg,
-            this.mnuContextAddPeripheralDoa8Servo});
+            this.mnuContextAddPeripheralDoa8Servo,
+            this.dOADuinoX27ToolStripMenuItem1});
             this.mnuContextAddPeripheral.Name = "mnuContextAddPeripheral";
             this.mnuContextAddPeripheral.Size = new System.Drawing.Size(194, 22);
             this.mnuContextAddPeripheral.Text = "Add &Peripheral...";
@@ -436,44 +471,51 @@
             // mnuContextAddPeripheralDoa40do
             // 
             this.mnuContextAddPeripheralDoa40do.Name = "mnuContextAddPeripheralDoa40do";
-            this.mnuContextAddPeripheralDoa40do.Size = new System.Drawing.Size(154, 22);
+            this.mnuContextAddPeripheralDoa40do.Size = new System.Drawing.Size(155, 22);
             this.mnuContextAddPeripheralDoa40do.Text = "DOA_40DO...";
             this.mnuContextAddPeripheralDoa40do.Click += new System.EventHandler(this.mnuContextAddPeripheralDoa40Do_Click);
             // 
             // mnuContextAddPeripheralDoaAircore
             // 
             this.mnuContextAddPeripheralDoaAircore.Name = "mnuContextAddPeripheralDoaAircore";
-            this.mnuContextAddPeripheralDoaAircore.Size = new System.Drawing.Size(154, 22);
+            this.mnuContextAddPeripheralDoaAircore.Size = new System.Drawing.Size(155, 22);
             this.mnuContextAddPeripheralDoaAircore.Text = "DOA_Aircore...";
             this.mnuContextAddPeripheralDoaAircore.Click += new System.EventHandler(this.mnuContextAddPeripheralDoaAircore_Click);
             // 
             // mnuContextAddPeripheralDoaStepper
             // 
             this.mnuContextAddPeripheralDoaStepper.Name = "mnuContextAddPeripheralDoaStepper";
-            this.mnuContextAddPeripheralDoaStepper.Size = new System.Drawing.Size(154, 22);
+            this.mnuContextAddPeripheralDoaStepper.Size = new System.Drawing.Size(155, 22);
             this.mnuContextAddPeripheralDoaStepper.Text = "DOA_Stepper...";
             this.mnuContextAddPeripheralDoaStepper.Click += new System.EventHandler(this.mnuContextAddPeripheralDoaStepper_Click);
             // 
             // mnuContextAddPeripheralDoaAnOut1
             // 
             this.mnuContextAddPeripheralDoaAnOut1.Name = "mnuContextAddPeripheralDoaAnOut1";
-            this.mnuContextAddPeripheralDoaAnOut1.Size = new System.Drawing.Size(154, 22);
+            this.mnuContextAddPeripheralDoaAnOut1.Size = new System.Drawing.Size(155, 22);
             this.mnuContextAddPeripheralDoaAnOut1.Text = "DOA_AnOut1...";
             this.mnuContextAddPeripheralDoaAnOut1.Click += new System.EventHandler(this.mnuContextAddPeripheralDoaAnOut1_Click);
             // 
             // mnuContextAddPeripheralDoa7Seg
             // 
             this.mnuContextAddPeripheralDoa7Seg.Name = "mnuContextAddPeripheralDoa7Seg";
-            this.mnuContextAddPeripheralDoa7Seg.Size = new System.Drawing.Size(154, 22);
+            this.mnuContextAddPeripheralDoa7Seg.Size = new System.Drawing.Size(155, 22);
             this.mnuContextAddPeripheralDoa7Seg.Text = "DOA_7Seg";
             this.mnuContextAddPeripheralDoa7Seg.Click += new System.EventHandler(this.mnuContextAddPeripheralDoa7Seg_Click);
             // 
             // mnuContextAddPeripheralDoa8Servo
             // 
             this.mnuContextAddPeripheralDoa8Servo.Name = "mnuContextAddPeripheralDoa8Servo";
-            this.mnuContextAddPeripheralDoa8Servo.Size = new System.Drawing.Size(154, 22);
+            this.mnuContextAddPeripheralDoa8Servo.Size = new System.Drawing.Size(155, 22);
             this.mnuContextAddPeripheralDoa8Servo.Text = "DOA_8Servo...";
             this.mnuContextAddPeripheralDoa8Servo.Click += new System.EventHandler(this.mnuContextAddPeripheralDoa8Servo_Click);
+            // 
+            // dOADuinoX27ToolStripMenuItem1
+            // 
+            this.dOADuinoX27ToolStripMenuItem1.Name = "dOADuinoX27ToolStripMenuItem1";
+            this.dOADuinoX27ToolStripMenuItem1.Size = new System.Drawing.Size(155, 22);
+            this.dOADuinoX27ToolStripMenuItem1.Text = "DOA_DuinoX27";
+            this.dOADuinoX27ToolStripMenuItem1.Click += new System.EventHandler(this.dOADuinoX27ToolStripMenuItem1_Click);
             // 
             // toolStripMenuItem8
             // 
@@ -487,7 +529,8 @@
             this.calibrateServosToolStripMenuItem,
             this.calibrateAnalogToolStripMenuItem,
             this.configure7SegmentDisplayToolStripMenuItem1,
-            this.configureDOA40DOToolStripMenuItem1});
+            this.configureDOA40DOToolStripMenuItem1,
+            this.calibrateDOADuinoX27ToolStripMenuItem});
             this.mnuContextCalibrate.Name = "mnuContextCalibrate";
             this.mnuContextCalibrate.Size = new System.Drawing.Size(194, 22);
             this.mnuContextCalibrate.Text = "&Calibrate / Configure...";
@@ -510,6 +553,9 @@
             // 
             // calibrateServosToolStripMenuItem
             // 
+            this.calibrateServosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gainOffsetToolStripMenuItem1,
+            this.gaugeCalibrationToolStripMenuItem1});
             this.calibrateServosToolStripMenuItem.Name = "calibrateServosToolStripMenuItem";
             this.calibrateServosToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this.calibrateServosToolStripMenuItem.Text = "Calibrate Servos";
@@ -536,6 +582,13 @@
             this.configureDOA40DOToolStripMenuItem1.Text = "Configure DOA 40 DO";
             this.configureDOA40DOToolStripMenuItem1.Click += new System.EventHandler(this.configureDOA40DOToolStripMenuItem1_Click);
             // 
+            // calibrateDOADuinoX27ToolStripMenuItem
+            // 
+            this.calibrateDOADuinoX27ToolStripMenuItem.Name = "calibrateDOADuinoX27ToolStripMenuItem";
+            this.calibrateDOADuinoX27ToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.calibrateDOADuinoX27ToolStripMenuItem.Text = "Calibrate DOA_DuinoX27";
+            this.calibrateDOADuinoX27ToolStripMenuItem.Click += new System.EventHandler(this.calibrateDOADuinoX27ToolStripMenuItem_Click);
+            // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
@@ -555,12 +608,33 @@
             // 
             this.dlgSaveExcel.DefaultExt = "xlsx";
             // 
-            // testToolStripMenuItem
+            // gainOffsetToolStripMenuItem
             // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
-            this.testToolStripMenuItem.Text = "test";
-            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
+            this.gainOffsetToolStripMenuItem.Name = "gainOffsetToolStripMenuItem";
+            this.gainOffsetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gainOffsetToolStripMenuItem.Text = "Gain/Offset";
+            this.gainOffsetToolStripMenuItem.Click += new System.EventHandler(this.gainOffsetToolStripMenuItem_Click);
+            // 
+            // gaugeCalibrationToolStripMenuItem
+            // 
+            this.gaugeCalibrationToolStripMenuItem.Name = "gaugeCalibrationToolStripMenuItem";
+            this.gaugeCalibrationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gaugeCalibrationToolStripMenuItem.Text = "Gauge Calibration";
+            this.gaugeCalibrationToolStripMenuItem.Click += new System.EventHandler(this.gaugeCalibrationToolStripMenuItem_Click);
+            // 
+            // gainOffsetToolStripMenuItem1
+            // 
+            this.gainOffsetToolStripMenuItem1.Name = "gainOffsetToolStripMenuItem1";
+            this.gainOffsetToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.gainOffsetToolStripMenuItem1.Text = "Gain/Offset";
+            this.gainOffsetToolStripMenuItem1.Click += new System.EventHandler(this.gainOffsetToolStripMenuItem1_Click);
+            // 
+            // gaugeCalibrationToolStripMenuItem1
+            // 
+            this.gaugeCalibrationToolStripMenuItem1.Name = "gaugeCalibrationToolStripMenuItem1";
+            this.gaugeCalibrationToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.gaugeCalibrationToolStripMenuItem1.Text = "Gauge Calibration";
+            this.gaugeCalibrationToolStripMenuItem1.Click += new System.EventHandler(this.gaugeCalibrationToolStripMenuItem1_Click);
             // 
             // frmPhccDeviceManager
             // 
@@ -647,5 +721,13 @@
         private System.Windows.Forms.ToolStripMenuItem digitalInputsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem digitalInputsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dOADuinoX27ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dOADuinoX27ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem dOADuinoX27ToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem calibrateDOADuinoX27ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gainOffsetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gaugeCalibrationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gainOffsetToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem gaugeCalibrationToolStripMenuItem1;
     }
 }

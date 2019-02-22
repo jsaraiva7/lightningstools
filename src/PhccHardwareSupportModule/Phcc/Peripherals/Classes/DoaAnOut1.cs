@@ -60,7 +60,7 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                     SubSourceFriendlyName = $"DOA_ANOUT1 @ {baseAddress}",
                     SubSourceAddress = baseAddress,
                     MinValue = 0,
-                    MaxValue = 5,
+                    MaxValue = 254,
                     IsVoltage = true,
                     State = 0
                 };

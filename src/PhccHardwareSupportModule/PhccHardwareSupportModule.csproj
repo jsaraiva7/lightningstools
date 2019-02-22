@@ -42,6 +42,7 @@
     <Compile Include="Phcc\Peripherals\Classes\Doa8Servo.cs" />
     <Compile Include="Phcc\Peripherals\Classes\DoaAirCore.cs" />
     <Compile Include="Phcc\Peripherals\Classes\DoaAnOut1.cs" />
+    <Compile Include="Phcc\Peripherals\Classes\DoaArduinoX27.cs" />
     <Compile Include="Phcc\Peripherals\Classes\DoaStepper.cs" />
     <Compile Include="Phcc\Peripherals\Classes\HSMPeripheral.cs" />
     <Compile Include="Phcc\PhccHardwareSupportModule.cs" />

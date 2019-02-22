@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCalibrateSignal));
             this.CalibrateServoWizard = new Common.UI.Wizard.Wizard();
             this.CalibrateServoWizardPage1 = new Common.UI.Wizard.WizardPage();
+            this.lblMultiplier = new System.Windows.Forms.Label();
             this.inputValue = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.header1 = new Common.UI.Wizard.Header();
@@ -67,9 +68,11 @@
             this.CalibrateServoWizardPage1});
             this.CalibrateServoWizard.Size = new System.Drawing.Size(445, 281);
             this.CalibrateServoWizard.TabIndex = 0;
+            this.CalibrateServoWizard.Load += new System.EventHandler(this.CalibrateServoWizard_Load);
             // 
             // CalibrateServoWizardPage1
             // 
+            this.CalibrateServoWizardPage1.Controls.Add(this.lblMultiplier);
             this.CalibrateServoWizardPage1.Controls.Add(this.inputValue);
             this.CalibrateServoWizardPage1.Controls.Add(this.label1);
             this.CalibrateServoWizardPage1.Controls.Add(this.header1);
@@ -82,6 +85,14 @@
             this.CalibrateServoWizardPage1.Name = "CalibrateServoWizardPage1";
             this.CalibrateServoWizardPage1.Size = new System.Drawing.Size(445, 233);
             this.CalibrateServoWizardPage1.TabIndex = 2;
+            // 
+            // lblMultiplier
+            // 
+            this.lblMultiplier.AutoSize = true;
+            this.lblMultiplier.Location = new System.Drawing.Point(257, 127);
+            this.lblMultiplier.Name = "lblMultiplier";
+            this.lblMultiplier.Size = new System.Drawing.Size(0, 13);
+            this.lblMultiplier.TabIndex = 8;
             // 
             // inputValue
             // 
@@ -231,6 +242,7 @@
             this.Controls.Add(this.CalibrateServoWizard);
             this.Name = "frmCalibrateSignal";
             this.Text = "Calibrate Analog Signal";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCalibrateSignal_FormClosing);
             this.CalibrateServoWizard.ResumeLayout(false);
             this.CalibrateServoWizardPage1.ResumeLayout(false);
             this.CalibrateServoWizardPage1.PerformLayout();
@@ -261,5 +273,6 @@
         private System.Windows.Forms.Label lblCalibrateServoGain;
         private System.Windows.Forms.NumericUpDown inputValue;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblMultiplier;
     }
 }

@@ -26,7 +26,7 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
         private Device _device;
         private string _portName;
 
-     
+
         public override void InitializeSignals(object peripheral, object device)
         {
             _peripheral = peripheral as DoaStepper;
@@ -51,7 +51,8 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                     SubSource = $"DOA_STEPPER @ {baseAddress}",
                     SubSourceFriendlyName = $"DOA_STEPPER @ {baseAddress}",
                     SubSourceAddress = baseAddress,
-
+                    MinValue = double.MinValue,
+                    MaxValue = double.MaxValue,
                     State = 0
                 };
                 thisSignal.SignalChanged += DOAStepperSignalChanged;
@@ -72,11 +73,11 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
 
             _peripheralFloatStates[baseAddress] = new double[4];
             AnalogOutputs.AddRange(analogSignalsToReturn);
-          
+
 
             Task t = Task.Run(async () => { HomeIn(); });
-          
-            
+
+
         }
 
         private async void HomeIn()
@@ -99,12 +100,13 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                         {
                             if (device != null)
                             {
-                                device.DoaSendStepperMotor(baseAddressByte, (byte)motorNum, MotorDirections.Counterclockwise, (byte)1,
+                                device.DoaSendStepperMotor(baseAddressByte, (byte) motorNum,
+                                    MotorDirections.Counterclockwise, (byte) 1,
                                     MotorStepTypes.FullStep);
                                 Thread.Sleep(10);
                             }
-                           
-                            
+
+
                         }
                     }
                 });
@@ -125,26 +127,31 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
             var motorNum = motorNumZeroBase + 1;
             var newPosition = args.CurrentState;
             var oldPosition = _peripheralFloatStates[baseAddress][motorNumZeroBase];
-            var numSteps = (int)Math.Abs(newPosition - oldPosition);
-            var direction = MotorDirections.Clockwise;
+            var numSteps = (int) Math.Abs(newPosition - oldPosition);
+            var direction = MotorDirections.Counterclockwise;
             if (oldPosition < newPosition)
             {
-                direction = MotorDirections.Counterclockwise;
+                direction = MotorDirections.Clockwise;
             }
+
             try
             {
-                if (numSteps > 127)
+                if (numSteps >= 1)
                 {
-                    while (numSteps > 127)
+
+                    while (numSteps > 126)
                     {
-                        device.DoaSendStepperMotor(baseAddressByte, (byte)motorNum, direction, (byte)127,
+                        device.DoaSendStepperMotor(baseAddressByte, (byte) motorNum, direction, (byte) 126,
                             MotorStepTypes.FullStep);
-                        numSteps = numSteps - 127;
+                        numSteps = numSteps - 126;
                     }
+
+                    device.DoaSendStepperMotor(baseAddressByte, (byte) motorNum, direction, (byte) numSteps,
+                        MotorStepTypes.FullStep);
+                    _peripheralFloatStates[baseAddress][motorNumZeroBase] = newPosition;
+
                 }
-                device.DoaSendStepperMotor(baseAddressByte, (byte)motorNum, direction, (byte)numSteps,
-                    MotorStepTypes.FullStep);
-                _peripheralFloatStates[baseAddress][motorNumZeroBase] = newPosition;
+
             }
             catch (Exception e)
             {

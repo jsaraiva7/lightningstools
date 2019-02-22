@@ -649,6 +649,47 @@ namespace Phcc
         }
 
 
+
+        /// <summary>
+        /// Function to send an absolute position command to a arduino based x.27 stepper motor
+        /// </summary>
+        /// <param name="deviceAddr">device address - 1 stepper per address</param>
+        /// <param name="absPosition">short absolute position, max 8000</param>
+
+        public void DoaSendArduinoX27(byte deviceAddr, int motorNum, short absPosition)
+        {
+            if (absPosition > 6000 || absPosition < 0)
+                throw new ArgumentOutOfRangeException("must be between 0 and 8191");
+
+            if (motorNum == 1)
+            {
+                absPosition += 4096;
+            }
+            else if (motorNum == 2)
+            {
+                absPosition += 8192;
+            }
+            else if (motorNum == 3)
+            {
+                absPosition += 12288;
+            }
+            byte[] buffer = new byte[] {(byte) absPosition, ((byte) (absPosition >> 8))};
+            DoaSendRaw(deviceAddr, buffer[1], buffer[0]);
+        }
+        /// <summary>
+        /// Function to send an absolute position command to a arduino based x.27 stepper motor
+        /// </summary>
+        /// <param name="deviceAddr">device address - 1 stepper per address</param>
+        /// <param name="absPosition">short absolute position, max 8000</param>
+
+        public void DoaSendArduinoX27Reset(byte deviceAddr)
+        {
+            var absPosition = 0x3FFD;
+            byte[] buffer = new byte[] { (byte)absPosition, ((byte)(absPosition >> 8)) };
+            DoaSendRaw(deviceAddr, buffer[1], buffer[0]);
+        }
+
+
         /// <summary>
         ///   Sends data to a Digital Output Type A (DOA) peripheral attached to
         ///   the PHCC motherboard.

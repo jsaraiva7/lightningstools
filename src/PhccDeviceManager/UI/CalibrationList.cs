@@ -104,20 +104,35 @@ namespace Phcc.DeviceManager.UI
 
         private void btnAddCalibrationPoint_Click(object sender, EventArgs e)
         {
-            frmCalibrateSignal s = new frmCalibrateSignal(SignalSelected);
-            s.ShowDialog();
-            var point = new CalibrationPoint(){Input = s.InputValue, Output = s.CalibrationOffset};
-            if (config.CalibrationData.Any(x => x.Input == point.Input))
+           
+
+            if (CalibrationSelected != null)
             {
-                var p = config.CalibrationData.FirstOrDefault(x => x.Input == point.Input);
-                p.Output = s.CalibrationOffset;
+                frmCalibrateSignal s = new frmCalibrateSignal(SignalSelected, CalibrationSelected);
+                s.ShowDialog();
+                var point = s.Point;
+                CalibrationSelected = point;
+                RefreshGrid();
+                s.Dispose();
             }
             else
             {
-                config.CalibrationData.Add(point);
+                frmCalibrateSignal s = new frmCalibrateSignal(SignalSelected, new CalibrationPoint());
+                s.ShowDialog();
+                var point = new CalibrationPoint() { Input = s.InputValue, Output = s.CalibrationOffset };
+                if (config.CalibrationData.Any(x => x.Input == point.Input))
+                {
+                    var p = config.CalibrationData.FirstOrDefault(x => x.Input == point.Input);
+                    p.Output = s.CalibrationOffset;
+                }
+                else
+                {
+                    config.CalibrationData.Add(point);
+                }
+                RefreshGrid();
+                s.Dispose();
             }
-            RefreshGrid();
-            s.Dispose();
+          
         }
 
         private void btnHomingSignal_Click(object sender, EventArgs e)

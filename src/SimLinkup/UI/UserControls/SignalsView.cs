@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
+using System.Timers;
 using System.Windows.Forms;
 using Common.HardwareSupport;
 using Common.MacroProgramming;
@@ -274,6 +276,57 @@ namespace SimLinkup.UI.UserControls
                 {
                     UpdateSignalGraph(graphics, targetRectangle);
                 }
+            }
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            if (SelectedSignal != null && SelectedSignal is AnalogSignal)
+            {
+                
+                var thisseignal = SelectedSignal as AnalogSignal;
+                if (thisseignal.MaxValue > 0)
+                {
+                    trackBar1.Maximum = (int)thisseignal.MaxValue;
+                }
+                thisseignal.State = trackBar1.Value;
+            }
+        }
+
+         private static int GetRandom(double min, double max)
+        {
+            Random r = new Random();
+            return r.Next((int)min,(int) max); //for ints
+            //int range = max - min;
+            //double rDouble = r.NextDouble() * range; //for doubles
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (SelectedSignal != null && SelectedSignal is AnalogSignal)
+            {
+                Timer t = new Timer();
+                t.Interval = 300; // In milliseconds
+                t.Start();
+                t.Tick += new EventHandler(TimerElapsed);
+            }
+     
+        }
+
+        void TimerElapsed(object sender, EventArgs e)
+        {
+            if (SelectedSignal != null && SelectedSignal is AnalogSignal)
+            {
+                var thisSignal = SelectedSignal as AnalogSignal;
+                thisSignal.State = GetRandom(thisSignal.MinValue, thisSignal.MaxValue);
+                var RPM = ScriptingContext.AnalogSignals.FirstOrDefault(x => x.Id.Contains("F4_RPM1__RPM_PERCENT"));
+                if (RPM != null)
+                {
+                    RPM.State = GetRandom(RPM.MinValue, RPM.MaxValue);
+                }
+                var rrtt = thisSignal.State;
+                var rpm = RPM?.State;
             }
         }
     }

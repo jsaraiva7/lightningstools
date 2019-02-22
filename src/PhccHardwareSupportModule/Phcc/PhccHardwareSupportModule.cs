@@ -242,6 +242,14 @@ namespace PhccHardwareSupportModule.Phcc
                     test.InitializeSignals(peripheral, device);
                     modules.Add(test);
                 }
+                else if (peripheral is DoaArduinoX27)
+                {
+                    var test = new HSMDoaArduinoX27();
+                    test.DigitalInputs = _digitalInputSignals.ToList();
+                    test.AnalogInputs = _analogInputSignals.ToList();
+                    test.InitializeSignals(peripheral, device);
+                    modules.Add(test);
+                }
 
             }
 

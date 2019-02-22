@@ -8,27 +8,32 @@ namespace Phcc.DeviceManager.UI
     {
         private AnalogSignal _signal;
 
-        public frmCalibrateSignal(AnalogSignal signal)
+        public CalibrationPoint Point { get; set; }= new CalibrationPoint(0,0);
+
+        public frmCalibrateSignal(AnalogSignal signal, CalibrationPoint point)
         {
             InitializeComponent();
             _signal = signal;
-            if (signal.MaxValue != 0)
-            {
-                trkCalibrateServoOffset.Minimum = (int)signal.MinValue;
-                trkCalibrateServoOffset.Maximum = (int)signal.MaxValue;
-            }
-          
+            Point = point;
+            trkCalibrateServoOffset.Minimum = (int)_signal.MinValue;
+            trkCalibrateServoOffset.Maximum = (int) _signal.MaxValue;
+            trkCalibrateServoOffset.Value = (int) Point.Output;
+            nudCalibrateOffset.Minimum = (int)_signal.MinValue;
+            nudCalibrateOffset.Maximum = (int)_signal.MaxValue;
+            nudCalibrateOffset.Value = (int)Point.Output;
+            inputValue.Value = (int) Point.Input;
+
         }
 
-        public ushort InputValue
+        public int InputValue
         {
-            get => (ushort) inputValue.Value;
+            get => (int) inputValue.Value;
             set => inputValue.Value = value;
         }
 
-        public ushort CalibrationOffset
+        public int CalibrationOffset
         {
-            get => (ushort) nudCalibrateOffset.Value;
+            get =>  (int)nudCalibrateOffset.Value;
             set => nudCalibrateOffset.Value = value;
         }
 
@@ -43,8 +48,27 @@ namespace Phcc.DeviceManager.UI
 
         private void nudCalibrateServoOffset_ValueChanged(object sender, EventArgs e)
         {
-            trkCalibrateServoOffset.Value = (int) nudCalibrateOffset.Value;
-            _signal.State = (double) nudCalibrateOffset.Value;
+            try
+            {
+                trkCalibrateServoOffset.Value = (int)nudCalibrateOffset.Value; ;
+                _signal.State = (double)nudCalibrateOffset.Value;
+            }
+            catch (Exception exception)
+            {
+               
+            }
+         
+        }
+
+        private void CalibrateServoWizard_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void frmCalibrateSignal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Point.Input = (double)inputValue.Value;
+            Point.Output = (double) nudCalibrateOffset.Value;
         }
     }
 }

@@ -10,6 +10,7 @@ namespace PhccConfiguration.Config
     [XmlInclude(typeof (DoaAirCore))]
     [XmlInclude(typeof (DoaAnOut1))]
     [XmlInclude(typeof (DoaStepper))]
+    [XmlInclude(typeof(DoaArduinoX27))]
     public abstract class Peripheral : PhccConfigElement
     {
         public byte Address { get; set; }
