@@ -34,7 +34,7 @@ namespace Phcc.DeviceManager.UI.Doa7SegConfig
             {
                 var cfg = new SegmentDisplayConfig();
                 cfg.DisplayType = DisplayType.SevenSegment;
-                cfg.FirstPin = (int) nbFirstPin.Value;
+                cfg.FirstModule = (int) nbFirstPin.Value;
                 cfg.NumDisplays = (int) nbSementCount.Value;
                 
                 ModeConfiguration = cfg;

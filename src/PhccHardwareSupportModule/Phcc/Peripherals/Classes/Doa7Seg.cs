@@ -39,11 +39,11 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
 
             for (var i = 0; i < 32; i++)
             {
-                if (typedPeripheral.Configuration.DisplayModeConfiguration.Any(x => x?.FirstPin == i))
+                if (typedPeripheral.Configuration.DisplayModeConfiguration.Any(x => x?.FirstModule == i +1))
                 {
                     var outputConfig =
                         typedPeripheral.Configuration.DisplayModeConfiguration.FirstOrDefault(x =>
-                            x.FirstPin == i);
+                            x.FirstModule == i+1);
                     string s = "9";
                     for (int j = 1; j < outputConfig.NumDisplays; j++)
                     {
@@ -57,11 +57,11 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                         var thisSignal = new CalibratedAnalogSignal()
                         {
                             Category = "Outputs",
-                            CollectionName = "7 Segment Display Outputs - " + _peripheral.FriendlyName,
+                            CollectionName = "DOA_7SEG Display Outputs - " + _peripheral.FriendlyName + " " + "@" + baseAddress,
                             FriendlyName =
                                 $"Display Group " + nDisp + ",  Number of digits " + j,
                             Id = $"DOA_7SEG[{_portName}][{baseAddress}][{i}]",
-                            Index = outputConfig.FirstPin,
+                            Index = outputConfig.FirstModule,
                             PublisherObject = this,
                             Source = _device,
                             SourceFriendlyName = $"PHCC Device on {_portName}",
@@ -75,7 +75,7 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                         };
 
 
-                        thisSignal.SignalChanged += DOA7SegDisplayOutputSignalChanged;
+                        thisSignal.SignalChanged += Doa7SegDisplayOutputSignalChanged;
                         analogSignalsToReturn.Add(thisSignal);
 
                     }
@@ -97,12 +97,16 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                             pinNumber = i * 8 + j +1 ;
                         }
 
-                        if (typedPeripheral.Configuration.OutputConfig.Any(x => x.PinNumber == pinNumber))
+                        var cfg = typedPeripheral.Configuration.OutputConfig.FirstOrDefault(x =>
+                            x.PinNumber == pinNumber);
+
+                        if (cfg != null && cfg.Inverted)
                         {
+                          
                             var thisSignal = new DigitalSignal
                             {
                                 Category = "Outputs",
-                                CollectionName = "Digital Outputs " + _peripheral.FriendlyName,
+                                CollectionName = "DOA_7SEG Digital Outputs - " + _peripheral.FriendlyName + " " + "@" + baseAddress,
                                 FriendlyName =
                                     $"Display Group  {string.Format($"{i + 1:0}", j + 1)}, Output Pin {string.Format($"{j + 1:0} (Inverted)", j + 1)}",
                                 Id = $"DOA_7SEG[{_portName}][{baseAddress}][{i}][{j}]",
@@ -125,8 +129,8 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                         {
                             var thisSignal = new DigitalSignal
                             {
-                                Category = "Outputs",
-                                CollectionName = "Digital Outputs " + _peripheral.FriendlyName,
+                                Category = "Outputs",                               
+                                CollectionName = "DOA_7SEG Digital Outputs - " + _peripheral.FriendlyName + " " + "@" + baseAddress,
                                 FriendlyName =
                                     $"Display Group  {string.Format($"{i + 1:0}", j + 1)}, Output Pin {string.Format($"{j + 1:0}", j + 1)}",
                                 Id = $"DOA_7SEG[{_portName}][{baseAddress}][{i}][{j}]",
@@ -187,8 +191,8 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
             }
         }
 
-        //todo finish this implementation
-        private void DOA7SegDisplayOutputSignalChanged(object sender, AnalogSignalChangedEventArgs args)
+    
+        private void Doa7SegDisplayOutputSignalChanged(object sender, AnalogSignalChangedEventArgs args)
         {
             var source = sender as AnalogSignal;
             if (source?.Index == null) return;
@@ -206,10 +210,9 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
             var tosend = newBitVal.ToString().ToCharArray();
             for (int i = outputLineNum; i < tosend.Length; i++)
             {
-                var newBits = device.CharTo7Seg(tosend[i]);
+                var newBits = device.CharTo7Seg(tosend[i]);            
                 try
-                {
-                    int r = newBits;
+                {                 
                     device.DoaSend7Seg(baseAddressByte, (byte)displayNum, newBits);
                     peripheralState[i] = newBits;
                 }

@@ -15,12 +15,34 @@ namespace Phcc.DeviceManager.UI
             InitializeComponent();
             _signal = signal;
             Point = point;
-            trkCalibrateServoOffset.Minimum = (int)_signal.MinValue;
-            trkCalibrateServoOffset.Maximum = (int) _signal.MaxValue;
-            trkCalibrateServoOffset.Value = (int) Point.Output;
+          
+         
+           
+            if (_signal.MinValue < int.MinValue)
+            {
+                trkCalibrateServoOffset.Minimum = 0;
+                trkCalibrateServoOffset.Visible = false;
+              
+            }
+            else
+            {
+                  trkCalibrateServoOffset.Minimum = (int)_signal.MinValue;
+                  trkCalibrateServoOffset.Value = (int)Point.Output;
+            }
+
+            if (_signal.MaxValue > int.MaxValue)
+            {
+                trkCalibrateServoOffset.Maximum = int.MaxValue;
+                trkCalibrateServoOffset.Visible = false;
+            }
+            else
+            {
+                trkCalibrateServoOffset.Maximum = (int)_signal.MaxValue;
+                trkCalibrateServoOffset.Value = (int)Point.Output;
+            }
             nudCalibrateOffset.Minimum = (int)_signal.MinValue;
             nudCalibrateOffset.Maximum = (int)_signal.MaxValue;
-            nudCalibrateOffset.Value = (int)Point.Output;
+           // nudCalibrateOffset.Value = (int)Point.Output;
             inputValue.Value = (int) Point.Input;
 
         }
@@ -50,7 +72,10 @@ namespace Phcc.DeviceManager.UI
         {
             try
             {
-                trkCalibrateServoOffset.Value = (int)nudCalibrateOffset.Value; ;
+                if (trkCalibrateServoOffset.Visible)
+                {
+                    trkCalibrateServoOffset.Value = (int)nudCalibrateOffset.Value;
+                }     
                 _signal.State = (double)nudCalibrateOffset.Value;
             }
             catch (Exception exception)

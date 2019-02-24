@@ -44,6 +44,7 @@
             this.wizhdrCalibrateServoPage1 = new Common.UI.Wizard.Header();
             this.nudCalibrateServoGain = new System.Windows.Forms.NumericUpDown();
             this.lblCalibrateServoGain = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.CalibrateServoWizard.SuspendLayout();
             this.CalibrateServoWizardPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.inputValue)).BeginInit();
@@ -72,6 +73,7 @@
             // 
             // CalibrateServoWizardPage1
             // 
+            this.CalibrateServoWizardPage1.Controls.Add(this.label2);
             this.CalibrateServoWizardPage1.Controls.Add(this.lblMultiplier);
             this.CalibrateServoWizardPage1.Controls.Add(this.inputValue);
             this.CalibrateServoWizardPage1.Controls.Add(this.label1);
@@ -155,8 +157,9 @@
             // 
             // trkCalibrateServoOffset
             // 
+            this.trkCalibrateServoOffset.Enabled = false;
             this.trkCalibrateServoOffset.LargeChange = 1024;
-            this.trkCalibrateServoOffset.Location = new System.Drawing.Point(3, 152);
+            this.trkCalibrateServoOffset.Location = new System.Drawing.Point(13, 185);
             this.trkCalibrateServoOffset.Maximum = 65535;
             this.trkCalibrateServoOffset.Name = "trkCalibrateServoOffset";
             this.trkCalibrateServoOffset.Size = new System.Drawing.Size(433, 45);
@@ -234,6 +237,15 @@
             this.lblCalibrateServoGain.TabIndex = 7;
             this.lblCalibrateServoGain.Text = "Gain:";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 154);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(48, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Position:";
+            // 
             // frmCalibrateSignal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -274,5 +286,6 @@
         private System.Windows.Forms.NumericUpDown inputValue;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblMultiplier;
+        private System.Windows.Forms.Label label2;
     }
 }

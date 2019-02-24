@@ -58,6 +58,8 @@
             this.motherboardDigitalOutputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.digitalInputsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrateServosToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.gainOffsetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gaugeCalibrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrateAnalogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.configure7SegmentDisplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureDOA40DOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,6 +88,8 @@
             this.motherboardDigitalOutputsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.digitalInputsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrateServosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gainOffsetToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.gaugeCalibrationToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrateAnalogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configure7SegmentDisplayToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.configureDOA40DOToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,10 +97,6 @@
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuContextRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.dlgSaveExcel = new System.Windows.Forms.SaveFileDialog();
-            this.gainOffsetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gaugeCalibrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gainOffsetToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.gaugeCalibrationToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.ctxContext.SuspendLayout();
             this.SuspendLayout();
@@ -321,7 +321,7 @@
             this.motherboardDigitalOutputsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.digitalInputsToolStripMenuItem});
             this.motherboardDigitalOutputsToolStripMenuItem.Name = "motherboardDigitalOutputsToolStripMenuItem";
-            this.motherboardDigitalOutputsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.motherboardDigitalOutputsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.motherboardDigitalOutputsToolStripMenuItem.Text = "Motherboard";
             // 
             // digitalInputsToolStripMenuItem
@@ -337,35 +337,49 @@
             this.gainOffsetToolStripMenuItem,
             this.gaugeCalibrationToolStripMenuItem});
             this.calibrateServosToolStripMenuItem1.Name = "calibrateServosToolStripMenuItem1";
-            this.calibrateServosToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.calibrateServosToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
             this.calibrateServosToolStripMenuItem1.Text = "Calibrate Servos";
             this.calibrateServosToolStripMenuItem1.Click += new System.EventHandler(this.calibrateServosToolStripMenuItem1_Click);
+            // 
+            // gainOffsetToolStripMenuItem
+            // 
+            this.gainOffsetToolStripMenuItem.Name = "gainOffsetToolStripMenuItem";
+            this.gainOffsetToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.gainOffsetToolStripMenuItem.Text = "Gain/Offset";
+            this.gainOffsetToolStripMenuItem.Click += new System.EventHandler(this.gainOffsetToolStripMenuItem_Click);
+            // 
+            // gaugeCalibrationToolStripMenuItem
+            // 
+            this.gaugeCalibrationToolStripMenuItem.Name = "gaugeCalibrationToolStripMenuItem";
+            this.gaugeCalibrationToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.gaugeCalibrationToolStripMenuItem.Text = "Gauge Calibration";
+            this.gaugeCalibrationToolStripMenuItem.Click += new System.EventHandler(this.gaugeCalibrationToolStripMenuItem_Click);
             // 
             // calibrateAnalogToolStripMenuItem1
             // 
             this.calibrateAnalogToolStripMenuItem1.Name = "calibrateAnalogToolStripMenuItem1";
-            this.calibrateAnalogToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.calibrateAnalogToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
             this.calibrateAnalogToolStripMenuItem1.Text = "Calibrate Analog";
             this.calibrateAnalogToolStripMenuItem1.Click += new System.EventHandler(this.calibrateAnalogToolStripMenuItem1_Click);
             // 
             // configure7SegmentDisplayToolStripMenuItem
             // 
             this.configure7SegmentDisplayToolStripMenuItem.Name = "configure7SegmentDisplayToolStripMenuItem";
-            this.configure7SegmentDisplayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.configure7SegmentDisplayToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.configure7SegmentDisplayToolStripMenuItem.Text = "7SegmentDisplay";
             this.configure7SegmentDisplayToolStripMenuItem.Click += new System.EventHandler(this.configure7SegmentDisplayToolStripMenuItem_Click);
             // 
             // configureDOA40DOToolStripMenuItem
             // 
             this.configureDOA40DOToolStripMenuItem.Name = "configureDOA40DOToolStripMenuItem";
-            this.configureDOA40DOToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.configureDOA40DOToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.configureDOA40DOToolStripMenuItem.Text = "&DOA 40 DO";
             this.configureDOA40DOToolStripMenuItem.Click += new System.EventHandler(this.configureDOA40DOToolStripMenuItem_Click);
             // 
             // dOADuinoX27ToolStripMenuItem2
             // 
             this.dOADuinoX27ToolStripMenuItem2.Name = "dOADuinoX27ToolStripMenuItem2";
-            this.dOADuinoX27ToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.dOADuinoX27ToolStripMenuItem2.Size = new System.Drawing.Size(165, 22);
             this.dOADuinoX27ToolStripMenuItem2.Text = "DOA_DuinoX27";
             this.dOADuinoX27ToolStripMenuItem2.Click += new System.EventHandler(this.dOADuinoX27ToolStripMenuItem2_Click);
             // 
@@ -561,6 +575,20 @@
             this.calibrateServosToolStripMenuItem.Text = "Calibrate Servos";
             this.calibrateServosToolStripMenuItem.Click += new System.EventHandler(this.calibrateServosToolStripMenuItem_Click);
             // 
+            // gainOffsetToolStripMenuItem1
+            // 
+            this.gainOffsetToolStripMenuItem1.Name = "gainOffsetToolStripMenuItem1";
+            this.gainOffsetToolStripMenuItem1.Size = new System.Drawing.Size(169, 22);
+            this.gainOffsetToolStripMenuItem1.Text = "Gain/Offset";
+            this.gainOffsetToolStripMenuItem1.Click += new System.EventHandler(this.gainOffsetToolStripMenuItem1_Click);
+            // 
+            // gaugeCalibrationToolStripMenuItem1
+            // 
+            this.gaugeCalibrationToolStripMenuItem1.Name = "gaugeCalibrationToolStripMenuItem1";
+            this.gaugeCalibrationToolStripMenuItem1.Size = new System.Drawing.Size(169, 22);
+            this.gaugeCalibrationToolStripMenuItem1.Text = "Gauge Calibration";
+            this.gaugeCalibrationToolStripMenuItem1.Click += new System.EventHandler(this.gaugeCalibrationToolStripMenuItem1_Click);
+            // 
             // calibrateAnalogToolStripMenuItem
             // 
             this.calibrateAnalogToolStripMenuItem.Name = "calibrateAnalogToolStripMenuItem";
@@ -607,34 +635,7 @@
             // dlgSaveExcel
             // 
             this.dlgSaveExcel.DefaultExt = "xlsx";
-            // 
-            // gainOffsetToolStripMenuItem
-            // 
-            this.gainOffsetToolStripMenuItem.Name = "gainOffsetToolStripMenuItem";
-            this.gainOffsetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gainOffsetToolStripMenuItem.Text = "Gain/Offset";
-            this.gainOffsetToolStripMenuItem.Click += new System.EventHandler(this.gainOffsetToolStripMenuItem_Click);
-            // 
-            // gaugeCalibrationToolStripMenuItem
-            // 
-            this.gaugeCalibrationToolStripMenuItem.Name = "gaugeCalibrationToolStripMenuItem";
-            this.gaugeCalibrationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gaugeCalibrationToolStripMenuItem.Text = "Gauge Calibration";
-            this.gaugeCalibrationToolStripMenuItem.Click += new System.EventHandler(this.gaugeCalibrationToolStripMenuItem_Click);
-            // 
-            // gainOffsetToolStripMenuItem1
-            // 
-            this.gainOffsetToolStripMenuItem1.Name = "gainOffsetToolStripMenuItem1";
-            this.gainOffsetToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.gainOffsetToolStripMenuItem1.Text = "Gain/Offset";
-            this.gainOffsetToolStripMenuItem1.Click += new System.EventHandler(this.gainOffsetToolStripMenuItem1_Click);
-            // 
-            // gaugeCalibrationToolStripMenuItem1
-            // 
-            this.gaugeCalibrationToolStripMenuItem1.Name = "gaugeCalibrationToolStripMenuItem1";
-            this.gaugeCalibrationToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.gaugeCalibrationToolStripMenuItem1.Text = "Gauge Calibration";
-            this.gaugeCalibrationToolStripMenuItem1.Click += new System.EventHandler(this.gaugeCalibrationToolStripMenuItem1_Click);
+            this.dlgSaveExcel.FileOk += new System.ComponentModel.CancelEventHandler(this.dlgSaveExcel_FileOk);
             // 
             // frmPhccDeviceManager
             // 

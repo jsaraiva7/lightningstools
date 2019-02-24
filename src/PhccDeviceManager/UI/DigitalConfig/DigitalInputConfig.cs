@@ -80,10 +80,10 @@ namespace Phcc.DeviceManager.UI.DigitalConfig
        
         //    foreach (var display in config.DisplayModeConfiguration)
         //    {
-        //        var fp = display.FirstPin;
-        //        var lastPin = display.FirstPin + display.TotalPins;
+        //        var fp = display.FirstModule;
+        //        var lastPin = display.FirstModule + display.TotalPins;
 
-        //        if (config.DisplayModeConfiguration.Any(x => x.FirstPin >= fp && (x.FirstPin + x.TotalPins) <= lastPin))
+        //        if (config.DisplayModeConfiguration.Any(x => x.FirstModule >= fp && (x.FirstModule + x.TotalPins) <= lastPin))
         //        {
         //            MessageBox.Show("there was an error on your configuration. \n Please check your pin numbers.\n Note - Your defenitions were added to the configuration. \n either delete or accept");
                    

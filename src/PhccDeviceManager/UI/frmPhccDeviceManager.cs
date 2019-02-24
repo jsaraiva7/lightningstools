@@ -170,27 +170,27 @@ namespace Phcc.DeviceManager.UI
                             var deviceAddress = GetHexRepresentation(p.Address);
                             if (p is Doa40Do)
                             {
-                                tn.Text = "DOA_40DO - Digital Output card " + p.FriendlyName + " @ " + deviceAddress;
+                                tn.Text = "DOA_40DO - Digital Output card - " + p.FriendlyName + " @ " + deviceAddress;
                             }
                             else if (p is Doa7Seg)
                             {
-                                tn.Text = "DOA_7Seg - 7-segment display driver card (BIT MODE) " + p.FriendlyName + " @ " + deviceAddress;
+                                tn.Text = "DOA_7Seg - 7-segment display driver card - " + p.FriendlyName + " @ " + deviceAddress;
                             }                          
                             else if (p is Doa8Servo)
                             {
-                                tn.Text = "DOA_8Servo - Servo motor driver card " + p.FriendlyName + " @ " + deviceAddress;
+                                tn.Text = "DOA_8Servo - Servo motor driver card - " + p.FriendlyName + " @ " + deviceAddress;
                             }
                             else if (p is DoaAirCore)
                             {
-                                tn.Text = "DOA_AirCore - Air Core motor driver card " + p.FriendlyName + " @ " + deviceAddress;
+                                tn.Text = "DOA_AirCore - Air Core motor driver card - " + p.FriendlyName + " @ " + deviceAddress;
                             }
                             else if (p is DoaStepper)
                             {
-                                tn.Text = "DOA_Stepper - Stepper motor output card " + p.FriendlyName + " @ " + deviceAddress;
+                                tn.Text = "DOA_Stepper - Stepper motor output card - " + p.FriendlyName + " @ " + deviceAddress;
                             }
                             else if (p is DoaAnOut1)
                             {
-                                tn.Text = "DOA_AnOut1 - Analog output card @ " + p.FriendlyName + " " + deviceAddress;
+                                tn.Text = "DOA_AnOut1 - Analog output card - " + p.FriendlyName + " " + deviceAddress;
                             }
                             else if (p is DoaArduinoX27)
                             {
@@ -1114,6 +1114,9 @@ namespace Phcc.DeviceManager.UI
             RenderCurrentConfiguration();
         }
 
- 
+        private void dlgSaveExcel_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
     }
 }

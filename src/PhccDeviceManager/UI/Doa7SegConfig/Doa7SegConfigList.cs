@@ -88,7 +88,7 @@ namespace Phcc.DeviceManager.UI.Doa7SegConfig
                     else
                     {
                         var pin = int.Parse(row.FirstPin);
-                        var data = Configuration.DisplayModeConfiguration.FirstOrDefault(c => c.FirstPin == pin);
+                        var data = Configuration.DisplayModeConfiguration.FirstOrDefault(c => c.FirstModule == pin);
                         if (data != null)
                         {
                             Configuration.DisplayModeConfiguration.Remove(data);
@@ -114,24 +114,24 @@ namespace Phcc.DeviceManager.UI.Doa7SegConfig
         {
 
        
-            foreach (var display in config.DisplayModeConfiguration)
-            {
-                var fp = display.FirstPin;
-                var lastPin = display.FirstPin + display.TotalPins;
+            //foreach (var display in config.DisplayModeConfiguration)
+            //{
+            //    var fp = display.FirstModule;
+            //    var lastPin = display.FirstModule + display.TotalPins;
 
-                if (config.DisplayModeConfiguration.Any(x => x.FirstPin >= fp && (x.FirstPin + x.TotalPins) <= lastPin))
-                {
-                    MessageBox.Show("there was an error on your configuration. \n Please check your pin numbers.\n Note - Your defenitions were added to the configuration. \n either delete or accept");
+            //    if (config.DisplayModeConfiguration.Any(x => x.FirstModule >= fp && (x.FirstModule + x.TotalPins) <= lastPin))
+            //    {
+            //        MessageBox.Show("there was an error on your configuration. \n Please check your pin numbers.\n Note - Your defenitions were added to the configuration. \n either delete or accept");
                    
-                    return false;
-                }
-                if(config.OutputConfig.Any(x => x.PinNumber >= fp && (fp + lastPin) <= x.PinNumber))
-                {
-                    MessageBox.Show("there was an error on your configuration. \n Please check your pin numbers.\n Note - Your defenitions were added to the configuration. \n either delete or accept");
+            //        return false;
+            //    }
+            //    if(config.OutputConfig.Any(x => x.PinNumber >= fp && (fp + lastPin) <= x.PinNumber))
+            //    {
+            //        MessageBox.Show("there was an error on your configuration. \n Please check your pin numbers.\n Note - Your defenitions were added to the configuration. \n either delete or accept");
 
-                    return false;
-                }
-            }
+            //        return false;
+            //    }
+            //}
 
 
 
@@ -155,7 +155,7 @@ namespace Phcc.DeviceManager.UI.Doa7SegConfig
                 {
                     Mode = "Display",
                     DisplayCount = disp.NumDisplays.ToString(),
-                    FirstPin = disp.FirstPin.ToString(),
+                    FirstPin = disp.FirstModule.ToString(),
                     TotalPins = disp.TotalPins.ToString(),
                     Reversed = false
                 });

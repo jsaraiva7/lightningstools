@@ -37,7 +37,7 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                     var thisSignal = new DigitalSignal
                     {
                         Category = "Outputs",
-                        CollectionName = "Digital Outputs - " + _peripheral.FriendlyName,
+                        CollectionName = "Digital Outputs - " + _peripheral.FriendlyName + " " + "@" + baseAddress,
                         FriendlyName = $"Digital Output {string.Format($"{i + 1:0}", i + 1)} (Inverted)",
                         Id = $"DOA_40DO[{_portName}][{baseAddress}][{i}]",
                         Index = i,
@@ -59,7 +59,7 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                     var thisSignal = new DigitalSignal
                     {
                         Category = "Outputs",
-                        CollectionName = "Digital Outputs - " + _peripheral.FriendlyName,
+                        CollectionName = "Digital Outputs - " + _peripheral.FriendlyName + " " + "@" + baseAddress,
                         FriendlyName = $"Digital Output {string.Format($"{i + 1:0}", i + 1)}",
                         Id = $"DOA_40DO[{_portName}][{baseAddress}][{i}]",
                         Index = i,

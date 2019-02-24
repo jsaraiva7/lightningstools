@@ -48,7 +48,7 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                 var thisSignal = new CalibratedAnalogSignal
                 {
                     Category = "Outputs",
-                    CollectionName = "Analog Outputs - " + _peripheral.FriendlyName,
+                    CollectionName = "Analog Outputs - " + _peripheral.FriendlyName + " " + "@" + baseAddress,
                     FriendlyName = $"Analog Output {string.Format($"{i + 1:0}", i + 1)}",
                     Id = $"DOA_ANOUT1[{baseAddress}][{_portName}][{i}]",
                     Index = i,

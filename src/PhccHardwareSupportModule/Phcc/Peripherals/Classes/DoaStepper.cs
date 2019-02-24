@@ -40,7 +40,7 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                 var thisSignal = new CalibratedAnalogSignal
                 {
                     Category = "Outputs",
-                    CollectionName = "Motor Outputs - " + _peripheral.FriendlyName,
+                    CollectionName = "Motor Outputs - " + _peripheral.FriendlyName + " " + "@" + baseAddress,
                     FriendlyName = $"Motor {i + 1}",
                     Id = $"DOA_STEPPER[{_portName}][{baseAddress}][{i}]",
                     Index = i,
@@ -51,8 +51,8 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                     SubSource = $"DOA_STEPPER @ {baseAddress}",
                     SubSourceFriendlyName = $"DOA_STEPPER @ {baseAddress}",
                     SubSourceAddress = baseAddress,
-                    MinValue = double.MinValue,
-                    MaxValue = double.MaxValue,
+                    MinValue = 0,
+                    MaxValue = int.MaxValue,
                     State = 0
                 };
                 thisSignal.SignalChanged += DOAStepperSignalChanged;

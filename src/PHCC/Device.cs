@@ -1046,7 +1046,14 @@ namespace Phcc
             EnsurePortIsReady();
             lock (_rs232lock)
             {
-                _serialPort.Write(toWrite);
+                try
+                {
+                    _serialPort.Write(toWrite);
+                }
+                catch
+                { 
+                    //ignored
+                }                         
             }
         }
 
@@ -1201,6 +1208,7 @@ namespace Phcc
                         if (DateTime.UtcNow > startTime.AddMilliseconds(timeOut) && timeOut != Timeout.Infinite)
                         {
                             //throw new TimeoutException();
+                            return;
                             Thread.Sleep(50);
                         }
                          

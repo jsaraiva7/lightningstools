@@ -46,7 +46,7 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                 var thisSignal = new CalibratedAnalogSignal
                 {
                     Category = "Outputs",
-                    CollectionName = "Motor Outputs - " + _peripheral.FriendlyName,
+                    CollectionName = "Motor Outputs - " + _peripheral.FriendlyName + " " + "@" + baseAddress,
                     FriendlyName = $"Motor {i + 1}",
                     Id = $"DOA_8SERVO[{_portName}][{baseAddress}][{i}]",
                     Index = i,

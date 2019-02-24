@@ -27,7 +27,7 @@ namespace PhccConfiguration.Config.ConfigClasses
     {
         public int NumDisplays { get; set; }
         public DisplayType DisplayType { get; set; }
-        public int FirstPin { get; set; }
+        public int FirstModule { get; set; }
 
         public int TotalPins
         {
