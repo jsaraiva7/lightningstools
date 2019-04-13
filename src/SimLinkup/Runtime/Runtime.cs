@@ -8,6 +8,7 @@ using Common.HardwareSupport;
 using Common.MacroProgramming;
 using Common.SimSupport;
 using log4net;
+using SimLinkup.Properties;
 using SimLinkup.Scripting;
 using SimLinkup.Signals;
 
@@ -22,7 +23,8 @@ namespace SimLinkup.Runtime
         private bool _keepRunning;
         private AnalogSignal _loopDurationSignal;
         private AnalogSignal _loopFrequencySignal;
-
+        private uint _desiredFrequency =  Settings.Default.DesiredFrequency;
+        private double _AdjustFrequency =  1000 / Settings.Default.DesiredFrequency ;
         public Runtime()
         {
             Initialize();
@@ -56,6 +58,7 @@ namespace SimLinkup.Runtime
 
         public void Start()
         {
+            _desiredFrequency =  Settings.Default.DesiredFrequency;
             Task.Run(() => MainLoop());
         }
 
@@ -122,7 +125,7 @@ namespace SimLinkup.Runtime
             UpdateSimSignals();
             Synchronize();
             var elapsed = DateTime.UtcNow.Subtract(startTime).TotalMilliseconds;
-            var toSleep = 16 - (int) elapsed;
+            var toSleep = (int)(_AdjustFrequency - (int) elapsed);
             if (toSleep < 0) toSleep = 1;
             Thread.Sleep(toSleep);
             var endTime = DateTime.UtcNow;
@@ -130,6 +133,15 @@ namespace SimLinkup.Runtime
             if (loopDuration <= 0) loopDuration = 1;
             _loopDurationSignal.State = loopDuration;
             _loopFrequencySignal.State = 1000.0 / loopDuration;
+            var freq = (int)(1000.0 / loopDuration);
+            if ( freq - _desiredFrequency < -1)
+            {
+                _AdjustFrequency -= 0.3;
+            }
+            else if(freq - _desiredFrequency > 1)
+            {
+                _AdjustFrequency += 0.3;
+            }
         }
 
 

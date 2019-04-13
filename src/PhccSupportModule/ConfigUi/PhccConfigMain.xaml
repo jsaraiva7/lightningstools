@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="PhccSupportModule.ConfigUi.PhccConfigMain"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Name="mnuFile" Header="_File" Click="MnuFile_OnClick">
+                    <MenuItem Header="_Save" Name="mnuSave"  Click="MnuSave_OnClick" />
+                    <MenuItem Header="_Close" Name="mnuClose" Click="MnuClose_OnClick" />
+                </MenuItem>
+                <MenuItem Header="_Add"  >
+                    <MenuItem Name="addMboard" Header="_Add Motherboard" Click="AddMboard_OnClick"  />
+                    <MenuItem Header="_Add Peripheral">
+                        <MenuItem Name="AddDoa40Do" Header="_Add Doa40DO" Click="AddDoa40Do_OnClick" />
+                        <MenuItem Name="add7Segments" Header="_Add Doa 7 Segments" Click="Add7Segments_OnClick"/>
+                        <MenuItem Name="addAirCore" Header="_Add Doa Aircores" Click="AddAirCore_OnClick"/>
+                        <MenuItem Name="addStepper" Header="_Add Doa Stepper" Click="AddStepper_OnClick"/>
+                        <MenuItem Name="addarduinoStepper" Header="_Add Doa Arduino Stepper" Click="AddarduinoStepper_OnClick"/>
+                        <MenuItem Name="addAn1" Header="_Add Doa AN1" Click="AddAn1_OnClick"/>
+                        <MenuItem Name="addServo" Header="_Add Doa Servo" Click="AddServo_OnClick"/>
+                    </MenuItem>
+                </MenuItem>
+
+            </Menu>
+            <TreeView Name="tvConfig" Grid.Column="0" SelectedItemChanged="TvConfig_OnSelectedItemChanged"  HorizontalAlignment="left" Width="800">
+                <TreeView.Resources>
+
+                    <Style TargetType="{x:Type TreeViewItem}">
+
+                    </Style>
+                </TreeView.Resources>
+                <TreeView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Name="editComPort" Header="Edit COM Port" Click="EditComPort_OnClick" />
+                        <MenuItem Name="configMb" Header="Configure Motherboard" Click="ConfigMb_OnClick"/>
+                        <Separator />
+                        <MenuItem Name="peripherals" Header="Add Peripheral">
+                            <MenuItem Header="_Add Doa40DO" Click="AddDoa40Do_OnClick" />
+                            <MenuItem Header="_Add Doa 7 Segments" Click="Add7Segments_OnClick"/>
+                            <MenuItem Header="_Add Doa Aircores" Click="AddAirCore_OnClick"/>
+                            <MenuItem Header="_Add Doa Stepper" Click="AddStepper_OnClick"/>
+                            <MenuItem Header="_Add Doa Arduino Stepper" Click="AddarduinoStepper_OnClick"/>
+                            <MenuItem Header="_Add Doa AN1" Click="AddAn1_OnClick"/>
+                            <MenuItem Header="_Add Doa Servo" Click="AddServo_OnClick"/>
+                        </MenuItem>
+                        <MenuItem Name="editPhAddress" Header="Edit Address" Click="EditPhAddress_OnClick" />
+                        <MenuItem Name="Configure" Header="Configure" Click="Configure_OnClick" />
+                        <Separator />
+                        <MenuItem Name="removeSelected" Header="Remove" Click="RemoveSelected_OnClick"  />
+                    </ContextMenu>
+                </TreeView.ContextMenu>
+            </TreeView>
+        </DockPanel>
+    </Grid>
+</UserControl>

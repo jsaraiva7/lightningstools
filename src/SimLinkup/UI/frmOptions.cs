@@ -52,6 +52,7 @@ namespace SimLinkup.UI
             chkMinimizeToSystemTray.Checked = Settings.Default.MinimizeToSystemTray;
             chkMinimizeWhenStarted.Checked = Settings.Default.MinimizeWhenStarted;
             chkStartAutomaticallyWhenLaunched.Checked = Settings.Default.StartRunningWhenLaunched;
+            numFrequency.Value = Settings.Default.DesiredFrequency;
         }
 
         private void SaveSettings()
@@ -59,6 +60,7 @@ namespace SimLinkup.UI
             Settings.Default.StartRunningWhenLaunched = chkStartAutomaticallyWhenLaunched.Checked;
             Settings.Default.MinimizeToSystemTray = chkMinimizeToSystemTray.Checked;
             Settings.Default.MinimizeWhenStarted = chkMinimizeWhenStarted.Checked;
+            Settings.Default.DesiredFrequency = (uint) numFrequency.Value;
             UpdateWindowsStartupRegKey();
             Settings.Default.Save();
         }
@@ -109,6 +111,11 @@ namespace SimLinkup.UI
         private static bool ValidateSettings()
         {
             return true;
+        }
+
+        private void chkLaunchAtSystemStartup_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -22,10 +22,22 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
         private Peripheral _peripheral;
         private Device _device;
         private string _portName;
-
+      //  private Arduino _testDevice;
 
         public override void InitializeSignals(object peripheral, object device)
         {
+            try
+            {
+             //   _testDevice = new Arduino("COM7", 57600, true);
+               // _testDevice.Open();
+            }
+            catch (Exception e)
+            {
+                //Console.WriteLine(e);
+               // throw;
+            }
+            
+
             _peripheral = peripheral as DoaArduinoX27;
             _device = device as Device;
             if (_device != null) _portName = _device.PortName;
@@ -130,6 +142,16 @@ namespace PhccHardwareSupportModule.Phcc.Peripherals.Classes
                 {
                     if (source.State < 8001)
                         device.DoaSendArduinoX27(baseAddressByte, motorNumZeroBase, (short)source.State);
+                    try
+                    {
+
+                     //   _testDevice.analogWrite(motorNumZeroBase, (int)source.State);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                       // throw;
+                    }
                 }
 
             }

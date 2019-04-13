@@ -3,6 +3,12 @@ using System.Xml.Serialization;
 
 namespace PhccConfiguration.Config
 {
+    public interface IPeripheral
+    {
+        byte Address { get; set; }
+        string FriendlyName { get; set; }
+    }
+
     [Serializable]
     [XmlInclude(typeof (Doa40Do))]
     [XmlInclude(typeof (Doa7Seg))]
@@ -11,7 +17,7 @@ namespace PhccConfiguration.Config
     [XmlInclude(typeof (DoaAnOut1))]
     [XmlInclude(typeof (DoaStepper))]
     [XmlInclude(typeof(DoaArduinoX27))]
-    public abstract class Peripheral : PhccConfigElement
+    public abstract class Peripheral : PhccConfigElement, IPeripheral
     {
         public byte Address { get; set; }
         //Henk Suggestion

@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using WindowsInput;
+using WindowsInput.Native;
 
 namespace Common.Win32
 {
@@ -386,6 +388,8 @@ namespace Common.Win32
         [DllImport("user32.dll", SetLastError = true)]
         public static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
 
+        private static InputSimulator sim = new InputSimulator();
+
         public static void SendKeyInput(ushort scanCode, bool press, bool release)
         {
             if (!press && !release)
@@ -393,11 +397,15 @@ namespace Common.Win32
                 return;
             }
 
+            var tst = (VirtualKeyCode) scanCode;
+          //  sim.Keyboard.KeyPress(tst);
+
             var numInputs = press && release ? 2 : 1;
             var inputs = new INPUT[numInputs];
             var curInput = 0;
             if (press)
             {
+                sim.Keyboard.KeyDown(tst);
                 var input = new INPUT
                 {
                     ki = new KEYBDINPUT
@@ -417,6 +425,7 @@ namespace Common.Win32
             }
             if (release)
             {
+                sim.Keyboard.KeyUp(tst);
                 var input = new INPUT
                 {
                     ki = new KEYBDINPUT

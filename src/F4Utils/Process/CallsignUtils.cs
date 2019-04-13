@@ -18,6 +18,12 @@ namespace F4Utils.Process
             callsign = DetectBMSCallsign(exePath, callsign);
             return callsign;
         }
+        public static string DetectCurrentCallsign(string exePath)
+        {
+            string callsign = null;
+            callsign = DetectBMSCallsign(exePath, callsign);
+            return callsign;
+        }
 
         private static string DetectBMSCallsign(string exePath, string callsign)
         {

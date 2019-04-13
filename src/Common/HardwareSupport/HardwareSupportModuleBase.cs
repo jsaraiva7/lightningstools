@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using Common.MacroProgramming;
 
@@ -6,6 +7,10 @@ namespace Common.HardwareSupport
 {
     public abstract class HardwareSupportModuleBase : IHardwareSupportModule
     {
+        public HardwareSupportModuleBase()
+        {
+
+        }
         public virtual AnalogSignal[] AnalogInputs { get { return null; } }
         public virtual AnalogSignal[] AnalogOutputs { get { return null; } }
         public virtual TextSignal[] TextInputs { get { return null; } }
@@ -22,6 +27,11 @@ namespace Common.HardwareSupport
         public virtual void Synchronize()
         {
             Thread.Sleep(0);
+        }
+
+        public virtual void Configure()
+        {
+
         }
     }
 }

@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="SimLinkupControls.SignalList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimLinkupControls"
+             xmlns:macroProgramming="clr-namespace:Common.MacroProgramming;assembly=Common.MacroProgramming"
+             mc:Ignorable="d" 
+             Loaded="SignalList_OnLoaded"
+             d:DesignHeight="768" d:DesignWidth="1280">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="500" />
+
+            </Grid.ColumnDefinitions>
+
+            <TreeView Name="TvSignals" Grid.Column="0" 
+                      SelectedItemChanged="TreeView_SelectedItemChanged" Height="700"  HorizontalAlignment="left" Width="385">
+                <TreeView.Resources>
+
+                    <Style TargetType="{x:Type TreeViewItem}">
+
+                    </Style>
+                </TreeView.Resources>
+            </TreeView>
+
+            <ListView Grid.Column="1"  Name="LvSignals" HorizontalAlignment="Left" Margin="10,34,0,0" Width="385" SelectionMode="Single"   SelectionChanged="ListView_SelectedItemChanged" Height="700" VerticalAlignment="Top">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding FriendlyName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <local:SignalView Grid.Column="2"  x:Name="Plotter"  Margin="0,34,5,228" HorizontalAlignment="Right" Width="485" />
+            <Label Content="Loaded Modules:" Background="White" HorizontalAlignment="Left" Margin="0,4,0,0" VerticalAlignment="Top" Width="385"/>
+            <Label Content="Signal List" Background="White" HorizontalAlignment="Left" Margin="9,4,0,0" VerticalAlignment="Top" Width="385" Grid.Column="1"/>
+            <Label Content="Signal Visualizer" Background="White" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" Width="485" Grid.Column="2"/>
+            <Button Name="btnSelectSignal" Click="BtnSelectSignal_OnClick" Visibility="Hidden" Content="Select Signal" Grid.Column="2" HorizontalAlignment="Left" Margin="170,689,0,0" VerticalAlignment="Top" Width="180" Height="45"/>
+
+
+        </Grid>
+    </Grid>
+</UserControl>

@@ -9,17 +9,18 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PhccHardwareSupportModule</RootNamespace>
     <AssemblyName>PhccHardwareSupportModule</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>false</Optimize>
-    <OutputPath>..\SimLinkup\bin\x86\Debug\</OutputPath>
+    <OutputPath>..\SimLinkup\SimLinkupV2\bin\x86\Debug\HSM\PHCC\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -34,6 +35,84 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ConfigManager\UI\AnalogSignal\frmCalibrateSignal .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\AnalogSignal\frmCalibrateSignal .Designer.cs">
+      <DependentUpon>frmCalibrateSignal .cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager\UI\CalibrationList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\CalibrationList.Designer.cs">
+      <DependentUpon>CalibrationList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager\UI\CalibrationSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\CalibrationSelect.Designer.cs">
+      <DependentUpon>CalibrationSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager\UI\DigitalConfig\DigitalInputConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\DigitalConfig\DigitalInputConfig.Designer.cs">
+      <DependentUpon>DigitalInputConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager\UI\DigitalConfig\DigitalModeSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\DigitalConfig\DigitalModeSelector.Designer.cs">
+      <DependentUpon>DigitalModeSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager\UI\Doa7SegConfig\Doa7SegConfigList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\Doa7SegConfig\Doa7SegConfigList.Designer.cs">
+      <DependentUpon>Doa7SegConfigList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager\UI\Doa7SegConfig\Doa7SegmentModeSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\Doa7SegConfig\Doa7SegmentModeSelector.Designer.cs">
+      <DependentUpon>Doa7SegmentModeSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager\UI\frmHelpAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\frmHelpAbout.Designer.cs">
+      <DependentUpon>frmHelpAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager\UI\frmPhccDeviceManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\frmPhccDeviceManager.Designer.cs">
+      <DependentUpon>frmPhccDeviceManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager\UI\frmPromptForPeripheralAddress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\frmPromptForPeripheralAddress.Designer.cs">
+      <DependentUpon>frmPromptForPeripheralAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager\UI\frmSelectCOMPort.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\frmSelectCOMPort.Designer.cs">
+      <DependentUpon>frmSelectCOMPort.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager\UI\frmSelectServo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\frmSelectServo.Designer.cs">
+      <DependentUpon>frmSelectServo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigManager\UI\Servo\frmCalibrateServo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigManager\UI\Servo\frmCalibrateServo.Designer.cs">
+      <DependentUpon>frmCalibrateServo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Phcc\Inputs\PhccAnalogInputs.cs" />
     <Compile Include="Phcc\Inputs\PhccDigitalImputs.cs" />
     <Compile Include="Phcc\Interfaces\IPeripheral.cs" />
@@ -47,10 +126,93 @@
     <Compile Include="Phcc\Peripherals\Classes\HSMPeripheral.cs" />
     <Compile Include="Phcc\PhccHardwareSupportModule.cs" />
     <Compile Include="Phcc\PhccHardwareSupportModuleConfig.cs" />
+    <Compile Include="Phcc\Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="FodyWeavers.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\Save.bmp" />
+    <None Include="Resources\Open.bmp" />
+    <None Include="Resources\NewDocument.bmp" />
+    <None Include="Resources\Delete.bmp" />
+    <Content Include="Config\phcc.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EPPlus, Version=4.5.3.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\SimLinkup\packages\EPPlus.4.5.3.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConfigManager\UI\AnalogSignal\frmCalibrateSignal .resx">
+      <DependentUpon>frmCalibrateSignal .cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigManager\UI\CalibrationList.resx">
+      <DependentUpon>CalibrationList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigManager\UI\CalibrationSelect.resx">
+      <DependentUpon>CalibrationSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigManager\UI\DigitalConfig\DigitalInputConfig.resx">
+      <DependentUpon>DigitalInputConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigManager\UI\DigitalConfig\DigitalModeSelector.resx">
+      <DependentUpon>DigitalModeSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigManager\UI\Doa7SegConfig\Doa7SegConfigList.resx">
+      <DependentUpon>Doa7SegConfigList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigManager\UI\Doa7SegConfig\Doa7SegmentModeSelector.resx">
+      <DependentUpon>Doa7SegmentModeSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigManager\UI\frmHelpAbout.resx">
+      <DependentUpon>frmHelpAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigManager\UI\frmPhccDeviceManager.resx">
+      <DependentUpon>frmPhccDeviceManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigManager\UI\frmPromptForPeripheralAddress.resx">
+      <DependentUpon>frmPromptForPeripheralAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigManager\UI\frmSelectCOMPort.resx">
+      <DependentUpon>frmSelectCOMPort.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigManager\UI\frmSelectServo.resx">
+      <DependentUpon>frmSelectServo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigManager\UI\Servo\frmCalibrateServo.resx">
+      <DependentUpon>frmCalibrateServo.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ConfigManager\UI\Doa40DoConfig\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Application\Common.Application.csproj">
+      <Project>{0cdb21ca-a5f7-446c-837e-c7c37238f2d7}</Project>
+      <Name>Common.Application</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{aba9cc75-b778-4e46-a6f6-afec27f2eb59}</Project>
       <Name>Common</Name>
@@ -63,39 +225,22 @@
       <Project>{320431c6-2454-4d95-8d3c-d27c8e2288e9}</Project>
       <Name>Common.MacroProgramming</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Common\UI\Common.UI.csproj">
+      <Project>{3fc238ba-7fc2-47ae-ae45-7cf199edbe08}</Project>
+      <Name>Common.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PHCC\PHCC.csproj">
       <Project>{75fa2030-c9ca-4b2d-8534-8f48eea13ca3}</Project>
       <Name>PHCC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimLinkup\Common.SimLinkup\Common.SimLinkup.csproj">
+      <Project>{0c9bab28-1ef8-42a4-84a0-05bd3370d8a1}</Project>
+      <Name>Common.SimLinkup</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimLinkup\PhccConfiguration\PhccConfiguration.csproj">
       <Project>{8430a972-e6db-4782-aeb2-4fcef8f52ce0}</Project>
       <Name>PhccConfiguration</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="FodyWeavers.xml">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>$(SolutionDir)\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>Este projeto faz referência a pacotes do NuGet que não estão presentes neste computador. Use a Restauração de Pacotes do NuGet para baixá-los.  Para obter mais informações, consulte http://go.microsoft.com/fwlink/?LinkID=322105. O arquivo ausente é {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets'))" />
-    <Error Condition="!Exists('$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets'))" />
-  </Target>
-  <Import Project="$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets" Condition="Exists('$(SolutionDir)\packages\Fody.3.1.4\build\Fody.targets')" />
-  <Import Project="$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets" Condition="Exists('$(SolutionDir)\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets')" />
 </Project>

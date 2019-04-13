@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Remoting;
 using System.Threading;
-using System.Threading.Tasks;
 using Common.HardwareSupport;
-using Common.HardwareSupport.MotorControl;
 using Common.MacroProgramming;
 using log4net;
 using PhccConfiguration.Config;
@@ -39,6 +37,24 @@ namespace PhccHardwareSupportModule.Phcc
         private PhccHardwareSupportModule()
         {
         }
+       
+        ///Configuration GUI callBack!
+        ///
+        ///
+        public override void Configure()
+        {
+            try
+            {
+                //frmPhccDeviceManager manager = new frmPhccDeviceManager();
+                //manager.ShowDialog();
+            }
+            catch (Exception e)
+            {
+               _log.Error(e);
+            }
+            
+        }
+
 
 
         /// <summary>
@@ -133,36 +149,50 @@ namespace PhccHardwareSupportModule.Phcc
 
         public override DigitalSignal[] DigitalOutputs => _digitalOutputSignals;
         public override TextSignal[] TextOutputs => _textOutputSignals;
-
+        public override   TextSignal[] TextInputs { get { return null; } }
 
         public override string FriendlyName => "PHCC";
 
-     
 
-        public static IHardwareSupportModule[] GetInstances()
+        public  static IHardwareSupportModule[] GetInstances()
         {
             var toReturn = new List<IHardwareSupportModule>();
             try
             {
-                var hsmConfigFilePath = Path.Combine(Util.CurrentMappingProfileDirectory,
-                    "PhccHardwareSupportModule.config");
-                var hsmConfig = PhccHardwareSupportModuleConfig.Load(hsmConfigFilePath);
-                var phccDeviceManagerConfigFilePath = hsmConfig.PhccDeviceManagerConfigFilePath;
-                var phccConfigManager = LoadConfiguration(phccDeviceManagerConfigFilePath) ??
-                                        LoadConfiguration(Path.Combine(Util.CurrentMappingProfileDirectory,
-                                            phccDeviceManagerConfigFilePath));
+                 
+                var phccConfigManager = LoadConfiguration(Util.DefaultConfig);
 
-                foreach (var m in phccConfigManager.Motherboards)
+                IHardwareSupportModule[] modules = new IHardwareSupportModule[phccConfigManager.Motherboards.Count];
+                for (int i = 0; i < phccConfigManager.Motherboards.Count; i++)
                 {
-                    IHardwareSupportModule thisHsm = new PhccHardwareSupportModule(m);
-                    toReturn.Add(thisHsm);
+                    modules[i] = new PhccHardwareSupportModule(phccConfigManager.Motherboards[i]);
+                    var a = ((IHardwareSupportModule) new PhccHardwareSupportModule(phccConfigManager.Motherboards[i]));
+                    List<HardwareSupportModuleBase> b = new List<HardwareSupportModuleBase>();
+                    b.Add((HardwareSupportModuleBase)a);
                 }
+                //foreach (var m in phccConfigManager.Motherboards)
+                //{
+                //    IHardwareSupportModule thisHsm = new PhccHardwareSupportModule(m);
+                //    toReturn.Add(thisHsm);
+                //}
+                return modules;
             }
             catch (Exception e)
             {
                 _log.Error(e.Message, e);
             }
-            return toReturn.ToArray();
+
+            try
+            {
+              
+                return toReturn.ToArray();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return toReturn.ToArray();
+            }
+           
         }
 
         

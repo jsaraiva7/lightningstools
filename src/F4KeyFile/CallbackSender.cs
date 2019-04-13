@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+ 
 
 namespace F4KeyFile
 {
@@ -19,7 +20,7 @@ namespace F4KeyFile
 
         private static readonly ILog Log = LogManager.GetLogger(typeof(CallbackSender));
         private static readonly object KeySenderLock = new object();
-
+     
         public static void SendKeystrokesForCallback(Callbacks callback, KeyFile keyFile)
         {
             SendKeystrokesForCallbackName(callback.ToString(), keyFile);
@@ -37,7 +38,6 @@ namespace F4KeyFile
             {
                 var primaryKeyWithModifiers = keyBinding.Key;
                 var comboKeyWithModifiers = keyBinding.ComboKey;
-
                 SendClearingKeystrokes();
                 WaitToSendNextKeystrokes();
 

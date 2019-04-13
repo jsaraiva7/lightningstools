@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+ 
 
 namespace Common.MacroProgramming
 {
@@ -160,6 +161,12 @@ namespace Common.MacroProgramming
             return toReturn;
         }
 
+        public List<string> GetUniqueSources()
+        {
+            return this.Select(c => c.SourceFriendlyName).Distinct().ToList();
+        }
+
+  
         public List<string> GetUniqueSubSources()
         {
             var toReturn = new List<string>();

@@ -23,8 +23,10 @@ namespace Common.Reflection
                 {
                     assembly = Assembly.ReflectionOnlyLoadFrom(assemblyFileName);
                 }
-                catch
+                catch (Exception e)
                 {
+                    Console.WriteLine(e);
+                   
                 }
                 if (assembly == null) continue;
                 assembly = Assembly.LoadFrom(assemblyFileName);
@@ -40,9 +42,14 @@ namespace Common.Reflection
                         && !x.IsInterface
                     ));
                 }
-                catch
+                catch (Exception e)
                 {
+                    Console.WriteLine(e);
+                  
                 }
+
+               
+              
             }
             return toReturn;
         }

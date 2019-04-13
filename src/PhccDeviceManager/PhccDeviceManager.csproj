@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Phcc.DeviceManager</RootNamespace>
     <AssemblyName>Phcc.DeviceManager</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -255,10 +255,6 @@
     <ProjectReference Include="..\Common\UI\Common.UI.csproj">
       <Project>{3fc238ba-7fc2-47ae-ae45-7cf199edbe08}</Project>
       <Name>Common.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PhccHardwareSupportModule\PhccHardwareSupportModule.csproj">
-      <Project>{c3dd6cb1-824c-4ddf-a44d-486a31be432e}</Project>
-      <Name>PhccHardwareSupportModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\PHCC\PHCC.csproj">
       <Project>{75FA2030-C9CA-4B2D-8534-8F48EEA13CA3}</Project>

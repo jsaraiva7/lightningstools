@@ -14,5 +14,7 @@ namespace Common.HardwareSupport
         string FriendlyName { get; }
         void Render(Graphics g, Rectangle destinationRectangle);
         void Synchronize();
+
+        void Configure();
     }
 }

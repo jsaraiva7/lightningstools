@@ -65,6 +65,15 @@ namespace Common.MacroProgramming
             _signalGraph.Draw(graphics, targetRectangle);
         }
 
+        public void DrawGraph(Graphics graphics, Rectangle targetRectangle, int durationMs)
+        {
+            if (_signalGraph == null)
+            {
+                _signalGraph = new SignalGraph(this, durationMs);
+            }
+            _signalGraph.UpdateDuration(durationMs);
+            _signalGraph.Draw(graphics, targetRectangle);
+        }
         public override bool Equals(object obj)
         {
             if (obj == null)

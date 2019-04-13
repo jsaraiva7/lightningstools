@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "Lavspent.Daisychain": "0.2.1"
+  },
+  "runtimes": {
+    "win": {}
+  },
+  "frameworks": {
+    ".NETFramework,Version=v4.7.2": {} 
+  },
+  "packOptions": {
+    "projectUrl": "https://github.com/lavspent/Lavspent.DaisyChain/",
+    "licenseUrl": "https://raw.githubusercontent.com/lavspent/Lavspent.DaisyChain/master/LICENSE",
+    "requireLicenseAcceptance": false,
+    "tags": [ ".Net", "Core", "Universal", "Store", "Xamarin", "iOs", "Android", "Iot", "Gpio", "Adc", "I2c", "OneWire", "1-Wire", "Firmata" ]
+  }
+}

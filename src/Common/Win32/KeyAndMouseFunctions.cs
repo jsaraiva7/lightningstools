@@ -183,7 +183,8 @@ namespace Common.Win32
         /// <param name="release">If <see langword="true" />, a Release event will be sent.</param>
         public static void SendKey(Keys keycode, bool extendedKey, bool press, bool release)
         {
-            NativeMethods.SendKeyInput(keycode, extendedKey, press, release);
+            SendKeys.Send(keycode.ToString());
+           // NativeMethods.SendKeyInput(keycode, extendedKey, press, release);
         }
 
         /// <summary>
@@ -194,6 +195,7 @@ namespace Common.Win32
         /// <param name="release">If <see langword="true" />, a Release event will be sent.</param>
         public static void SendKey(ushort scanCode, bool press, bool release)
         {
+             
             NativeMethods.SendKeyInput(scanCode, press, release);
         }
     }

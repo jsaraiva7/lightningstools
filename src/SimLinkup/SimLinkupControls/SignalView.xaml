@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="SimLinkupControls.SignalView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimLinkupControls"
+             xmlns:wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="500" 
+            
+             >
+    <Grid>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Name="Record" Header="_record" Click="Record_Click" Icon="{iconPacks:FontAwesome Kind=VideoSolid}" Height="30"></MenuItem>
+            <MenuItem Name="Stop"  Header="_stop" Click="RecordStop1_Click" Icon="{iconPacks:FontAwesome Kind=StopSolid}" Height="30"></MenuItem>
+            <MenuItem Name="Popup" Header="_PopUp" Click="Popup_OnClick" Icon="{iconPacks:FontAwesome Kind=ExternalLinkSquareAltSolid}" Height="30"/>
+            <Label Name="LblInterval" Visibility="Hidden" Content="Interval:" VerticalAlignment="Top" Width="60"/>
+            <ComboBox Name="CbInterval"   SelectionChanged="CbInterval_OnSelectionChanged" VerticalAlignment="Top" Width="115" Visibility="Hidden">
+                <ComboBoxItem Name="Sec5">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="Black">5 Seconds</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="Sec10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="Black">10 Seconds</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="Sec15">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="Black">15 Seconds</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="Sec20">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="Black">20 Seconds</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="Sec30">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="Black">30 Seconds</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="min1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="Black">1 Minute</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="min10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="Black">10 Minutes</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="min30">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="Black">30 Minutes</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem Name="hour1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Foreground="Black">1 Hour</TextBlock>
+                    </StackPanel>
+                </ComboBoxItem>
+            </ComboBox>
+            <Label Content="Label" VerticalAlignment="Top"/>
+            <Label Content="Label"/>
+            <Label Content="Label" VerticalAlignment="Top"/>
+            <Label Content="Label" VerticalAlignment="Top"/>
+
+
+
+        </Menu>
+        <WindowsFormsHost Name="DrawForm" Margin="0,40,0,0" Height="469" VerticalAlignment="Top" >
+            <forms:PictureBox Name="pbVis" Width="469" Height="500"/>
+        </WindowsFormsHost>
+        <Slider ValueChanged="SlSignal_OnValueChanged" Name="slSignal" HorizontalAlignment="Left" Margin="20,551,0,0" VerticalAlignment="Top" Height="39" Width="420"/>
+        <Label  Name="Test" Visibility="Visible" Content="Test Output:" VerticalAlignment="Top" Margin="20,514,375,0"/>
+    </Grid>
+</UserControl>

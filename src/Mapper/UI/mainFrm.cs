@@ -20,7 +20,7 @@ namespace Mapper.UI
         private SignalMapping _selectedMapping;
        
         //f
-        public static SimLinkup.Runtime.Runtime SharedRuntime { get; set; }
+        public SimLinkup.Runtime.Runtime SharedRuntime { get; set; }
 
         public Mapper()
         {
@@ -43,6 +43,7 @@ namespace Mapper.UI
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            if(SharedRuntime != null)
             SharedRuntime = new SimLinkup.Runtime.Runtime();
  
         }
@@ -78,7 +79,8 @@ namespace Mapper.UI
                         "", MessageBoxButtons.OKCancel);
                 if (result2 == DialogResult.OK)
                 {
-                    SharedRuntime = new SimLinkup.Runtime.Runtime();
+                    if (SharedRuntime != null)
+                        SharedRuntime = new SimLinkup.Runtime.Runtime();
                     DialogResult result = openFileDialog1.ShowDialog();
                     if (result == DialogResult.OK) // Test result.
                     {
@@ -89,7 +91,8 @@ namespace Mapper.UI
             }
             else
             {
-                SharedRuntime = new SimLinkup.Runtime.Runtime();
+                if (SharedRuntime != null)
+                    SharedRuntime = new SimLinkup.Runtime.Runtime();
                 DialogResult result = openFileDialog1.ShowDialog();
                 if (result == DialogResult.OK) // Test result.
                 {
@@ -133,7 +136,8 @@ namespace Mapper.UI
             {
                 MessageBox.Show("Current Mapping is Empty!");
             }
-            SharedRuntime = new SimLinkup.Runtime.Runtime();
+            if (SharedRuntime != null)
+                SharedRuntime = new SimLinkup.Runtime.Runtime();
         }
 
         private void SaveMapping()

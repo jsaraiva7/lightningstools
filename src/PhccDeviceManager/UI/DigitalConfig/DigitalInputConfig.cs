@@ -74,7 +74,7 @@ namespace Phcc.DeviceManager.UI.DigitalConfig
             RefreshGrid();
         }
 
-        //private bool ConfigValidator(Doa7SegConfiguration config, SegmentDisplayConfig segConfig, DigitalOutputConfig digitConfig )
+        //private bool ConfigValidator(Doa7SegConfiguration config, SegmentDisplayConfig segConfig, DigitalConfig digitConfig )
         //{
 
        

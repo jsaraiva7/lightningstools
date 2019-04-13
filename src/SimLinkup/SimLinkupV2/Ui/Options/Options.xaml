@@ -1,0 +1,65 @@
+﻿<Window x:Class="SimLinkupV2.Ui.Options.Options"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimLinkupV2.Ui.Options"
+        mc:Ignorable="d"
+        Title="Options" Height="650" Width="800">
+    <Grid x:Name = "FormLayoutGrid" Background = "LightGray">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row = "0" Grid.Column = "0" Text = "Desired Frequency (Hz)" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment = "Center" Width = "100"/>
+        <TextBox Grid.Row = "0" Grid.Column = "1" Margin = "10" Name="tbFrequency" TextChanged="TbFrequency_OnTextChanged"/>
+        <TextBlock Grid.Row = "2" Grid.Column = "0" Text = "Launch At Startup" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment="Center" Width = "100"/>
+        <CheckBox Grid.Row = "2" Grid.Column = "1" Margin = "10" Name="ckLaunchStartup"/>
+        <TextBlock Grid.Row = "3" Grid.Column = "0" Text = "Auto Start" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment="Center" Width = "100"/>
+        <CheckBox Grid.Row = "3" Grid.Column = "1" Margin = "10" Name="chAutoStart"/>
+        <TextBlock Grid.Row = "4" Grid.Column = "0" Text = "Minimize to Tray" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment="Center" Width = "100"/>
+        <CheckBox Grid.Row = "4" Grid.Column = "1" Margin = "10" Name="ckMinimizeTray"/>
+        <TextBlock Grid.Row = "5" Grid.Column = "0" Text = "Start Minimized" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment="Center" Width = "100"/>
+        <CheckBox Grid.Row = "5" Grid.Column = "1" Margin = "10" Name="ckStartMinimized"/>
+
+
+        <TextBlock Grid.Row = "6" Grid.Column = "0" Text = "Mappings Directory" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment="Center" Width = "100"/>
+        <TextBox Grid.Row = "6" Grid.Column = "1" Margin = "120,10,10,10" Name="tbMappingDir" IsEnabled="false"/>
+        <Button Content="Select" Grid.Row="6" Grid.Column = "1" 
+                Height="25" Margin="10,19,587,19" Width="75" Name="btnLoadMapping" TabIndex="1600" IsDefault="True" Click="BtnLoadMapping_OnClick"/>
+
+
+
+
+<TextBlock Grid.Row = "7" Grid.Column = "0" Text = "Hardware Modules Directory" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment="Center" Width = "100"/>
+        <TextBox Grid.Row = "7" Grid.Column = "1" Margin = "120,10,10,10" Name="tbHsmDir" IsEnabled="false"/>
+        <Button Content="Select" Grid.Row="7" Grid.Column = "1" 
+                Height="25" Margin="10,19,587,19" Width="75" Name="btnLoadHsm" TabIndex="1600" IsDefault="True" Click="BtnLoadHsm_OnClick"/>
+        <TextBlock Grid.Row = "8" Grid.Column = "0" Text = "Simulator Modules Directory" Margin = "10" HorizontalAlignment = "Left" VerticalAlignment="Center" Width = "100"/>
+        <Button Content="Select" Grid.Row="8" Grid.Column = "1"
+                Height="25" Margin="10,19,587,19" Width="75" Name="btnLoadSsm" TabIndex="1600" IsDefault="True" Click="BtnLoadSsm_OnClick"/>
+        <TextBox Grid.Row = "8" Grid.Column = "1" Margin = "120,10,10,10" Name="tbSsmDir" IsEnabled="false"/>
+        <Button Content="OK" Grid.Row="9" Grid.Column = "1" 
+                    Height="25" Margin="190,19,407,19" Width="75" Name="btnOK" TabIndex="1600" IsDefault="True"                         
+                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Click="BtnOK_Click" />
+        <Button Content="Cancel"  Grid.Row="9" Grid.Column = "1"
+                    Height="25" Margin="290,19,307,19" Width="75" Name="btnCancel" TabIndex="1700" IsCancel="True" 
+                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="-0.573,0.68" Click="BtnCancel_Click"  />
+
+    </Grid>
+</Window>

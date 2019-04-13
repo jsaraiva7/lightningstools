@@ -33,7 +33,18 @@ namespace F4Utils.Process
             if (_keyFile == null) return null;
            return _keyFile.GetBindingForCallback(callback) as KeyBinding;
         }
-
+        public static void SendCallbackToFalcon(string callback, string BmsDir)
+        {
+            if (_keyFile == null)
+                _keyFile = GetFile(BmsDir);       
+            var keyBinding = FindKeyBinding(callback);
+            if (keyBinding == null) return;
+            Util.ActivateFalconWindow();
+            lock (KeySenderLock)
+            {
+                keyBinding.SendCallback();
+            }
+        }
         public static void SendCallbackToFalcon(string callback)
         {
             var keyBinding = FindKeyBinding(callback);
@@ -44,18 +55,36 @@ namespace F4Utils.Process
                 keyBinding.SendCallback();
             }
         }
+        public static KeyFile GetCurrentKeyFile(string falconDir)
+        {
+            return GetFile(falconDir);
+        }
 
         public static KeyFile GetCurrentKeyFile()
         {
+            return GetFile(null);
+        }
+
+        private static KeyFile GetFile(string bmsDir)
+        {
             KeyFile toReturn = null;
-            var exeFilePath = Util.GetFalconExePath();
+
+            var exeFilePath = "";
+            if (bmsDir == null || bmsDir.Length < 2)
+            {
+                exeFilePath = Util.GetFalconExePath();
+            }
+            else
+            {
+                exeFilePath = bmsDir;
+            }
 
             if (exeFilePath == null) return null;
             var callsign = CallsignUtils.DetectCurrentCallsign();
 
 
             var configFolder = Path.GetDirectoryName(exeFilePath) + Path.DirectorySeparatorChar
-                               + ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + 
+                               + ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar +
                                USEROPTS_DIRECTORY_NAME + Path.DirectorySeparatorChar + CONFIG_DIRECTORY_NAME;
 
             var pilotOptionsPath = configFolder + Path.DirectorySeparatorChar + callsign +
@@ -64,7 +93,7 @@ namespace F4Utils.Process
             {
                 pilotOptionsPath = configFolder + Path.DirectorySeparatorChar + PLAYER_OPTS_FILENAME__DEFAULT;
             }
-                
+
 
             string keyFileName = null;
             if (new FileInfo(pilotOptionsPath).Exists)
@@ -101,6 +130,9 @@ namespace F4Utils.Process
             }
             return toReturn;
         }
+
+
+
         private static string GetKeyFileNameFromPlayerOpts(string playerOptionsFilePath)
         {
             PlayerOp.PlayerOp playerOptionsFile = null;

@@ -52,6 +52,11 @@ namespace Common.MacroProgramming
             RegisterForChangedEvent(signal);
         }
 
+        public void UpdateDuration(int durationMs)
+        {
+            _duration = TimeSpan.FromMilliseconds(durationMs);
+        }
+
         public void Draw(Graphics graphics, Rectangle targetRectangle)
         {
             graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;

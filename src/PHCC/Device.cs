@@ -344,9 +344,9 @@ namespace Phcc
                     _serialPort.Open();
                     GC.SuppressFinalize(_serialPort.BaseStream);
                 }
-                catch 
+                catch (Exception e)
                 {
-                     //ignore
+                     Console.WriteLine(e);
                 }
         
             }

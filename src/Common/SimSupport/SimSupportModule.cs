@@ -13,5 +13,9 @@ namespace Common.SimSupport
 
         public abstract void Dispose();
         public abstract void Update();
+
+        //Method to call UI to configure SSM defs - Jsa 12/04/2019
+        public abstract void Configure();
+
     }
 }

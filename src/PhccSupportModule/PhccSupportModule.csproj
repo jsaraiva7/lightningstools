@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6F01E782-3F59-4706-8018-66F4A17D6976}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PhccSupportModule</RootNamespace>
+    <AssemblyName>PhccSupportModule</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConfigUi\ComPort.xaml.cs">
+      <DependentUpon>ComPort.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\AnalogSignal\frmCalibrateSignal .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\AnalogSignal\frmCalibrateSignal .Designer.cs">
+      <DependentUpon>frmCalibrateSignal .cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\CalibrationList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\CalibrationList.Designer.cs">
+      <DependentUpon>CalibrationList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\CalibrationSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\CalibrationSelect.Designer.cs">
+      <DependentUpon>CalibrationSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\DigitalConfig\DigitalInputConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\DigitalConfig\DigitalInputConfig.Designer.cs">
+      <DependentUpon>DigitalInputConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\DigitalConfig\DigitalModeSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\DigitalConfig\DigitalModeSelector.Designer.cs">
+      <DependentUpon>DigitalModeSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\Doa7SegConfig\Doa7SegConfigList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\Doa7SegConfig\Doa7SegConfigList.Designer.cs">
+      <DependentUpon>Doa7SegConfigList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\Doa7SegConfig\Doa7SegmentModeSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\Doa7SegConfig\Doa7SegmentModeSelector.Designer.cs">
+      <DependentUpon>Doa7SegmentModeSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\frmSelectServo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\frmSelectServo.Designer.cs">
+      <DependentUpon>frmSelectServo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\Servo\frmCalibrateServo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigUi\OldForms\Servo\frmCalibrateServo.Designer.cs">
+      <DependentUpon>frmCalibrateServo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigUi\PeripheralAddress.xaml.cs">
+      <DependentUpon>PeripheralAddress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigUi\PhccConfigMain.xaml.cs">
+      <DependentUpon>PhccConfigMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HsmSupport\Inputs\PhccAnalogInputs.cs" />
+    <Compile Include="HsmSupport\Inputs\PhccDigitalImputs.cs" />
+    <Compile Include="HsmSupport\Motherboard.cs" />
+    <Compile Include="HsmSupport\Peripherals\BasePeripheral.cs" />
+    <Compile Include="HsmSupport\Peripherals\Doa40DO.cs" />
+    <Compile Include="HsmSupport\Peripherals\Doa7Seg.cs" />
+    <Compile Include="HsmSupport\Peripherals\Doa8Servo.cs" />
+    <Compile Include="HsmSupport\Peripherals\DoaAirCore.cs" />
+    <Compile Include="HsmSupport\Peripherals\DoaAnOut1.cs" />
+    <Compile Include="HsmSupport\Peripherals\DoaArduinoX27.cs" />
+    <Compile Include="HsmSupport\Peripherals\DoaStepper.cs" />
+    <Compile Include="Phcc\PhccHardwareSupportModule.cs" />
+    <Compile Include="Phcc\PhccHardwareSupportModuleConfig.cs" />
+    <Compile Include="Phcc\Test.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\phcc.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="FodyWeavers.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ConfigUi\ComPort.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigUi\PeripheralAddress.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigUi\PhccConfigMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConfigUi\OldForms\AnalogSignal\frmCalibrateSignal .resx">
+      <DependentUpon>frmCalibrateSignal .cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigUi\OldForms\CalibrationList.resx">
+      <DependentUpon>CalibrationList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigUi\OldForms\CalibrationSelect.resx">
+      <DependentUpon>CalibrationSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigUi\OldForms\DigitalConfig\DigitalInputConfig.resx">
+      <DependentUpon>DigitalInputConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigUi\OldForms\DigitalConfig\DigitalModeSelector.resx">
+      <DependentUpon>DigitalModeSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigUi\OldForms\Doa7SegConfig\Doa7SegConfigList.resx">
+      <DependentUpon>Doa7SegConfigList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigUi\OldForms\Doa7SegConfig\Doa7SegmentModeSelector.resx">
+      <DependentUpon>Doa7SegmentModeSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigUi\OldForms\frmSelectServo.resx">
+      <DependentUpon>frmSelectServo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigUi\OldForms\Servo\frmCalibrateServo.resx">
+      <DependentUpon>frmCalibrateServo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{aba9cc75-b778-4e46-a6f6-afec27f2eb59}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\HardwareSupport\Common.HardwareSupport.csproj">
+      <Project>{b8fcc824-2b39-4637-a447-64d60cf60811}</Project>
+      <Name>Common.HardwareSupport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\InputSupport\Common.InputSupport.csproj">
+      <Project>{90b49895-9bf5-48c9-87fe-972e47cddae5}</Project>
+      <Name>Common.InputSupport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\InputSupport\Phcc\Common.InputSupport.Phcc.csproj">
+      <Project>{738063da-f792-4081-a70a-4a3190dbc6d2}</Project>
+      <Name>Common.InputSupport.Phcc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\MacroProgramming\Common.MacroProgramming.csproj">
+      <Project>{320431c6-2454-4d95-8d3c-d27c8e2288e9}</Project>
+      <Name>Common.MacroProgramming</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ConfigUi\OldForms\Doa40DoConfig\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

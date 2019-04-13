@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="SimLinkupControls.Mapping.Mapper"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimLinkupControls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Name="mnuFile" Header="_File" Icon="{iconPacks:FontAwesome Kind=DesktopSolid}">
+                    <MenuItem Header="_New" Click="MnuNew_OnClick" Name="mnuNew"    Icon="{iconPacks:FontAwesome Kind=FolderOpenSolid}"/>
+                    <Separator />
+                    <MenuItem Header="_Open" Click="MnuOpen_OnClick" Name="mnuOpen"    Icon="{iconPacks:FontAwesome Kind=FolderOpenSolid}"/>
+                    <MenuItem Header="_Save" Click="MnuSave_OnClick" Name="mnuSave"   Icon="{iconPacks:FontAwesome Kind=SaveSolid}"/>
+                    <Separator />
+                    <MenuItem Header="_Exit" Click="MnuClose_OnClick"  Name="mnuClose"   Icon="{iconPacks:FontAwesome Kind=SignOutAltSolid}"/>
+                </MenuItem>
+                <MenuItem Name="mnuMapping"   Header="_Mapping" Icon="{iconPacks:FontAwesome Kind=DesktopSolid}">
+                    <MenuItem Header="_Add" Click="MnuAdd_OnClick" Name="mnuAdd"    Icon="{iconPacks:FontAwesome Kind=FolderOpenSolid}"/>
+                    <MenuItem Header="_Remove" Click="MnuRemove_OnClick" Name="mnuRemove"    Icon="{iconPacks:FontAwesome Kind=EraserSolid}"/>
+
+                </MenuItem>
+                <MenuItem Name="mnuExport"   Header="_Export" Icon="{iconPacks:FontAwesome Kind=FileExportSolid}">
+                    <MenuItem Header="_Export Mapping"  Click="MnuExportMapping_OnClick" Name="mnuExportMapping"    Icon="{iconPacks:FontAwesome Kind=MapSignsSolid}"/>
+                    <MenuItem Header="_Export All Signals" Click="MnuExportSignals_OnClick"  Name="mnuExportSignals"    Icon="{iconPacks:FontAwesome Kind=SignOutAltSolid}"/>
+
+                </MenuItem>
+
+            </Menu>
+            <DataGrid Name="_mappingDisplay" SelectionMode="Single" SelectionChanged="_mappingDisplay_OnSelectionChanged"/>
+        </DockPanel>
+
+
+    </Grid>
+</UserControl>

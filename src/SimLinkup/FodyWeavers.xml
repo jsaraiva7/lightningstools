@@ -3,4 +3,5 @@
   <Costura ExcludeAssemblies="SlimDX" />
   <Costura ExcludeAssemblies="DirectInputHardwareSupportModule" />
   <Costura ExcludeAssemblies="PhccHardwareSupportModule" />
+  <Costura ExcludeAssemblies="ArduinoHardwareSupportModule" />
 </Weavers>
