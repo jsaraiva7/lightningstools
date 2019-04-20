@@ -6,8 +6,10 @@
              xmlns:local="clr-namespace:SimLinkupControls"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
+             Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+       
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Name="mnuFile" Header="_File" Icon="{iconPacks:FontAwesome Kind=DesktopSolid}">
@@ -30,7 +32,9 @@
                 </MenuItem>
 
             </Menu>
-            <DataGrid Name="_mappingDisplay" SelectionMode="Single" SelectionChanged="_mappingDisplay_OnSelectionChanged"/>
+            <TreeView Name="tvMapFiles" Width="300" Height="auto" SelectedItemChanged="TvMapFiles_OnSelectedItemChanged" Margin="0,5,0,0"/>
+            <DataGrid  Name="_mappingDisplay" SelectionMode="Single" SelectionChanged="_mappingDisplay_OnSelectionChanged" Margin="0,5,0,0"/>
+
         </DockPanel>
 
 

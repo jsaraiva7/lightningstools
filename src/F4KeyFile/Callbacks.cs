@@ -8,6 +8,158 @@ namespace F4KeyFile
 {
     public enum Callbacks
     {
+        #region 4.34Callbacls
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF Master OFF")]
+        [Description("IFF Master Selector - Off")]
+        SimIFFMasterOff,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF Master STDBY")]
+        [Description("IFF Master Selector - STDBY")]
+        SimIFFMasterStby,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF Master LOW")]
+        [Description("IFF Master Selector - LOW")]
+        SimIFFMasterLow,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF Master NORM")]
+        [Description("IFF Master Selector - NORMAL")]
+        SimIFFMasterNorm,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF Master EMER")]
+        [Description("IFF Master Selector - Emergency")]
+        SimIFFMasterEmerg,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 4 Bravo")]
+        [Description("IFF MODE 4 Repply Bravo - ON")]
+        SimIFFMode4ReplyBravo,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 4 Alpha")]
+        [Description("IFF MODE 4 Repply Alpha - ON")]
+        SimIFFMode4ReplyAlpha,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 4 OFF")]
+        [Description("IFF MODE 4 Repply - OFF")]
+        SimIFFMode4ReplyOff,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 4 Audio On")]
+        [Description("IFF MODE 4 Audio - On")]
+        SimIFFMode4MonitorAud,
+
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 4 Audio Off")]
+        [Description("IFF MODE 4 Audio - Off")]
+        SimIFFMode4MonitorOff,
+
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 4 Code Zero")]
+        [Description("IFF MODE 4 Code Zero")]
+        SimIFFCodeSwitchZero,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 4 Code Zero Hold")]
+        [Description("IFF MODE 4 Code Zero Hold")]
+        SimIFFCodeSwitchHold,
+
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 1 Digit 1 incr")]
+        [Description("IFF MODE 1 Digit 1 incr")]
+        SimIFFBackupM1Digit1Inc,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 1 Digit 1 dec")]
+        [Description("IFF MODE 1 Digit 1 decrease")]
+        SimIFFBackupM1Digit1Dec,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 1 Digit 2 incr")]
+        [Description("IFF MODE 1 Digit 2 incr")]
+        SimIFFBackupM1Digit2Inc,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 1 Digit 2 dec")]
+        [Description("IFF MODE 1 Digit 2 decrease")]
+        SimIFFBackupM1Digit2Dec,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 3 Digit 1 incr")]
+        [Description("IFF MODE 3 Digit 1 incr")]
+        SimIFFBackupM3Digit1Inc,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 3 Digit 1 dec")]
+        [Description("IFF MODE 3 Digit 1 decrease")]
+        SimIFFBackupM3Digit1Dec,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 3 Digit 2 incr")]
+        [Description("IFF MODE 3 Digit 2 incr")]
+        SimIFFBackupM3Digit2Inc,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF MODE 3 Digit 2 dec")]
+        [Description("IFF MODE 3 Digit 2 decrease")]
+        SimIFFBackupM3Digit2Dec,
+
+
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF Enable Mode 3 - M3Ms ON")]
+        [Description(" IFF Enable Mode 3 - M3MS ON")]
+        SimIFFEnableM3MS,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF Enable Mode 3 - Off")]
+        [Description(" IFF Enable Mode 3 - Off")]
+        SimIFFEnableOff,
+
+        [Category("LEFT CONSOLE")]
+        [SubCategory("IFF PANEL")]
+        [ShortDescription("IFF Enable Mode 3 - M1M3 ON")]
+        [Description("IFF Enable Mode 3 - M1M3 ON")]
+        SimIFFEnableM1M3,
+
+
+
+
+        #endregion 4.34Callbacls
+
+
+
         [Category("NOOP")]
         [SubCategory("NOOP")]
         [ShortDescription("Do nothing")]

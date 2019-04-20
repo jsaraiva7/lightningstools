@@ -280,16 +280,23 @@ namespace SimLinkupV2
 
         private void MenuMapper_OnClick(object sender, RoutedEventArgs e)
         {
-              Window w = new Window();
-              MainPanel.Children.Remove(SignalList);
-              Mapper p = new Mapper(w, _runtime, SignalList);
-              w.Content = p;
-              w.ShowDialog();
-              var mainnn = SignalList.Parent;
-              var child = mainnn.GetChildObjects().ToList();
-              child.Remove(SignalList);
-               
-              MainPanel.Children.Add(SignalList);
+            Window w = new Window();
+            MainPanel.Children.Remove(SignalList);
+            Mapper p = new Mapper(w, _runtime, SignalList);
+            w.Content = p;
+            w.ShowDialog();
+            var mainnn = SignalList.Parent;
+            var child = mainnn.GetChildObjects().ToList();
+            child.Remove(SignalList);
+            try
+            {
+                MainPanel.Children.Add(SignalList);
+            }
+            catch (Exception exception)
+            {
+
+            }
+
 
         }
 

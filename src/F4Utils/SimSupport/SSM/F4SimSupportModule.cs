@@ -1253,37 +1253,113 @@ namespace F4Utils.SimSupport.SSM
 
                 case F4SimOutputs.RWR__BEARING_DEGREES:
                     SetOutput(
-                        (AnalogSignal) output, _lastFlightData.bearing?.Length > ((Signal) output).Index ? (double) _lastFlightData.bearing?[((Signal) output).Index ?? 0] * DEGREES_PER_RADIAN : 0);
+                        (AnalogSignal)output, _lastFlightData.bearing?.Length > ((Signal)output).Index ? (double)_lastFlightData.bearing?[((Signal)output).Index ?? 0] * DEGREES_PER_RADIAN : 0);
                     break;
 
                 case F4SimOutputs.RWR__MISSILE_ACTIVITY_FLAG:
-                    ((DigitalSignal) output).State = _lastFlightData.missileActivity?.Length > ((Signal) output).Index && _lastFlightData.missileActivity?[((Signal) output).Index ?? 0] !=0;
+                    ((DigitalSignal)output).State = _lastFlightData.missileActivity?.Length > ((Signal)output).Index && _lastFlightData.missileActivity?[((Signal)output).Index ?? 0] != 0;
                     break;
 
                 case F4SimOutputs.RWR__MISSILE_LAUNCH_FLAG:
-                    ((DigitalSignal) output).State = _lastFlightData.missileLaunch?.Length > ((Signal) output).Index && _lastFlightData.missileLaunch?[((Signal) output).Index ?? 0] !=0;
+                    ((DigitalSignal)output).State = _lastFlightData.missileLaunch?.Length > ((Signal)output).Index && _lastFlightData.missileLaunch?[((Signal)output).Index ?? 0] != 0;
                     break;
 
                 case F4SimOutputs.RWR__SELECTED_FLAG:
-                    ((DigitalSignal) output).State = _lastFlightData.selected?.Length > ((Signal) output).Index && _lastFlightData.selected?[((Signal) output).Index ?? 0] !=0;
+                    ((DigitalSignal)output).State = _lastFlightData.selected?.Length > ((Signal)output).Index && _lastFlightData.selected?[((Signal)output).Index ?? 0] != 0;
                     break;
 
                 case F4SimOutputs.RWR__LETHALITY:
-                    SetOutput((AnalogSignal) output, _lastFlightData.lethality?.Length > ((Signal) output).Index ? (float) _lastFlightData.lethality?[((Signal) output).Index ?? 0] : -1);
+                    SetOutput((AnalogSignal)output, _lastFlightData.lethality?.Length > ((Signal)output).Index ? (float)_lastFlightData.lethality?[((Signal)output).Index ?? 0] : -1);
                     break;
 
                 case F4SimOutputs.RWR__NEWDETECTION_FLAG:
-                    ((DigitalSignal) output).State = _lastFlightData.newDetection?.Length > ((Signal) output).Index && _lastFlightData.newDetection?[((Signal) output).Index ?? 0] !=0;
+                    ((DigitalSignal)output).State = _lastFlightData.newDetection?.Length > ((Signal)output).Index && _lastFlightData.newDetection?[((Signal)output).Index ?? 0] != 0;
                     break;
 
                 case F4SimOutputs.RWR__ADDITIONAL_INFO:
-                    ((TextSignal) output).State = _lastFlightData.RwrInfo != null ? Encoding.Default.GetString(_lastFlightData.RwrInfo) : null;
+                    ((TextSignal)output).State = _lastFlightData.RwrInfo != null ? Encoding.Default.GetString(_lastFlightData.RwrInfo) : null;
                     break;
                 case F4SimOutputs.LEFT_EYEBROW_LIGHTS__ALTLOW: break;
                 case F4SimOutputs.LEFT_EYEBROW_LIGHTS__OBSWRN: break;
                 case F4SimOutputs.RIGHT_EYEBROW_LIGHTS__DUALFC: break;
                 case F4SimOutputs.POWER__BUS_POWER_MAIN_GENERATOR: break;
                 case F4SimOutputs.RIGHT_EYEBROW_LIGHTS__ENGINE_2_FIRE: break;
+                case F4SimOutputs.LATITUDE:
+                    {
+                        ((AnalogSignal)output).State = _lastFlightData.latitude;
+                        break;
+                    }
+                case F4SimOutputs.LONGITUDE:
+                    {
+                        ((AnalogSignal)output).State = _lastFlightData.longitude;
+                        break;
+                    }
+
+                case F4SimOutputs.BUMP_INTENSITY:
+                    {
+                        ((AnalogSignal)output).State = _lastFlightData.bumpIntensity;
+                        break;
+                    }
+
+                case F4SimOutputs.INSTR_LIGHT:
+                    {
+                        ((AnalogSignal)output).State = _lastFlightData.instrLight;
+                        break;
+                    }
+                case F4SimOutputs.IFF_BACKUP_MODE1:
+                    {
+                        int val = _lastFlightData.iffBackupMode1Digit1 * 10 + _lastFlightData.iffBackupMode1Digit2;
+
+                        ((AnalogSignal)output).State = val;
+                        break;
+                    }
+
+                case F4SimOutputs.IFF_BACKUP_MODE3A:
+                    {
+                        int val = _lastFlightData.iffBackupMode3ADigit1 * 10 + _lastFlightData.iffBackupMode3ADigit2;
+
+                        ((AnalogSignal)output).State = val;
+                        break;
+                    }
+
+                case F4SimOutputs.RTT_AREA_SIZE_X:
+                    {
+                        ((AnalogSignal)output).State = _lastFlightData.RTT_size[0];
+                        break;
+                    }
+
+                case F4SimOutputs.RTT_AREA_SIZE_Y:
+                    {
+                        ((AnalogSignal)output).State = _lastFlightData.RTT_size[1];
+                        break;
+                    }
+
+                case F4SimOutputs.RTT_AREA:
+                    {
+                        ((AnalogSignal)output).State = _lastFlightData.RTT_area[((AnalogSignal)output).Index ?? default(int)];
+                        break;
+                    }
+
+
+                    //AddF4SimOutput(CreateNewF4SimOutput("Map", "Position - Latitude", "Aircraft Latitude", F4SimOutputs.LATITUDE, null, typeof(float)));
+                    //AddF4SimOutput(CreateNewF4SimOutput("Map", "Position - Longitude", "Aircraft Longitude", F4SimOutputs.LONGITUDE, null, typeof(float)));
+                    //AddF4SimOutput(CreateNewF4SimOutput("Simulation", "Bump Intensity", F4SimOutputs.BUMP_INTENSITY, typeof(float)));
+
+                    //AddF4SimOutput(CreateNewF4SimOutput("Panels", "IFF", "IFF Backup Mode 3A", F4SimOutputs.IFF_BACKUP_MODE3A, null, typeof(int)));
+                    //AddF4SimOutput(CreateNewF4SimOutput("Panels", "IFF", "IFF Backup Mode 3A", F4SimOutputs.IFF_BACKUP_MODE3A, null, typeof(int)));
+
+                    //AddF4SimOutput(CreateNewF4SimOutput("Simulation", "RTT AREA SIZE",
+                    //    F4SimOutputs.RTT_AREA_SIZE, typeof(int)));
+                    //int count = 0;
+                    //for (int i = 0; i < 6; i++)
+                    //{
+                    //    for (int j = 0; j < 4; j++)
+                    //    {
+                    //        AddF4SimOutput(CreateNewF4SimOutput("Pilots", "RTT AREA", "RTT AREA: " + i + " Position: " + j, F4SimOutputs.RTT_AREA, count, typeof(int)));
+
+                    //        count++;
+                    //    }
+                    //}
             }
         }
 
@@ -1442,6 +1518,102 @@ namespace F4Utils.SimSupport.SSM
         private void CreateSimOutputsList()
         {
             _simOutputs.Clear();
+
+
+            // BMS 4.34
+
+            // VERSION 10
+            //float bumpIntensity; // Intensity of a "bump" while taxiing/rolling, 0..1
+
+            //// VERSION 11
+            //float latitude;      // Ownship latitude in degrees (as known by avionics)
+            //float longitude;     // Ownship longitude in degrees (as known by avionics)
+
+            //// VERSION 12
+            //unsigned short RTT_size[2];                 // RTT overall width and height
+            //unsigned short RTT_area[RTT_noOfAreas][4];  // For each area: left/top/right/bottom
+
+            //// VERSION 13
+            //char iffBackupMode1Digit1;                     // IFF panel backup Mode1 digit 1
+            //char iffBackupMode1Digit2;                     // IFF panel backup Mode1 digit 2
+            //char iffBackupMode3ADigit1;                    // IFF panel backup Mode3A digit 1
+            //char iffBackupMode3ADigit2;                    // IFF panel backup Mode3A digit 2
+
+            AddF4SimOutput(CreateNewF4SimOutput("Aircraft", "Position - Latitude", "Aircraft Latitude", F4SimOutputs.LATITUDE, null, typeof(float)));
+            AddF4SimOutput(CreateNewF4SimOutput("Aircraft", "Position - Longitude", "Aircraft Longitude", F4SimOutputs.LONGITUDE, null, typeof(float)));
+            AddF4SimOutput(CreateNewF4SimOutput("Simulation", "Bump Intensity", F4SimOutputs.BUMP_INTENSITY, typeof(float)));
+
+            AddF4SimOutput(CreateNewF4SimOutput("Panels", "IFF", "IFF Backup Mode 1", F4SimOutputs.IFF_BACKUP_MODE1, null, typeof(int)));
+            AddF4SimOutput(CreateNewF4SimOutput("Panels", "IFF", "IFF Backup Mode 3A", F4SimOutputs.IFF_BACKUP_MODE3A, null, typeof(int)));
+            AddF4SimOutput(CreateNewF4SimOutput("Simulation", "RTT AREA SIZE X"  ,
+                F4SimOutputs.RTT_AREA_SIZE_X, typeof(int)));
+            AddF4SimOutput(CreateNewF4SimOutput("Simulation", "RTT AREA SIZE Y",
+                F4SimOutputs.RTT_AREA_SIZE_Y, typeof(int)));
+
+
+
+
+            int count = 0;
+            for (int i = 0; i < 7; i++)
+            {
+
+                string meaningI= i.ToString();
+                switch (i)
+                {
+                    case 0:
+                        meaningI = "HUD";
+                        break;
+                    case 1:
+                        meaningI = "PFL";
+                        break;
+                    case 2:
+                        meaningI = "DED";
+                        break;
+                    case 3:
+                        meaningI = "RWR";
+                        break;
+                    case 4:
+                        meaningI = "MFDLEFT";
+                        break;
+                    case 5:
+                        meaningI = "MFDLEFT";
+                        break;
+                    case 6:
+                        meaningI = "HMS";
+                        break;
+
+                }
+
+
+                for (int j = 0; j < 4; j++)
+                {
+                    string meaningj = j.ToString();
+
+                    switch (j)
+                    {
+                        case 0:
+                            meaningj = "X";
+                            break;
+                        case 1:
+                            meaningj = "Y";
+                            break;
+                        case 2:
+                            meaningj = "Width";
+                            break;
+                        case 3:
+                            meaningj = "Height";
+                            break;
+                    }
+                   
+                    AddF4SimOutput(CreateNewF4SimOutput("Simulation", "RTT AREA",   meaningI + " - " + meaningj, F4SimOutputs.RTT_AREA, count, typeof(int)));
+
+                    count++;
+                }
+            }
+
+
+            AddF4SimOutput(CreateNewF4SimOutput("Panels", "LIGHTS", "Light Dimmer Status", F4SimOutputs.INSTR_LIGHT, null, typeof(int)));
+
 
             AddF4SimOutput(
                 CreateNewF4SimOutput("Map", "Ground Position", "Feet North of Map Origin", F4SimOutputs.MAP__GROUND_POSITION__FEET_NORTH_OF_MAP_ORIGIN, null, typeof(float), int.MinValue, int.MaxValue));

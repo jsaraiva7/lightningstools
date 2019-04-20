@@ -72,6 +72,33 @@ namespace F4SharedMem.Headers
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_CALLSIGNS)]
         public byte[] pilotsStatus;                // [MAX_CALLSIGNS] Status of the MP pilots, see enum FlyStates
+
+         
+        //VERSION 10
+        float bumpIntensity; // Intensity of a "bump" while taxiing/rolling, 0..1
+
+        //VERSION 11
+        float latitude;      // Ownship latitude in degrees (as known by avionics)
+        float longitude;     // Ownship longitude in degrees (as known by avionics)
+
+        //VERSION 12
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        ushort[] RTT_size;                 // RTT overall width and height
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 28)]
+        ushort[] RTT_area;  // For each area: left/top/right/bottom
+
+
+        // VERSION 13
+        byte iffBackupMode1Digit1;                     // IFF panel backup Mode1 digit 1
+        byte iffBackupMode1Digit2;                     // IFF panel backup Mode1 digit 2
+        byte iffBackupMode3ADigit1;                    // IFF panel backup Mode3A digit 1
+        byte iffBackupMode3ADigit2;                    // IFF panel backup Mode3A digit 2
+
+        // VERSION 14
+        byte instrLight;  // (unsigned char) current instrument backlight brightness setting, see InstrLight enum for details
+
+
     }
 
 }

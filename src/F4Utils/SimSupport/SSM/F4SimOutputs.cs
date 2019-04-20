@@ -290,6 +290,24 @@
         RWR__SELECTED_FLAG,
         RWR__LETHALITY,
         RWR__NEWDETECTION_FLAG,
-        RWR__ADDITIONAL_INFO
+        RWR__ADDITIONAL_INFO,
+
+
+        BUMP_INTENSITY,
+        LATITUDE,
+        LONGITUDE,
+        IFF_BACKUP_MODE1,
+        IFF_BACKUP_MODE3A,
+        INSTR_LIGHT,
+
+        RTT_AREA,
+        RTT_AREA_SIZE_X,
+        RTT_AREA_SIZE_Y,
+ 
+
+
+
+
+
     }
 }

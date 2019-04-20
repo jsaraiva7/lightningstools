@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Common.HardwareSupport;
 using Common.MacroProgramming;
 using log4net;
@@ -18,6 +19,10 @@ namespace VjoyHardwareSupportModule.Device
             _vJoyDevice = new vJoyDevice();
         }
 
+        public override void Configure()
+        {
+            MessageBox.Show("Please use vJoy Configuration app. \nRefer to vJoy Documentation for reference.");
+        }
 
 
         public override AnalogSignal[] AnalogInputs => _vJoyDevice.AxesOutput.ToArray();

@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using Common.Excel;
+using Common.SimLinkup.Configuration;
 using Common.SimLinkup.Runtime;
 using OfficeOpenXml;
 using SimLinkupControls.Mapping.Models;
@@ -24,14 +26,15 @@ namespace SimLinkupControls.Mapping
 
         private MappingProfile _profile { get; set; }
         private SignalMapping _selectedMapping;
-        public  Runtime SharedRuntime { get; set; }
+        public Runtime SharedRuntime { get; set; }
         public Window _window { get; private set; }
         private SignalList _signalList;
+
         private System.Windows.Forms.SaveFileDialog saveFileDialog1 = new SaveFileDialog();
         private System.Windows.Forms.OpenFileDialog openFileDialog1 = new OpenFileDialog();
         private System.Windows.Forms.SaveFileDialog dlgSaveExcel = new SaveFileDialog();
 
-        public Mapper(Window w, Runtime runtime, SignalList lst )
+        public Mapper(Window w, Runtime runtime, SignalList lst)
         {
             _signalList = lst;
             SharedRuntime = runtime;
@@ -47,44 +50,45 @@ namespace SimLinkupControls.Mapping
             openFileDialog1.DefaultExt = "mapping";
             openFileDialog1.AddExtension = true;
             _profile = new MappingProfile();
+            BuildTreeView();
         }
 
         #region uiMnuHandlers
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
 
-            foreach (var map in SharedRuntime.Mappings)
-            {
-                SignalMapping m = new SignalMapping();
-                if (map.Source  is Common.MacroProgramming.AnalogSignal)
-                {
-                    m.Source = new AnalogSignal() { Id = map.Source.Id };
-                }
-                else if (map.Source is Common.MacroProgramming.DigitalSignal)
-                {
-                    m.Source = new DigitalSignal() { Id = map.Source.Id };
-                }
-                else if (map.Source is Common.MacroProgramming.TextSignal)
-                {
-                    m.Source = new TextSignal() { Id = map.Source.Id };
-                }
-                if (map.Destination is Common.MacroProgramming.AnalogSignal)
-                {
-                    m.Destination = new AnalogSignal() { Id = map.Destination.Id };
-                }
-                else if (map.Destination is Common.MacroProgramming.DigitalSignal)
-                {
-                    m.Destination = new DigitalSignal() { Id = map.Destination.Id };
-                }
-                else if (map.Destination is Common.MacroProgramming.TextSignal)
-                {
-                    m.Destination = new TextSignal() { Id = map.Destination.Id };
-                }
-                _profile.SignalMappings.Add(m);
-                RefreshMappings();
-            }
+
+            //foreach (var map in SharedRuntime.Mappings)
+            //{
+            //    SignalMapping m = new SignalMapping();
+            //    if (map.Source is Common.MacroProgramming.AnalogSignal)
+            //    {
+            //        m.Source = new AnalogSignal() { Id = map.Source.Id };
+            //    }
+            //    else if (map.Source is Common.MacroProgramming.DigitalSignal)
+            //    {
+            //        m.Source = new DigitalSignal() { Id = map.Source.Id };
+            //    }
+            //    else if (map.Source is Common.MacroProgramming.TextSignal)
+            //    {
+            //        m.Source = new TextSignal() { Id = map.Source.Id };
+            //    }
+            //    if (map.Destination is Common.MacroProgramming.AnalogSignal)
+            //    {
+            //        m.Destination = new AnalogSignal() { Id = map.Destination.Id };
+            //    }
+            //    else if (map.Destination is Common.MacroProgramming.DigitalSignal)
+            //    {
+            //        m.Destination = new DigitalSignal() { Id = map.Destination.Id };
+            //    }
+            //    else if (map.Destination is Common.MacroProgramming.TextSignal)
+            //    {
+            //        m.Destination = new TextSignal() { Id = map.Destination.Id };
+            //    }
+            //    _profile.SignalMappings.Add(m);
+            //    RefreshMappings();
+            //}
 
         }
         private void Window_Closing(object sender, EventArgs e)
@@ -125,7 +129,7 @@ namespace SimLinkupControls.Mapping
                     DialogResult result = openFileDialog1.ShowDialog();
                     if (result == DialogResult.OK) // Test result.
                     {
-                        LoadMapping();
+                        LoadMapping(openFileDialog1.FileName);
                     }
                 }
 
@@ -137,7 +141,7 @@ namespace SimLinkupControls.Mapping
                 DialogResult result = openFileDialog1.ShowDialog();
                 if (result == DialogResult.OK) // Test result.
                 {
-                    LoadMapping();
+                    LoadMapping(openFileDialog1.FileName);
                 }
             }
 
@@ -155,7 +159,7 @@ namespace SimLinkupControls.Mapping
                     DialogResult result = saveFileDialog1.ShowDialog();
                     if (result == DialogResult.OK) // Test result.
                     {
-                        ValidateProfile();
+                        //ValidateProfile();
                         _profile.Save(saveFileDialog1.FileName);
                     }
                 }
@@ -163,13 +167,15 @@ namespace SimLinkupControls.Mapping
                 {
                     MessageBox.Show("Current Mapping is Empty!");
                 }
-               
-               
+
+
             }
             catch (Exception exception)
             {
-               // _log.Error(exception);
+                // _log.Error(exception);
             }
+
+            BuildTreeView();
         }
 
         private void MnuClose_OnClick(object sender, RoutedEventArgs e)
@@ -193,7 +199,7 @@ namespace SimLinkupControls.Mapping
 
 
 
-           
+
             if (_selectedMapping != null)
             {
                 try
@@ -207,10 +213,10 @@ namespace SimLinkupControls.Mapping
 
             }
             _profile.SignalMappings.Add(p.Mapping);
-           
+
             RefreshMappings();
         }
-     
+
         private void MnuRemove_OnClick(object sender, RoutedEventArgs e)
         {
             if (_selectedMapping != null)
@@ -290,6 +296,49 @@ namespace SimLinkupControls.Mapping
         #endregion
 
 
+
+
+
+
+
+        private void BuildTreeView()
+        {
+            tvMapFiles.Items.Clear();
+            var itemc = new TreeViewItem() { Header = "Mapping Files Present:" };
+            var itemd = new TreeViewItem() {   Header = "Add New Mapping" };
+            tvMapFiles.Items.Add(itemd);
+            var cfg = SimLinkupConfig.GetConfig();
+            if (cfg == null)
+                return;
+            var mappingFiles = new DirectoryInfo(cfg.MappingDir).GetFiles("*.mapping", SearchOption.AllDirectories);
+            foreach (var mappingFile in mappingFiles)
+            {
+                var profileToLoad = mappingFile.FullName;
+                if (!string.IsNullOrEmpty(profileToLoad) && !string.IsNullOrEmpty(profileToLoad.Trim()))
+                {
+                    var profile = MappingProfile.Load(profileToLoad);
+                    if (profile != null)
+                    {
+                        var fileName = new FileInfo(profileToLoad);
+                        if (fileName.Exists)
+                        {
+                            var mdl = new MapProfileModel()
+                            {
+                                Count = profile.SignalMappings.Count, Name = fileName.Name.Replace(".mapping", ""),
+                                File = profileToLoad
+                            };
+                            var item = new TreeViewItem() {Name = mdl.Name, DataContext = mdl, Header = mdl.ToString()};
+                            tvMapFiles.Items.Add(item);
+                        }
+
+                       
+                    }
+                    
+                }
+            }
+            
+        }
+
         ///RefreshUi
 
         private void RefreshMappings()
@@ -298,12 +347,12 @@ namespace SimLinkupControls.Mapping
             _mappingDisplay.AutoGenerateColumns = true;
         }
 
-        private void LoadMapping()
+        private void LoadMapping(string file)
         {
             try
             {
-                _profile =  MappingProfile.Load(openFileDialog1.FileName);
-                var prof = Common.SimLinkup.Signals.MappingProfile.Load(openFileDialog1.FileName);
+                _profile = MappingProfile.Load(file);
+                var prof = Common.SimLinkup.Signals.MappingProfile.Load(file);
                 foreach (var profile in prof.SignalMappings)
                 {
                     SharedRuntime.Mappings.ToList().Remove(profile);
@@ -405,12 +454,69 @@ namespace SimLinkupControls.Mapping
             return sb.ToString();
         }
 
-    }
-        class MapExportModel
+        private void TvMapFiles_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
+            var item = tvMapFiles.SelectedItem as TreeViewItem;
+            if (item != null)
+            {
+                if (item.Header != null && (string) item.Header == $"Add New Mapping")
+                {
+                    var w = new Window();
+                    var p = new AddMapping(w, SharedRuntime.ScriptingContext, _signalList);
+                    w.Content = p;
+                    w.Title = "Mapping Creation";
+                    w.ShowDialog();
 
-            public string SourceId { get; set; }
 
-            public string DestinationId { get; set; }
+
+
+                    if (_selectedMapping != null)
+                    {
+                        try
+                        {
+                            _profile.SignalMappings.Remove(_selectedMapping);
+                        }
+                        catch (Exception exception)
+                        {
+                            //_log.Error(exception);
+                        }
+
+                    }
+                    _profile.SignalMappings.Add(p.Mapping);
+
+                    RefreshMappings();
+                    return;
+                }
+
+                else if (item.DataContext != null && item.DataContext is MapProfileModel)
+                {
+                    var ctx = item.DataContext as MapProfileModel;
+                    if (ctx != null)
+                    {
+                        LoadMapping(ctx.File);
+                    }
+                }
+                
+            }
         }
     }
+    class MapExportModel
+    {
+
+        public string SourceId { get; set; }
+
+        public string DestinationId { get; set; }
+    }
+
+    class MapProfileModel
+    {
+        public string File { get; set; } = "";
+        public string Name { get; set; } = "";
+        public int Count { get; set; }
+
+        public override string ToString()
+        {
+            return Name.Replace(".mapping", "" ) + "  - Items: " + Count;
+        }
+    }
+}

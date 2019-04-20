@@ -349,6 +349,30 @@ namespace F4SharedMem
 
         public RadioClientControl RadioClientControlData { get; set; }
         public RadioClientStatus RadioClientStatus { get; set; }
-        
+
+        //VERSION 10
+        public float bumpIntensity; // Intensity of a "bump" while taxiing/rolling, 0..1
+
+        //VERSION 11
+        public float latitude;      // Ownship latitude in degrees (as known by avionics)
+        public float longitude;     // Ownship longitude in degrees (as known by avionics)
+
+        //VERSION 12
+
+        public ushort[] RTT_size;                 // RTT overall width and height
+
+
+        public ushort[] RTT_area;  // For each area: left/top/right/bottom
+
+
+        // VERSION 13
+        public ushort iffBackupMode1Digit1;                     // IFF panel backup Mode1 digit 1
+        public ushort iffBackupMode1Digit2;                     // IFF panel backup Mode1 digit 2
+        public ushort iffBackupMode3ADigit1;                    // IFF panel backup Mode3A digit 1
+        public ushort iffBackupMode3ADigit2;                    // IFF panel backup Mode3A digit 2
+
+        // VERSION 14
+        public byte instrLight;  // (unsigned char) current instrument backlight brightness setting, see InstrLight enum for details
+
     }
 }
